@@ -1,3 +1,5 @@
+![Screenshot of example](Screenshot.jpg)
+
 ## 简介
 The SLua version of Unity showcase demo : [2D Platformer](https://www.assetstore.unity3d.com/cn/#!/content/11228).
 
@@ -5,7 +7,7 @@ SLua 版本的 Unity 官方 2D 演示 Demo : 2D Platformer
 
 2D Platformer 原始版本下载地址：https://www.assetstore.unity3d.com/cn/#!/content/11228
 
-SLua 地址：www.slua.net, https://github.com/pangweiwei/slua
+SLua 地址：http:/www.slua.net/, https://github.com/pangweiwei/slua
 
 ## 特点
 主要逻辑代码全部在 SLua 框架下的 lua 代码中，采用类似于 Monobehavior 的面向对象方式，全面禁止直接定义全局变量，必须使用 YwDeclare 来显示定义全局变量。
