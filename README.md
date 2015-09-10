@@ -7,7 +7,7 @@ SLua 版本的 Unity 官方 2D 演示 Demo : 2D Platformer
 
 2D Platformer 原始版本下载地址：https://www.assetstore.unity3d.com/cn/#!/content/11228
 
-SLua 地址：http:/www.slua.net/, https://github.com/pangweiwei/slua
+SLua 地址：http://www.slua.net/, https://github.com/pangweiwei/slua
 
 ## 特点
 主要逻辑代码全部在 SLua 框架下的 lua 代码中，采用类似于 Monobehavior 的面向对象方式，全面禁止直接定义全局变量，必须使用 YwDeclare 来显示定义全局变量。
@@ -29,4 +29,4 @@ SLua 地址：http:/www.slua.net/, https://github.com/pangweiwei/slua
 
 本项目中所有除代码外的资源（包括但不限于音效，贴图，动画，模型等）版权归 [Unity](http://www.unity3d.com/) 所有。
 
-本项目中除以上两项以外的代码（包括部分基础代码和所有移植的游戏代码）版权归代码原作者所有，且基于 MIT 协议的方式授权。
+本项目中除以上两项以外的代码（包括部分基础代码和所有移植的游戏代码）版权归代码原作者所有，且基于 MIT 协议的方式授权，具体内容请参见文件：LICENSE。
