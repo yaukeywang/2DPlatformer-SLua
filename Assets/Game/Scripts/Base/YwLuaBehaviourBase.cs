@@ -35,6 +35,7 @@ public class YwLuaBehaviourBase
 	private static readonly string ON_COLLISION_STAY_2D = "OnCollisionStay2D";
 	//private static readonly string ON_CONNECTED_SERVER = "OnConnectedToServer";	// Skip.
 	private static readonly string ON_CONTROLLER_COLLIDER_HIT = "OnControllerColliderHit";
+	private static readonly string ON_DESTROY = "OnDestroy";
 	private static readonly string ON_DISABLE = "OnDisable";
 	//private static readonly string ON_DISCONNECTED_FROM_SERVER = "OnDisconnectedFromServer";	// Skip.
 	//private static readonly string ON_DRAW_GIZMOS = "OnDrawGizmos";	// Skip.
@@ -96,6 +97,7 @@ public class YwLuaBehaviourBase
 	private LuaFunction m_cOnCollisionStayFunc = null;
 	private LuaFunction m_cOnCollisionStay2DFunc = null;
 	private LuaFunction m_cOnControllerColliderHitFunc = null;
+	private LuaFunction m_cOnDestroy = null;
 	private LuaFunction m_cOnDisableFunc = null;
 	private LuaFunction m_cOnEnableFunc = null;
 	private LuaFunction m_cOnJointBreakFunc = null;
@@ -147,7 +149,6 @@ public class YwLuaBehaviourBase
      */
 	~YwLuaBehaviourBase()
 	{
-		OnDestroy();
 	}
 
     /**
@@ -346,12 +347,7 @@ public class YwLuaBehaviourBase
      */
 	public void OnDestroy()
 	{
-		if (null == m_cLuaTableOpt)
-		{
-			return;
-		}
-		
-		m_cLuaTableOpt.OnDestroy();
+		CallMethod(ref m_cOnDestroy, ON_DESTROY, m_cLuaTableOpt.GetChunk());
 	}
 	
 	/**

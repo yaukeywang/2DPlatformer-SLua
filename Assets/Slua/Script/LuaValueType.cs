@@ -70,6 +70,7 @@ local function inherite(cls,base)
 end
 
 local Matrix3x3={}
+local Vector3
 
 do
 
@@ -148,7 +149,7 @@ end
 
 do
 	local Raw=UnityEngine.Vector3
-	local Vector3={__typename='Vector3',__raw=Raw}
+	Vector3={__typename='Vector3',__raw=Raw}
 	local T=Vector3
 	local I={__typename='Vector3'}
 	_G['UnityEngine.Vector3.Instance']=I
@@ -278,8 +279,8 @@ do
 	end
 
 	function Vector3.Angle(a,b)
-		local dot = Dot(Vector3.Normalize(a), Vector3.Normalize(b))
-		return acos()*ToAngle
+		local dot = Vector3.Dot(Vector3.Normalize(a), Vector3.Normalize(b))
+		return acos(dot)*ToAngle
 	end
 
 	function Vector3.Normalized(v)
@@ -499,7 +500,7 @@ do
 	        newv = (vector4 - vector2) / deltaTime
 	    end
 	    currentVelocity:Set(newv.x,newv.y,newv.z)
-	    return vector4
+	    return vector4,currentVelocity
 	end
 
 	-- code copy from reflactor of UnityEgnine
@@ -739,6 +740,10 @@ do
 		v[1],v[2]=v[1]/m,v[2]/m
 	end
 
+	function Vector2.Magnitude( v )
+		return sqrt(v[1]^2+v[2]^2)
+	end
+
 	function Vector2:Set( x,y )
 		self[1],self[2]=x,y
 	end
@@ -947,6 +952,7 @@ do
 	end
 
 	function Quaternion:ToAngleAxis()
+		print(Vector3,'xxxxxxxxxxxxxx')
 		local angle = acos(self[4])*2
 		if abs(angle-0)<Epsilon then
 			return angle,Vector3.New(1,0,0)
@@ -1056,11 +1062,7 @@ end
         {
 #if !UNITY_IPHONE && !LUA_5_3
             // lua implemented valuetype isn't faster than raw under non-jit.
-            if (LuaDLL.luaL_dostring(l, script) != 0)
-            {
-                lastError(l);
-                return;
-            }
+			LuaState.get(l).doString(script,"ValueTypeScript");
 #endif
         }
     }

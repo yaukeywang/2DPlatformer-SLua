@@ -30,49 +30,8 @@ public class YwLuaSvr : SLua.LuaSvr
      */
 	public YwLuaSvr() : base()
 	{
-		if (null == luaState)
-		{
-			Debug.LogError("Can not init lua state!");
-			return;
-		}
-
-		// Set the new file loader.
-		LuaState.loaderDelegate += LuaStreamFileLoader;
-
-		// Overload the import function.
-		LuaDLL.lua_pushcfunction(luaState.L, yw_lua_import);
-		LuaDLL.lua_setglobal(luaState.L, "import");
-
-        // Add package search path.
-        SetupLuaPackagePath();
-	}
-
-	/**
-     * Constructor with a lua file, use "main" as the entry, to setup lua environment.
-     * 
-     * @param void.
-     * @return void.
-     */
-	public YwLuaSvr(string strMain) : base()
-	{
-		if (null == luaState)
-		{
-			Debug.LogError("Can not init lua state!");
-			return;
-		}
-
-		// Set the new file loader.
-		LuaState.loaderDelegate += LuaStreamFileLoader;
-
-		// Overload the import function.
-		LuaDLL.lua_pushcfunction(luaState.L, yw_lua_import);
-		LuaDLL.lua_setglobal(luaState.L, "import");
-
-        // Add package search path.
-        SetupLuaPackagePath();
-
-		// Finally start the lua script.
-		start(strMain);
+		// Do some initialization.
+		// ...
 	}
 
 	/**
@@ -109,6 +68,26 @@ public class YwLuaSvr : SLua.LuaSvr
 		{
 			return luaState.handle;
 		}
+	}
+
+	/**
+     * Initialize lua environment.
+     * 
+     * @param Action<int> cProgress - The callback event for bind each C# classes, datatypes and functions. The parameter 'int' indicates the current progress.
+     * @param Action cComplete - The callback event when all binding have beening completed.
+     * @param bool bDebug - To use remote debug or not.
+     * @return bool - true if lua can be initialized, otherwise false.
+     */
+	public bool Initialize(Action<int> cProgress, Action cComplete, bool bDebug = false)
+	{
+		if (null == cComplete)
+		{
+			Debug.LogError("You should give a lua bind complete delegate!");
+			return false;
+		}
+
+		init(cProgress, () => {OnBindLuaComplete(); cComplete();}, bDebug);
+		return true;
 	}
 
 	/**
@@ -234,6 +213,38 @@ public class YwLuaSvr : SLua.LuaSvr
         strPkgPath = strPkgPath + ";" + strBasePkgPath + "sproto" + strSlash + strPkgAffix;
         luaState["package.path"] = strPkgPath;
     }
+
+	/**
+     * The callback event when bind all lua complete.
+     * 
+     * @param void.
+     * @return void.
+     */
+	private void OnBindLuaComplete()
+	{
+		// Skip if already inited.
+		if (!inited)
+		{
+			return;
+		}
+
+		// Check the lua state.
+		if (null == luaState)
+		{
+			Debug.LogError("Can not init lua state!");
+			return;
+		}
+		
+		// Set the new file loader.
+		LuaState.loaderDelegate += LuaStreamFileLoader;
+		
+		// Overload the import function.
+		LuaDLL.lua_pushcfunction(luaState.L, yw_lua_import);
+		LuaDLL.lua_setglobal(luaState.L, "import");
+		
+		// Add package search path.
+		SetupLuaPackagePath();
+	}
 
 	/**
      * The new lua import package method.

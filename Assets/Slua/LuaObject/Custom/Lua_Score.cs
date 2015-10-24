@@ -8,12 +8,12 @@ public class Lua_Score : LuaObject {
 	static public int get_m_score(IntPtr l) {
 		try {
 			Score self=(Score)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_score);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -23,11 +23,11 @@ public class Lua_Score : LuaObject {
 			System.Int32 v;
 			checkType(l,2,out v);
 			self.m_score=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	static public void reg(IntPtr l) {

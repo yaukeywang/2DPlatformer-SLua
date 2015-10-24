@@ -8,12 +8,12 @@ public class Lua_Gun : LuaObject {
 	static public int get_m_rocket(IntPtr l) {
 		try {
 			Gun self=(Gun)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_rocket);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -23,23 +23,23 @@ public class Lua_Gun : LuaObject {
 			UnityEngine.Rigidbody2D v;
 			checkType(l,2,out v);
 			self.m_rocket=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_speed(IntPtr l) {
 		try {
 			Gun self=(Gun)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_speed);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -49,11 +49,11 @@ public class Lua_Gun : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_speed=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	static public void reg(IntPtr l) {

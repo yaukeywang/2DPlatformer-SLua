@@ -8,12 +8,12 @@ public class Lua_CameraFollow : LuaObject {
 	static public int get_m_xMargin(IntPtr l) {
 		try {
 			CameraFollow self=(CameraFollow)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_xMargin);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -23,23 +23,23 @@ public class Lua_CameraFollow : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_xMargin=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_yMargin(IntPtr l) {
 		try {
 			CameraFollow self=(CameraFollow)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_yMargin);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -49,23 +49,23 @@ public class Lua_CameraFollow : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_yMargin=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_xSmooth(IntPtr l) {
 		try {
 			CameraFollow self=(CameraFollow)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_xSmooth);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -75,23 +75,23 @@ public class Lua_CameraFollow : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_xSmooth=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_ySmooth(IntPtr l) {
 		try {
 			CameraFollow self=(CameraFollow)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_ySmooth);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -101,23 +101,23 @@ public class Lua_CameraFollow : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_ySmooth=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_maxXAndY(IntPtr l) {
 		try {
 			CameraFollow self=(CameraFollow)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_maxXAndY);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -127,23 +127,23 @@ public class Lua_CameraFollow : LuaObject {
 			UnityEngine.Vector2 v;
 			checkType(l,2,out v);
 			self.m_maxXAndY=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_minXAndY(IntPtr l) {
 		try {
 			CameraFollow self=(CameraFollow)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_minXAndY);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -153,11 +153,11 @@ public class Lua_CameraFollow : LuaObject {
 			UnityEngine.Vector2 v;
 			checkType(l,2,out v);
 			self.m_minXAndY=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	static public void reg(IntPtr l) {

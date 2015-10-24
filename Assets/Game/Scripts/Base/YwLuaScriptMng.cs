@@ -87,15 +87,11 @@ public class YwLuaScriptMng
 	public void Initialize()
 	{
 		YwLuaSvr cLuaSvr = LuaSvr;
-		cLuaSvr.start("Main");
-
-        // Get update function.
-        m_cUpdateFunc = cLuaSvr.GetFunction("update");
-        if (null == m_cUpdateFunc)
-        {
-            YwDebug.LogError("There is no update function in main file! Are you missing \'update()\'?");
-            return;
-        }
+		if (!cLuaSvr.Initialize(OnInitializeProgress, OnInitializedOk, false))
+		{
+			YwDebug.LogError("The lua environment can not be initialized!");
+			return;
+		}
 	}
 
     /**
@@ -122,4 +118,41 @@ public class YwLuaScriptMng
             YwDebug.LogError(YwLuaSvr.FormatException(e));
         }
     }
+
+	/**
+     * The initializing progress callback event.
+     * 
+     * @param int nProgress - The current initializing progress.
+     * @return void.
+     */
+	private void OnInitializeProgress(int nProgress)
+	{
+		//YwDebug.Log(nProgress);
+	}
+
+	/**
+     * The initializing complete callback event.
+     * 
+     * @param void.
+     * @return void.
+     */
+	private void OnInitializedOk()
+	{
+		YwLuaSvr cLuaSvr = LuaSvr;
+		if (!cLuaSvr.inited)
+		{
+			YwDebug.LogError("Create lua server failed!");
+			return;
+		}
+		
+		cLuaSvr.start("Main");
+		
+		// Get update function.
+		m_cUpdateFunc = cLuaSvr.GetFunction("update");
+		if (null == m_cUpdateFunc)
+		{
+			YwDebug.LogError("There is no update function in main file! Are you missing \'update()\'?");
+			return;
+		}
+	}
 }

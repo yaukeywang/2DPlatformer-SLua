@@ -9,23 +9,23 @@ public class Lua_PlayerControl : LuaObject {
 		try {
 			PlayerControl self=(PlayerControl)checkSelf(l);
 			self.Taunt();
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_bFacingRight(IntPtr l) {
 		try {
 			PlayerControl self=(PlayerControl)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_bFacingRight);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -35,23 +35,23 @@ public class Lua_PlayerControl : LuaObject {
 			System.Boolean v;
 			checkType(l,2,out v);
 			self.m_bFacingRight=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_bJump(IntPtr l) {
 		try {
 			PlayerControl self=(PlayerControl)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_bJump);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -61,23 +61,23 @@ public class Lua_PlayerControl : LuaObject {
 			System.Boolean v;
 			checkType(l,2,out v);
 			self.m_bJump=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_moveForce(IntPtr l) {
 		try {
 			PlayerControl self=(PlayerControl)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_moveForce);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -87,23 +87,23 @@ public class Lua_PlayerControl : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_moveForce=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_maxSpeed(IntPtr l) {
 		try {
 			PlayerControl self=(PlayerControl)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_maxSpeed);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -113,23 +113,23 @@ public class Lua_PlayerControl : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_maxSpeed=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_jumpClips(IntPtr l) {
 		try {
 			PlayerControl self=(PlayerControl)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_jumpClips);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -139,23 +139,23 @@ public class Lua_PlayerControl : LuaObject {
 			UnityEngine.AudioClip[] v;
 			checkType(l,2,out v);
 			self.m_jumpClips=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_jumpForce(IntPtr l) {
 		try {
 			PlayerControl self=(PlayerControl)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_jumpForce);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -165,23 +165,23 @@ public class Lua_PlayerControl : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_jumpForce=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_taunts(IntPtr l) {
 		try {
 			PlayerControl self=(PlayerControl)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_taunts);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -191,23 +191,23 @@ public class Lua_PlayerControl : LuaObject {
 			UnityEngine.AudioClip[] v;
 			checkType(l,2,out v);
 			self.m_taunts=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_tauntProbability(IntPtr l) {
 		try {
 			PlayerControl self=(PlayerControl)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_tauntProbability);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -217,23 +217,23 @@ public class Lua_PlayerControl : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_tauntProbability=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_tauntDelay(IntPtr l) {
 		try {
 			PlayerControl self=(PlayerControl)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_tauntDelay);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -243,11 +243,11 @@ public class Lua_PlayerControl : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_tauntDelay=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	static public void reg(IntPtr l) {

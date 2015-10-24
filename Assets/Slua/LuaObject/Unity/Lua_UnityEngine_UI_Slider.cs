@@ -11,11 +11,35 @@ public class Lua_UnityEngine_UI_Slider : LuaObject {
 			UnityEngine.UI.CanvasUpdate a1;
 			checkEnum(l,2,out a1);
 			self.Rebuild(a1);
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
+		}
+	}
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static public int LayoutComplete(IntPtr l) {
+		try {
+			UnityEngine.UI.Slider self=(UnityEngine.UI.Slider)checkSelf(l);
+			self.LayoutComplete();
+			pushValue(l,true);
+			return 1;
+		}
+		catch(Exception e) {
+			return error(l,e);
+		}
+	}
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static public int GraphicUpdateComplete(IntPtr l) {
+		try {
+			UnityEngine.UI.Slider self=(UnityEngine.UI.Slider)checkSelf(l);
+			self.GraphicUpdateComplete();
+			pushValue(l,true);
+			return 1;
+		}
+		catch(Exception e) {
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -25,11 +49,11 @@ public class Lua_UnityEngine_UI_Slider : LuaObject {
 			UnityEngine.EventSystems.PointerEventData a1;
 			checkType(l,2,out a1);
 			self.OnPointerDown(a1);
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -39,11 +63,11 @@ public class Lua_UnityEngine_UI_Slider : LuaObject {
 			UnityEngine.EventSystems.PointerEventData a1;
 			checkType(l,2,out a1);
 			self.OnDrag(a1);
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -53,11 +77,11 @@ public class Lua_UnityEngine_UI_Slider : LuaObject {
 			UnityEngine.EventSystems.AxisEventData a1;
 			checkType(l,2,out a1);
 			self.OnMove(a1);
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -65,12 +89,12 @@ public class Lua_UnityEngine_UI_Slider : LuaObject {
 		try {
 			UnityEngine.UI.Slider self=(UnityEngine.UI.Slider)checkSelf(l);
 			var ret=self.FindSelectableOnLeft();
+			pushValue(l,true);
 			pushValue(l,ret);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -78,12 +102,12 @@ public class Lua_UnityEngine_UI_Slider : LuaObject {
 		try {
 			UnityEngine.UI.Slider self=(UnityEngine.UI.Slider)checkSelf(l);
 			var ret=self.FindSelectableOnRight();
+			pushValue(l,true);
 			pushValue(l,ret);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -91,12 +115,12 @@ public class Lua_UnityEngine_UI_Slider : LuaObject {
 		try {
 			UnityEngine.UI.Slider self=(UnityEngine.UI.Slider)checkSelf(l);
 			var ret=self.FindSelectableOnUp();
+			pushValue(l,true);
 			pushValue(l,ret);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -104,12 +128,12 @@ public class Lua_UnityEngine_UI_Slider : LuaObject {
 		try {
 			UnityEngine.UI.Slider self=(UnityEngine.UI.Slider)checkSelf(l);
 			var ret=self.FindSelectableOnDown();
+			pushValue(l,true);
 			pushValue(l,ret);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -119,11 +143,11 @@ public class Lua_UnityEngine_UI_Slider : LuaObject {
 			UnityEngine.EventSystems.PointerEventData a1;
 			checkType(l,2,out a1);
 			self.OnInitializePotentialDrag(a1);
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -135,23 +159,23 @@ public class Lua_UnityEngine_UI_Slider : LuaObject {
 			System.Boolean a2;
 			checkType(l,3,out a2);
 			self.SetDirection(a1,a2);
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_fillRect(IntPtr l) {
 		try {
 			UnityEngine.UI.Slider self=(UnityEngine.UI.Slider)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.fillRect);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -161,23 +185,23 @@ public class Lua_UnityEngine_UI_Slider : LuaObject {
 			UnityEngine.RectTransform v;
 			checkType(l,2,out v);
 			self.fillRect=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_handleRect(IntPtr l) {
 		try {
 			UnityEngine.UI.Slider self=(UnityEngine.UI.Slider)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.handleRect);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -187,23 +211,23 @@ public class Lua_UnityEngine_UI_Slider : LuaObject {
 			UnityEngine.RectTransform v;
 			checkType(l,2,out v);
 			self.handleRect=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_direction(IntPtr l) {
 		try {
 			UnityEngine.UI.Slider self=(UnityEngine.UI.Slider)checkSelf(l);
+			pushValue(l,true);
 			pushEnum(l,(int)self.direction);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -213,23 +237,23 @@ public class Lua_UnityEngine_UI_Slider : LuaObject {
 			UnityEngine.UI.Slider.Direction v;
 			checkEnum(l,2,out v);
 			self.direction=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_minValue(IntPtr l) {
 		try {
 			UnityEngine.UI.Slider self=(UnityEngine.UI.Slider)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.minValue);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -239,23 +263,23 @@ public class Lua_UnityEngine_UI_Slider : LuaObject {
 			float v;
 			checkType(l,2,out v);
 			self.minValue=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_maxValue(IntPtr l) {
 		try {
 			UnityEngine.UI.Slider self=(UnityEngine.UI.Slider)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.maxValue);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -265,23 +289,23 @@ public class Lua_UnityEngine_UI_Slider : LuaObject {
 			float v;
 			checkType(l,2,out v);
 			self.maxValue=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_wholeNumbers(IntPtr l) {
 		try {
 			UnityEngine.UI.Slider self=(UnityEngine.UI.Slider)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.wholeNumbers);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -291,23 +315,23 @@ public class Lua_UnityEngine_UI_Slider : LuaObject {
 			bool v;
 			checkType(l,2,out v);
 			self.wholeNumbers=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_value(IntPtr l) {
 		try {
 			UnityEngine.UI.Slider self=(UnityEngine.UI.Slider)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.value);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -317,23 +341,23 @@ public class Lua_UnityEngine_UI_Slider : LuaObject {
 			float v;
 			checkType(l,2,out v);
 			self.value=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_normalizedValue(IntPtr l) {
 		try {
 			UnityEngine.UI.Slider self=(UnityEngine.UI.Slider)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.normalizedValue);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -343,23 +367,23 @@ public class Lua_UnityEngine_UI_Slider : LuaObject {
 			float v;
 			checkType(l,2,out v);
 			self.normalizedValue=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_onValueChanged(IntPtr l) {
 		try {
 			UnityEngine.UI.Slider self=(UnityEngine.UI.Slider)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.onValueChanged);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -369,16 +393,18 @@ public class Lua_UnityEngine_UI_Slider : LuaObject {
 			UnityEngine.UI.Slider.SliderEvent v;
 			checkType(l,2,out v);
 			self.onValueChanged=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	static public void reg(IntPtr l) {
 		getTypeTable(l,"UnityEngine.UI.Slider");
 		addMember(l,Rebuild);
+		addMember(l,LayoutComplete);
+		addMember(l,GraphicUpdateComplete);
 		addMember(l,OnPointerDown);
 		addMember(l,OnDrag);
 		addMember(l,OnMove);

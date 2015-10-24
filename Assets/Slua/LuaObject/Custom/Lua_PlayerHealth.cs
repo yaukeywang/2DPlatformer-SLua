@@ -9,23 +9,23 @@ public class Lua_PlayerHealth : LuaObject {
 		try {
 			PlayerHealth self=(PlayerHealth)checkSelf(l);
 			self.UpdateHealthBar();
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_health(IntPtr l) {
 		try {
 			PlayerHealth self=(PlayerHealth)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_health);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -35,23 +35,23 @@ public class Lua_PlayerHealth : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_health=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_repeatDamagePeriod(IntPtr l) {
 		try {
 			PlayerHealth self=(PlayerHealth)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_repeatDamagePeriod);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -61,23 +61,23 @@ public class Lua_PlayerHealth : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_repeatDamagePeriod=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_ouchClips(IntPtr l) {
 		try {
 			PlayerHealth self=(PlayerHealth)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_ouchClips);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -87,23 +87,23 @@ public class Lua_PlayerHealth : LuaObject {
 			UnityEngine.AudioClip[] v;
 			checkType(l,2,out v);
 			self.m_ouchClips=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_hurtForce(IntPtr l) {
 		try {
 			PlayerHealth self=(PlayerHealth)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_hurtForce);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -113,23 +113,23 @@ public class Lua_PlayerHealth : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_hurtForce=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_damageAmount(IntPtr l) {
 		try {
 			PlayerHealth self=(PlayerHealth)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_damageAmount);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -139,11 +139,11 @@ public class Lua_PlayerHealth : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_damageAmount=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	static public void reg(IntPtr l) {

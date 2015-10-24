@@ -11,11 +11,35 @@ public class Lua_UnityEngine_UI_Toggle : LuaObject {
 			UnityEngine.UI.CanvasUpdate a1;
 			checkEnum(l,2,out a1);
 			self.Rebuild(a1);
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
+		}
+	}
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static public int LayoutComplete(IntPtr l) {
+		try {
+			UnityEngine.UI.Toggle self=(UnityEngine.UI.Toggle)checkSelf(l);
+			self.LayoutComplete();
+			pushValue(l,true);
+			return 1;
+		}
+		catch(Exception e) {
+			return error(l,e);
+		}
+	}
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static public int GraphicUpdateComplete(IntPtr l) {
+		try {
+			UnityEngine.UI.Toggle self=(UnityEngine.UI.Toggle)checkSelf(l);
+			self.GraphicUpdateComplete();
+			pushValue(l,true);
+			return 1;
+		}
+		catch(Exception e) {
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -25,11 +49,11 @@ public class Lua_UnityEngine_UI_Toggle : LuaObject {
 			UnityEngine.EventSystems.PointerEventData a1;
 			checkType(l,2,out a1);
 			self.OnPointerClick(a1);
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -39,23 +63,23 @@ public class Lua_UnityEngine_UI_Toggle : LuaObject {
 			UnityEngine.EventSystems.BaseEventData a1;
 			checkType(l,2,out a1);
 			self.OnSubmit(a1);
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_toggleTransition(IntPtr l) {
 		try {
 			UnityEngine.UI.Toggle self=(UnityEngine.UI.Toggle)checkSelf(l);
+			pushValue(l,true);
 			pushEnum(l,(int)self.toggleTransition);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -65,23 +89,23 @@ public class Lua_UnityEngine_UI_Toggle : LuaObject {
 			UnityEngine.UI.Toggle.ToggleTransition v;
 			checkEnum(l,2,out v);
 			self.toggleTransition=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_graphic(IntPtr l) {
 		try {
 			UnityEngine.UI.Toggle self=(UnityEngine.UI.Toggle)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.graphic);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -91,23 +115,23 @@ public class Lua_UnityEngine_UI_Toggle : LuaObject {
 			UnityEngine.UI.Graphic v;
 			checkType(l,2,out v);
 			self.graphic=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_onValueChanged(IntPtr l) {
 		try {
 			UnityEngine.UI.Toggle self=(UnityEngine.UI.Toggle)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.onValueChanged);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -117,23 +141,23 @@ public class Lua_UnityEngine_UI_Toggle : LuaObject {
 			UnityEngine.UI.Toggle.ToggleEvent v;
 			checkType(l,2,out v);
 			self.onValueChanged=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_group(IntPtr l) {
 		try {
 			UnityEngine.UI.Toggle self=(UnityEngine.UI.Toggle)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.group);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -143,23 +167,23 @@ public class Lua_UnityEngine_UI_Toggle : LuaObject {
 			UnityEngine.UI.ToggleGroup v;
 			checkType(l,2,out v);
 			self.group=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_isOn(IntPtr l) {
 		try {
 			UnityEngine.UI.Toggle self=(UnityEngine.UI.Toggle)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.isOn);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -169,16 +193,18 @@ public class Lua_UnityEngine_UI_Toggle : LuaObject {
 			bool v;
 			checkType(l,2,out v);
 			self.isOn=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	static public void reg(IntPtr l) {
 		getTypeTable(l,"UnityEngine.UI.Toggle");
 		addMember(l,Rebuild);
+		addMember(l,LayoutComplete);
+		addMember(l,GraphicUpdateComplete);
 		addMember(l,OnPointerClick);
 		addMember(l,OnSubmit);
 		addMember(l,"toggleTransition",get_toggleTransition,set_toggleTransition,true);

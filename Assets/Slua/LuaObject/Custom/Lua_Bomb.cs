@@ -9,23 +9,23 @@ public class Lua_Bomb : LuaObject {
 		try {
 			Bomb self=(Bomb)checkSelf(l);
 			self.Explode();
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_bombRadius(IntPtr l) {
 		try {
 			Bomb self=(Bomb)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_bombRadius);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -35,23 +35,23 @@ public class Lua_Bomb : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_bombRadius=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_bombForce(IntPtr l) {
 		try {
 			Bomb self=(Bomb)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_bombForce);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -61,23 +61,23 @@ public class Lua_Bomb : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_bombForce=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_boom(IntPtr l) {
 		try {
 			Bomb self=(Bomb)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_boom);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -87,23 +87,23 @@ public class Lua_Bomb : LuaObject {
 			UnityEngine.AudioClip v;
 			checkType(l,2,out v);
 			self.m_boom=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_fuse(IntPtr l) {
 		try {
 			Bomb self=(Bomb)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_fuse);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -113,23 +113,23 @@ public class Lua_Bomb : LuaObject {
 			UnityEngine.AudioClip v;
 			checkType(l,2,out v);
 			self.m_fuse=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_fuseTime(IntPtr l) {
 		try {
 			Bomb self=(Bomb)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_fuseTime);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -139,23 +139,23 @@ public class Lua_Bomb : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_fuseTime=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_explosion(IntPtr l) {
 		try {
 			Bomb self=(Bomb)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_explosion);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -165,11 +165,11 @@ public class Lua_Bomb : LuaObject {
 			UnityEngine.GameObject v;
 			checkType(l,2,out v);
 			self.m_explosion=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	static public void reg(IntPtr l) {

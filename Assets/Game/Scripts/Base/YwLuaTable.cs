@@ -17,9 +17,6 @@ using System;
 // The lua table operator base class.
 public class YwLuaTable
 {
-    // The destroy method name.
-    private static readonly string ON_DESTROY = "OnDestroy";
-
     // The lua table of this behavior.
     private LuaTable m_cLuaTable = null;
 
@@ -42,33 +39,23 @@ public class YwLuaTable
      */
     ~YwLuaTable()
     {
-        OnDestroy();
+		// Dispose table.
+		if (null != m_cLuaTable)
+		{
+			m_cLuaTable.Dispose();
+			m_cLuaTable = null;
+		}
     }
 
-    /**
-     * On destroy method.
-     * 
-     * @param void.
-     * @return void.
-     */
-    public void OnDestroy()
-    {
-        if (null == m_cLuaTable)
-        {
-            return;
-        }
-        
-        // Call script first.
-        LuaFunction cFunc = null;
-        CallMethod(ref cFunc, ON_DESTROY, m_cLuaTable);
-        
-        // Dispose table.
-        if (null != m_cLuaTable)
-        {
-            m_cLuaTable.Dispose();
-            m_cLuaTable = null;
-        }
-    }
+	// Get if this lua table is valid.
+	// true if valid, false is invalid.
+	public bool Valid
+	{
+		get
+		{
+			return (null != m_cLuaTable) && (null != LuaState.main);
+		}
+	}
 
     /**
      * Get the lua code chunk (table).
@@ -78,7 +65,7 @@ public class YwLuaTable
      */
     public LuaTable GetChunk()
     {
-        return m_cLuaTable;
+		return Valid ? m_cLuaTable : null;
     }
 
     /**
@@ -90,7 +77,7 @@ public class YwLuaTable
      */
     public void SetData(string strName, object cValue)
     {
-        if ((null == m_cLuaTable) || string.IsNullOrEmpty(strName))
+        if (!Valid || string.IsNullOrEmpty(strName))
         {
 			return;
         }
@@ -108,7 +95,7 @@ public class YwLuaTable
      */
 	public void SetData(string strName, object[] cArrayValue)
 	{
-		if (null == m_cLuaTable)
+		if (!Valid)
 		{
 			return;
 		}
@@ -140,7 +127,7 @@ public class YwLuaTable
      */
 	public void SetData(int nIndex, object cValue)
 	{
-		if ((null == m_cLuaTable) || (nIndex < 1))
+		if (!Valid || (nIndex < 1))
 		{
 			return;
 		}
@@ -158,7 +145,7 @@ public class YwLuaTable
      */
 	public void SetData(int nIndex, object[] cArrayValue)
 	{
-		if (null == m_cLuaTable)
+		if (!Valid)
 		{
 			return;
 		}
@@ -189,7 +176,7 @@ public class YwLuaTable
      */
 	public object GetData(string strName)
 	{
-		if ((null == m_cLuaTable) || string.IsNullOrEmpty(strName))
+		if (!Valid || string.IsNullOrEmpty(strName))
 		{
 			return null;
 		}
@@ -205,7 +192,7 @@ public class YwLuaTable
      */
 	public object GetData(int nIndex)
 	{
-		if ((null == m_cLuaTable) || (nIndex < 1))
+		if (!Valid || (nIndex < 1))
 		{
 			return null;
 		}
@@ -232,7 +219,7 @@ public class YwLuaTable
             }
 
             // Check table.
-            if (null == m_cLuaTable)
+			if (!Valid)
             {
                 return null;
             }
@@ -285,7 +272,7 @@ public class YwLuaTable
             }
             
             // Check table.
-            if (null == m_cLuaTable)
+			if (!Valid)
             {
                 return null;
             }
@@ -339,7 +326,7 @@ public class YwLuaTable
             }
             
             // Check table.
-            if (null == m_cLuaTable)
+			if (!Valid)
             {
                 return null;
             }
@@ -394,7 +381,7 @@ public class YwLuaTable
             }
             
             // Check table.
-            if (null == m_cLuaTable)
+			if (!Valid)
             {
                 return null;
             }
@@ -447,7 +434,7 @@ public class YwLuaTable
             }
             
             // Check table.
-            if (null == m_cLuaTable)
+			if (!Valid)
             {
                 return null;
             }

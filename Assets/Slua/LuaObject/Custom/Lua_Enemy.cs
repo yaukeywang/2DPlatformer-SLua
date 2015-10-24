@@ -9,23 +9,23 @@ public class Lua_Enemy : LuaObject {
 		try {
 			Enemy self=(Enemy)checkSelf(l);
 			self.Hurt();
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_moveSpeed(IntPtr l) {
 		try {
 			Enemy self=(Enemy)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_moveSpeed);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -35,23 +35,23 @@ public class Lua_Enemy : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_moveSpeed=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_HP(IntPtr l) {
 		try {
 			Enemy self=(Enemy)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_HP);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -61,23 +61,23 @@ public class Lua_Enemy : LuaObject {
 			System.Int32 v;
 			checkType(l,2,out v);
 			self.m_HP=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_deadEnemy(IntPtr l) {
 		try {
 			Enemy self=(Enemy)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_deadEnemy);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -87,23 +87,23 @@ public class Lua_Enemy : LuaObject {
 			UnityEngine.Sprite v;
 			checkType(l,2,out v);
 			self.m_deadEnemy=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_damagedEnemy(IntPtr l) {
 		try {
 			Enemy self=(Enemy)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_damagedEnemy);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -113,23 +113,23 @@ public class Lua_Enemy : LuaObject {
 			UnityEngine.Sprite v;
 			checkType(l,2,out v);
 			self.m_damagedEnemy=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_deathClips(IntPtr l) {
 		try {
 			Enemy self=(Enemy)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_deathClips);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -139,23 +139,23 @@ public class Lua_Enemy : LuaObject {
 			UnityEngine.AudioClip[] v;
 			checkType(l,2,out v);
 			self.m_deathClips=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_hundredPointsUI(IntPtr l) {
 		try {
 			Enemy self=(Enemy)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_hundredPointsUI);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -165,23 +165,23 @@ public class Lua_Enemy : LuaObject {
 			UnityEngine.GameObject v;
 			checkType(l,2,out v);
 			self.m_hundredPointsUI=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_deathSpinMin(IntPtr l) {
 		try {
 			Enemy self=(Enemy)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_deathSpinMin);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -191,23 +191,23 @@ public class Lua_Enemy : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_deathSpinMin=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_deathSpinMax(IntPtr l) {
 		try {
 			Enemy self=(Enemy)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_deathSpinMax);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -217,11 +217,11 @@ public class Lua_Enemy : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_deathSpinMax=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	static public void reg(IntPtr l) {

@@ -9,23 +9,23 @@ public class Lua_PickupSpawner : LuaObject {
 		try {
 			PickupSpawner self=(PickupSpawner)checkSelf(l);
 			self.DeliverPickup();
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_pickups(IntPtr l) {
 		try {
 			PickupSpawner self=(PickupSpawner)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_pickups);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -35,23 +35,23 @@ public class Lua_PickupSpawner : LuaObject {
 			UnityEngine.GameObject[] v;
 			checkType(l,2,out v);
 			self.m_pickups=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_pickupDeliveryTime(IntPtr l) {
 		try {
 			PickupSpawner self=(PickupSpawner)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_pickupDeliveryTime);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -61,23 +61,23 @@ public class Lua_PickupSpawner : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_pickupDeliveryTime=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_dropRangeLeft(IntPtr l) {
 		try {
 			PickupSpawner self=(PickupSpawner)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_dropRangeLeft);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -87,23 +87,23 @@ public class Lua_PickupSpawner : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_dropRangeLeft=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_dropRangeRight(IntPtr l) {
 		try {
 			PickupSpawner self=(PickupSpawner)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_dropRangeRight);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -113,23 +113,23 @@ public class Lua_PickupSpawner : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_dropRangeRight=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_highHealthThreshold(IntPtr l) {
 		try {
 			PickupSpawner self=(PickupSpawner)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_highHealthThreshold);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -139,23 +139,23 @@ public class Lua_PickupSpawner : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_highHealthThreshold=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int get_m_lowHealthThreshold(IntPtr l) {
 		try {
 			PickupSpawner self=(PickupSpawner)checkSelf(l);
+			pushValue(l,true);
 			pushValue(l,self.m_lowHealthThreshold);
-			return 1;
+			return 2;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -165,11 +165,11 @@ public class Lua_PickupSpawner : LuaObject {
 			System.Single v;
 			checkType(l,2,out v);
 			self.m_lowHealthThreshold=v;
-			return 0;
+			pushValue(l,true);
+			return 1;
 		}
 		catch(Exception e) {
-			LuaDLL.luaL_error(l, e.ToString());
-			return 0;
+			return error(l,e);
 		}
 	}
 	static public void reg(IntPtr l) {
