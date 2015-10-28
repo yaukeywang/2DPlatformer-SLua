@@ -24,19 +24,19 @@ local $(Class) = YwDeclare(strClassName, YwClass(strClassName, YwRegisterObject)
 -- Member variables.
 
 -- The global instance holder.
-M.m_cInstance = false
+$(Class).m_cInstance = false
 
 -- Constructor.
 function $(Class):Constructor(cRegister)
     --print("$(Class):Constructor")
 
-    if M.m_cInstance then
+    if $(Class).m_cInstance then
         DLogError("You have already create a $(Class) instance!")
         return
     end
 
     -- Set the global instance.
-    M.m_cInstance = self
+    $(Class).m_cInstance = self
 end
 
 -- Destructor.
@@ -44,7 +44,7 @@ function $(Class):Destructor()
     --print("$(Class):Destructor")
 
     -- Release the global instance.
-    M.m_cInstance = nil
+    $(Class).m_cInstance = nil
 end
 
 -- Static function.
