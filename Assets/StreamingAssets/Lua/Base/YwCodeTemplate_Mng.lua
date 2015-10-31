@@ -54,7 +54,7 @@ function $(Class).Instance()
 
     -- Check
     if not $(Class).m_cInstance then
-        $(Class).new(Dispatcher.Instance())
+        $(Class).new(YwDispatcher.Instance())
     end
 
     return $(Class).m_cInstance
