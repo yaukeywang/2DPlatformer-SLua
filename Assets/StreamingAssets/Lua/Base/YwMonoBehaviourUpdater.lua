@@ -40,8 +40,8 @@ YwUpdateNode.m_bToggleLiteUpdate = false
 YwUpdateNode.m_bActive = false
 
 -- Constructor.
-function YwUpdateNode:Constructor(strName, cObject, bUpdate, bLateUpdate, bFixedUpdate, bLiteUpdate)
-	--print("YwUpdateNode:Constructor")
+function YwUpdateNode:ctor(strName, cObject, bUpdate, bLateUpdate, bFixedUpdate, bLiteUpdate)
+	--print("YwUpdateNode:ctor")
     self.m_strName = strName
 	self.m_cObject = cObject
 	self.m_bToggleUpdate = bUpdate
@@ -52,8 +52,8 @@ function YwUpdateNode:Constructor(strName, cObject, bUpdate, bLateUpdate, bFixed
 end
 
 -- Destructor.
-function YwUpdateNode:Destructor()
-	--print("YwUpdateNode:Destructor")
+function YwUpdateNode:dtor()
+	--print("YwUpdateNode:dtor")
     self.m_strName = ""
 	self.m_cObject = nil
 	self.m_bToggleUpdate = false
@@ -77,8 +77,8 @@ YwMonoBehaviourUpdater.m_aObjectListInOrder = nil
 YwMonoBehaviourUpdater.m_cInstance = nil
 
 -- Constructor.
-function YwMonoBehaviourUpdater:Constructor()
-    --print("YwMonoBehaviourUpdater:Constructor")
+function YwMonoBehaviourUpdater:ctor()
+    --print("YwMonoBehaviourUpdater:ctor")
 
     if YwMonoBehaviourUpdater.m_cInstance then
         DLogError("You have already create a YwMonoBehaviourUpdater instance!")
@@ -93,8 +93,8 @@ function YwMonoBehaviourUpdater:Constructor()
 end
 
 -- Destructor.
-function YwMonoBehaviourUpdater:Destructor()
-    --print("YwMonoBehaviourUpdater:Destructor")
+function YwMonoBehaviourUpdater:dtor()
+    --print("YwMonoBehaviourUpdater:dtor")
     self.m_aObjectListInOrder = nil
 end
 

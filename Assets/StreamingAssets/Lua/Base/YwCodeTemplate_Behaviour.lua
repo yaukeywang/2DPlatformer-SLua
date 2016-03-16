@@ -5,7 +5,7 @@
 -- @copyright Copyright (c) 2015 Yaukey/yaukeywang/WangYaoqi (yaukeywang@gmail.com) all rights reserved.
 -- @license   The MIT License (MIT)
 -- @author    Yaukey yaukeywang@gmail.com
--- @date      2015-xx-xx
+-- @date      2016-xx-xx
 --
 
 local DLog = YwDebug.Log
@@ -19,13 +19,13 @@ local $(Class) = YwDeclare(strClassName, YwClass(strClassName, YwMonoBehaviour))
 -- Member variables.
 
 -- Constructor.
-function $(Class):Constructor()
-    --print("$(Class):Constructor")
+function $(Class):ctor()
+    --print("$(Class):ctor")
 end
 
 -- Destructor.
-function $(Class):Destructor()
-    --print("$(Class):Destructor")
+function $(Class):dtor()
+    --print("$(Class):dtor")
 end
 
 -- Awake method.

@@ -27,11 +27,11 @@ SGameParam.m_bIsLoad = false
 -- Task max parallel count.
 SGameParam.m_nTaskMaxParallelCount = 20
 
-function SGameParam:Constructor()
+function SGameParam:ctor()
     -- body
 end
 
-function SGameParam:Destructor()
+function SGameParam:dtor()
     -- body
 end
 
@@ -45,11 +45,11 @@ local SFormulaParam = YwDeclare(strFormulaParamName, YwClass(strFormulaParamName
 SFormulaParam.m_bIsLoad = false
 SFormulaParam.m_fStrengthToAtk = 0.6
 
-function SFormulaParam:Constructor()
+function SFormulaParam:ctor()
     -- body
 end
 
-function SFormulaParam:Destructor()
+function SFormulaParam:dtor()
     -- body
 end
 
@@ -62,11 +62,11 @@ local STestParam = YwDeclare(strTestParamName, YwClass(strTestParamName))
 
 STestParam.m_bIsLoad = false
 
-function STestParam:Constructor()
+function STestParam:ctor()
     -- body
 end
 
-function STestParam:Destructor()
+function STestParam:dtor()
     -- body
 end
 
@@ -93,8 +93,8 @@ YwConfigMng.m_cTestParam = false
 YwConfigMng.m_cInstance = false
 
 -- Constructor.
-function YwConfigMng:Constructor(cRegister)
-    --print("YwConfigMng:Constructor")
+function YwConfigMng:ctor(cRegister)
+    --print("YwConfigMng:ctor")
 
     if YwConfigMng.m_cInstance then
         DLogError("You have already create a YwConfigMng instance!")
@@ -111,8 +111,8 @@ function YwConfigMng:Constructor(cRegister)
 end
 
 -- Destructor.
-function YwConfigMng:Destructor()
-    --print("YwConfigMng:Destructor")
+function YwConfigMng:dtor()
+    --print("YwConfigMng:dtor")
 
     -- Clear params.
     self.m_cGameParam = nil

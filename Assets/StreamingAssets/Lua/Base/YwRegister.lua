@@ -18,14 +18,14 @@ local YwRegister = YwDeclare(strClassName, YwClass(strClassName))
 YwRegister.m_aObjectList = false
 
 -- Constructor.
-function YwRegister:Constructor()
-    --print("YwRegister:Constructor")
+function YwRegister:ctor()
+    --print("YwRegister:ctor")
     self.m_aObjectList = {}
 end
 
 -- Destructor.
-function YwRegister:Destructor()
-    --print("YwRegister:Destructor")
+function YwRegister:dtor()
+    --print("YwRegister:dtor")
     self.m_aObjectList = nil
 end
 

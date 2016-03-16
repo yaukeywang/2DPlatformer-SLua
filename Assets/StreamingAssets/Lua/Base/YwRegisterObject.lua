@@ -18,8 +18,8 @@ local YwRegisterObject = YwDeclare(strClassName, YwClass(strClassName))
 YwRegisterObject.m_cRegister = false
 
 -- Constructor.
-function YwRegisterObject:Constructor(cRegister)
-    --print("YwRegisterObject:Constructor")
+function YwRegisterObject:ctor(cRegister)
+    --print("YwRegisterObject:ctor")
 
     if not cRegister then
         return
@@ -30,8 +30,8 @@ function YwRegisterObject:Constructor(cRegister)
 end
 
 -- Destructor.
-function YwRegisterObject:Destructor()
-    --print("YwRegisterObject:Destructor")
+function YwRegisterObject:dtor()
+    --print("YwRegisterObject:dtor")
 
     local cRegister = self.m_cRegister
     if cRegister then

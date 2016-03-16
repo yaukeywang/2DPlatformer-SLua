@@ -5,11 +5,8 @@
 -- @copyright Copyright (c) 2015 Yaukey/yaukeywang/WangYaoqi (yaukeywang@gmail.com) all rights reserved.
 -- @license   The MIT License (MIT)
 -- @author    Yaukey
--- @date      2015-08-23
+-- @date      2016-xx-xx
 --
-
-local YwDeclare = YwDeclare
-local YwClass = YwClass
 
 local DLog = YwDebug.Log
 local DLogWarn = YwDebug.LogWarning

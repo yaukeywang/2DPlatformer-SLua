@@ -5,7 +5,7 @@
 -- @copyright Copyright (c) 2015 Yaukey/yaukeywang/WangYaoqi (yaukeywang@gmail.com) all rights reserved.
 -- @license   The MIT License (MIT)
 -- @author    Yaukey yaukeywang@gmail.com
--- @date      2015-xx-xx
+-- @date      2016-xx-xx
 --
 
 local YwRegisterObject = require "Base/YwRegisterObject"
@@ -21,13 +21,13 @@ local $(Class) = YwDeclare(strClassName, YwClass(strClassName, YwRegisterObject)
 -- Member variables.
 
 -- Constructor.
-function $(Class):Constructor(cRegister)
-    --print("$(Class):Constructor")
+function $(Class):ctor(cRegister)
+    --print("$(Class):ctor")
 end
 
 -- Destructor.
-function $(Class):Destructor()
-    --print("$(Class):Destructor")
+function $(Class):dtor()
+    --print("$(Class):dtor")
 end
 
 -- Virtual.

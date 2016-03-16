@@ -62,14 +62,14 @@ local function LgSpawner_Spawn(LgSpawner)
 end
 
 -- Constructor.
-function LgSpawner:Constructor()
-    --print("LgSpawner:Constructor")
+function LgSpawner:ctor()
+    print("LgSpawner:ctor")
     self.m_aEnemys = {}
 end
 
 -- Destructor.
-function LgSpawner:Destructor()
-    --print("LgSpawner:Destructor")
+function LgSpawner:dtor()
+    print("LgSpawner:dtor")
     self.m_aEnemys = nil
     if -1 ~= self.m_nTimerID then
         LuaTimer.Delete(self.m_nTimerID)

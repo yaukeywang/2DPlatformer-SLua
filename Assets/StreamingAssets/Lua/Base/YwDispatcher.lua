@@ -22,8 +22,8 @@ local YwDispatcher = YwDeclare(strClassName, YwClass(strClassName, YwRegister))
 YwDispatcher.m_cInstance = nil
 
 -- Member variables.
-function YwDispatcher:Constructor()
-    --print("YwDispatcher:Constructor")
+function YwDispatcher:ctor()
+    --print("YwDispatcher:ctor")
 
     if YwDispatcher.m_cInstance then
         DLogError("You have already create a YwDispatcher instance!")
@@ -35,8 +35,8 @@ function YwDispatcher:Constructor()
 end
 
 -- Destructor.
-function YwDispatcher:Destructor()
-    --print("YwDispatcher:Destructor")
+function YwDispatcher:dtor()
+    --print("YwDispatcher:dtor")
     YwDispatcher.m_cInstance = nil
 end
 

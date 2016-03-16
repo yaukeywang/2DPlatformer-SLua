@@ -21,8 +21,9 @@ local function __YwClass(TypeName, SuperType)
 
     -- Set class type property.
     ClassType.TypeName = TypeName
-    ClassType.Constructor = false
     ClassType.SuperType = SuperType
+    ClassType.ctor = false
+    ClassType.dtor = false
 
     -- The new alloc function of this class.
     ClassType.new = function (...)
@@ -53,8 +54,8 @@ local function __YwClass(TypeName, SuperType)
                     Create(c.SuperType, ...)
                 end
 
-                if c.Constructor then
-                    c.Constructor(Object, ...)
+                if c.ctor then
+                    c.ctor(Object, ...)
                 end
             end
 
@@ -65,8 +66,8 @@ local function __YwClass(TypeName, SuperType)
         local ReleaseObj = function (Class, Object)
             local Release
             Release = function (c)
-                if c.Destructor then
-                    c.Destructor(Object)
+                if c.dtor then
+                    c.dtor(Object)
                 end
 
                 if c.SuperType then

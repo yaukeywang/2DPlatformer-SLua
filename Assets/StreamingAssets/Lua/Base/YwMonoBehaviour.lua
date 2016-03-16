@@ -39,14 +39,14 @@ YwMonoBehaviour.m_bFixedUpdate = false
 YwMonoBehaviour.m_bLiteUpdate = false
 
 -- Constructor.
-function YwMonoBehaviour:Constructor()
-    --print("YwMonoBehaviour:Constructor")
+function YwMonoBehaviour:ctor()
+    --print("YwMonoBehaviour:ctor")
     self.m_aParameters = {}
 end
 
 -- Destructor.
-function YwMonoBehaviour:Destructor()
-    --print("YwMonoBehaviour:Destructor")
+function YwMonoBehaviour:dtor()
+    --print("YwMonoBehaviour:dtor")
     self.this = nil
     self.transform = nil
     self.gameObject = nil

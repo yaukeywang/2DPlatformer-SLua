@@ -52,15 +52,15 @@ LgBackgroundParallax.m_cCam = false
 LgBackgroundParallax.m_vPreviousCamPos = false
 
 -- Constructor.
-function LgBackgroundParallax:Constructor()
-    --print("LgBackgroundParallax:Constructor")
+function LgBackgroundParallax:ctor()
+    --print("LgBackgroundParallax:ctor")
     self.m_aBackgrounds = {}
     self.m_vPreviousCamPos = Vector3.zero
 end
 
 -- Destructor.
-function LgBackgroundParallax:Destructor()
-    --print("LgBackgroundParallax:Destructor")
+function LgBackgroundParallax:dtor()
+    --print("LgBackgroundParallax:dtor")
     self.m_aBackgrounds = nil
 end
 
