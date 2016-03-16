@@ -24,7 +24,7 @@ end
 local function RunGame()
     -- Enter into login scene.
     print("Game is running...")
-    Application.LoadLevel("Level")
+    SceneManagement.SceneManager.LoadScene("Level")
     print("Scene \"Level\" is loaded ok!")
 end
 

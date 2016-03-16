@@ -87,7 +87,7 @@ public class YwLuaScriptMng
 	public void Initialize()
 	{
 		YwLuaSvr cLuaSvr = LuaSvr;
-		if (!cLuaSvr.Initialize(OnInitializeProgress, OnInitializedOk, false))
+		if (!cLuaSvr.Initialize(OnInitializeProgress, OnInitializedOk, LuaSvrFlag.LSF_BASIC | LuaSvrFlag.LSF_EXTLIB))
 		{
 			YwDebug.LogError("The lua environment can not be initialized!");
 			return;

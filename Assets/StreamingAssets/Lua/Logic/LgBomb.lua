@@ -88,9 +88,9 @@ function LgBomb:Explode()
     local aEnemies = Physics2D.OverlapCircleAll(self.transform.position, this.m_bombRadius, 1 << LayerMask.NameToLayer("Enemies"))
 
     -- For each collider...
-    for _, cEnemy in pairs(aEnemies) do
+    for i = 1, aEnemies.Length do
         -- Check if it has a rigidbody (since there is only one per enemy, on the parent).
-        local cRb = cEnemy:GetComponent(Rigidbody2D)
+        local cRb = aEnemies[i]:GetComponent(Rigidbody2D)
         if cRb and ("Enemy" == cRb.tag) then
             -- Find the Enemy script and set the enemy's health to zero.
             cRb.gameObject:GetComponent(Enemy).m_HP = 0

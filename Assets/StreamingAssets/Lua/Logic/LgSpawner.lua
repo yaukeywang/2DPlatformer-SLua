@@ -56,8 +56,8 @@ local function LgSpawner_Spawn(LgSpawner)
 
     --Play the spawning effect from all of the particle systems.
     local aParticles = self.gameObject:GetComponentsInChildren(ParticleSystem)
-    for _, v in pairs(aParticles) do
-        v:Play()
+    for i = 1, aParticles.Length do
+        aParticles[i]:Play()
     end
 end
 

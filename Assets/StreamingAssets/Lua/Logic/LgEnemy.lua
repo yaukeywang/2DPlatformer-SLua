@@ -76,9 +76,9 @@ function LgEnemy:FixedUpdate()
     local aFrontHits = Physics2D.OverlapPointAll(self.m_cTrsFrontCheck.position, 1)
 
     -- Check each of the colliders.
-    for _, cCol in pairs(aFrontHits) do
+    for i = 1, aFrontHits.Length do
         -- If any of the colliders is an Obstacle...
-        if "Obstacle" == cCol.tag then
+        if "Obstacle" == aFrontHits[i].tag then
             -- ... Flip the enemy and stop checking the other colliders.
             self:Flip()
             break
@@ -110,8 +110,8 @@ function LgEnemy:Death()
     local aOtherRenderers = self.gameObject:GetComponentsInChildren(SpriteRenderer)
 
     -- Disable all of them sprite renderers.
-    for _, cSprite in pairs(aOtherRenderers) do
-        cSprite.enabled = false
+    for i = 1, aOtherRenderers.Length do
+        aOtherRenderers[i].enabled = false
     end
 
     -- Re-enable the main sprite renderer and set it's sprite to the deadEnemy sprite.
@@ -131,8 +131,8 @@ function LgEnemy:Death()
 
     -- Find all of the colliders on the gameobject and set them all to be triggers.
     local aColls = self.gameObject:GetComponents(Collider2D)
-    for _, cCol in pairs(aColls) do
-        cCol.isTrigger = true
+    for i = 1, aColls.Length do
+        aColls[i].isTrigger = true
     end
 
     -- Play a random audioclip from the deathClips array.

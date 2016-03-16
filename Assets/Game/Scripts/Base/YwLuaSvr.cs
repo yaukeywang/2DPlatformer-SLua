@@ -70,15 +70,15 @@ public class YwLuaSvr : SLua.LuaSvr
 		}
 	}
 
-	/**
+    /**
      * Initialize lua environment.
      * 
      * @param Action<int> cProgress - The callback event for bind each C# classes, datatypes and functions. The parameter 'int' indicates the current progress.
      * @param Action cComplete - The callback event when all binding have beening completed.
-     * @param bool bDebug - To use remote debug or not.
+     * @param LuaSvrFlag eFlag - The slua init flag, can be combined.
      * @return bool - true if lua can be initialized, otherwise false.
      */
-	public bool Initialize(Action<int> cProgress, Action cComplete, bool bDebug = false)
+    public bool Initialize(Action<int> cProgress, Action cComplete, LuaSvrFlag eFlag = LuaSvrFlag.LSF_BASIC)
 	{
 		if (null == cComplete)
 		{
@@ -86,7 +86,7 @@ public class YwLuaSvr : SLua.LuaSvr
 			return false;
 		}
 
-		init(cProgress, () => {OnBindLuaComplete(); cComplete();}, bDebug);
+		init(cProgress, () => {OnBindLuaComplete(); cComplete();}, eFlag);
 		return true;
 	}
 
@@ -100,11 +100,11 @@ public class YwLuaSvr : SLua.LuaSvr
 	{
 		get
 		{
-			return luaState.getObject(strName);
+			return luaState[strName];
 		}
 		set
 		{
-			luaState.setObject(strName, value);
+			luaState[strName] = value;
 		}
 	}
 
@@ -270,6 +270,58 @@ public class YwLuaSvr : SLua.LuaSvr
         }
 
         m_aImportFiles.Add(str);
-        return LuaState.import(l);
+        return yw_lua_import_internal(l);
 	}
+
+    /**
+     * The new lua import package method, same as LuaState.import.
+     * 
+     * @param IntPtr l - The lua state handler.
+     * @return int - The state.
+     */
+    protected internal static int yw_lua_import_internal(IntPtr l)
+    {
+        try
+        {
+            LuaDLL.luaL_checktype(l, 1, LuaTypes.LUA_TSTRING);
+            string str = LuaDLL.lua_tostring(l, 1);
+
+            string[] ns = str.Split('.');
+
+            LuaDLL.lua_pushglobaltable(l);
+
+            for (int n = 0; n < ns.Length; n++)
+            {
+                LuaDLL.lua_getfield(l, -1, ns[n]);
+                if (!LuaDLL.lua_istable(l, -1))
+                {
+                    return LuaObject.error(l, "expect {0} is type table", ns);
+                }
+                LuaDLL.lua_remove(l, -2);
+            }
+
+            LuaDLL.lua_pushnil(l);
+            while (LuaDLL.lua_next(l, -2) != 0)
+            {
+                string key = LuaDLL.lua_tostring(l, -2);
+                LuaDLL.lua_getglobal(l, key);
+                if (!LuaDLL.lua_isnil(l, -1))
+                {
+                    LuaDLL.lua_pop(l, 1);
+                    return LuaObject.error(l, "{0} had existed, import can't overload it.", key);
+                }
+                LuaDLL.lua_pop(l, 1);
+                LuaDLL.lua_setglobal(l, key);
+            }
+
+            LuaDLL.lua_pop(l, 1);
+
+            LuaObject.pushValue(l, true);
+            return 1;
+        }
+        catch (Exception e)
+        {
+            return LuaObject.error(l, e);
+        }
+    }
 }

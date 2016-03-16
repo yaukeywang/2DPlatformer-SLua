@@ -83,14 +83,14 @@ function LgPlayerHealth:OnCollisionEnter2D(cOtherCollider2D)
                 -- If the player doesn't have health, do some stuff, let him fall into the river to reload the level.
                 -- Find all of the colliders on the gameobject and set them all to be triggers.
                 local aCols = self.gameObject:GetComponents(Collider2D)
-                for _, cCol in pairs(aCols) do
-                    cCol.isTrigger = true
+                for i = 1, aCols.Length do
+                    aCols[i].isTrigger = true
                 end
 
                 -- Move all sprite parts of the player to the front.
                 local aSprs = self.gameObject:GetComponentsInChildren(SpriteRenderer)
-                for _, cSpr in pairs(aSprs) do
-                    cSpr.sortingLayerName = "UI";
+                for i = 1, aSprs.Length do
+                    aSprs[i].sortingLayerName = "UI";
                 end
 
                 -- ... disable user Player Control script
