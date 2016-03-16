@@ -6,7 +6,6 @@ namespace SLua {
 		public static Action<IntPtr>[] GetBindList() {
 			Action<IntPtr>[] list= {
 				Lua_YwDebug.reg,
-				Lua_YwLuaBehaviourExample.reg,
 				Lua_Bomb.reg,
 				Lua_CameraFollow.reg,
 				Lua_Enemy.reg,

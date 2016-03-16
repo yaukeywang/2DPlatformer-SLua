@@ -63,13 +63,13 @@ end
 
 -- Constructor.
 function LgSpawner:ctor()
-    print("LgSpawner:ctor")
+    --print("LgSpawner:ctor")
     self.m_aEnemys = {}
 end
 
 -- Destructor.
 function LgSpawner:dtor()
-    print("LgSpawner:dtor")
+    --print("LgSpawner:dtor")
     self.m_aEnemys = nil
     if -1 ~= self.m_nTimerID then
         LuaTimer.Delete(self.m_nTimerID)
