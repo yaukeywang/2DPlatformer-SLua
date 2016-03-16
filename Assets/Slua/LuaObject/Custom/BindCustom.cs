@@ -28,6 +28,9 @@ namespace SLua {
 				Lua_HelloWorld.reg,
 				Lua_System_Collections_Generic_Dictionary_2_int_string.reg,
 				Lua_System_String.reg,
+				Lua_UnityEngine_GUIElement.reg,
+				Lua_UnityEngine_GUIText.reg,
+				Lua_UnityEngine_GUITexture.reg,
 			};
 			return list;
 		}

@@ -83,7 +83,7 @@ function LgRemover:ReloadGame()
         Yield(WaitForSeconds(2.0))
 
         -- ... and then reload the level.
-        Application.LoadLevel(Application.loadedLevel)
+        SceneManagement.SceneManager.LoadScene("Level")
     end)
 
     coroutine.resume(cCol)
