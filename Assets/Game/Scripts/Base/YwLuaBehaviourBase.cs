@@ -58,11 +58,11 @@ public class YwLuaBehaviourBase
 	private static readonly string ON_PARTICLE_COLLISION = "OnParticleCollision";
 	//private static readonly string ON_PLAYER_CONNECTED = "OnPlayerConnected";	// Skip.
 	//private static readonly string ON_PLAYER_DISCONNECTED = "OnPlayerDisconnected";	// Skip.
-	private static readonly string ON_POST_RENDER = "OnPostRender";
-	private static readonly string ON_PRE_CULL = "OnPreCull";
-	private static readonly string ON_PRE_RENDER = "OnPreRender";
-	private static readonly string ON_RENDER_IMAGE = "OnRenderImage";
-	private static readonly string ON_RENDER_OBJECT = "OnRenderObject";
+	//private static readonly string ON_POST_RENDER = "OnPostRender";
+	//private static readonly string ON_PRE_CULL = "OnPreCull";
+	//private static readonly string ON_PRE_RENDER = "OnPreRender";
+	//private static readonly string ON_RENDER_IMAGE = "OnRenderImage";
+	//private static readonly string ON_RENDER_OBJECT = "OnRenderObject";
 	//private static readonly string ON_SERIALIZE_NETWORK_VIEW = "OnSerializeNetworkView";	// Skip.
 	//private static readonly string ON_SERVER_INITIALIZED = "OnServerInitialized";	// Skip.
 	private static readonly string ON_TRANSFORM_CHILDREN_CHANGED = "OnTransformChildrenChanged";
@@ -74,7 +74,7 @@ public class YwLuaBehaviourBase
 	private static readonly string ON_TRIGGER_STAY = "OnTriggerStay";
 	private static readonly string ON_TRIGGER_STAY_2D = "OnTriggerStay2D";
 	private static readonly string ON_VALIDATE = "OnValidate";
-	private static readonly string ON_WILL_RENDER_OBJECT = "OnWillRenderObject";
+	//private static readonly string ON_WILL_RENDER_OBJECT = "OnWillRenderObject";
 	//private static readonly string RESET = "Reset";	// Skip.
 	private static readonly string START = "Start";
 	private static readonly string UPDATE = "Update";
@@ -110,11 +110,11 @@ public class YwLuaBehaviourBase
 	private LuaFunction m_cOnMouseUpFunc = null;
 	private LuaFunction m_cOnMouseUpAsButtonFunc = null;
 	private LuaFunction m_cOnParticleCollisionFunc = null;
-	private LuaFunction m_cOnPostRenderFunc = null;
-	private LuaFunction m_cOnPreCullFunc = null;
-	private LuaFunction m_cOnPreRenderFunc = null;
-	private LuaFunction m_cOnRenderImageFunc = null;
-	private LuaFunction m_cOnRenderObjectFunc = null;
+	//private LuaFunction m_cOnPostRenderFunc = null;
+	//private LuaFunction m_cOnPreCullFunc = null;
+	//private LuaFunction m_cOnPreRenderFunc = null;
+	//private LuaFunction m_cOnRenderImageFunc = null;
+	//private LuaFunction m_cOnRenderObjectFunc = null;
 	private LuaFunction m_cOnTransformChildrenChangedFunc = null;
 	private LuaFunction m_cOnTransformParentChangedFunc = null;
 	private LuaFunction m_cOnTriggerEnterFunc = null;
@@ -124,7 +124,7 @@ public class YwLuaBehaviourBase
 	private LuaFunction m_cOnTriggerStayFunc = null;
 	private LuaFunction m_cOnTriggerStay2DFunc = null;
 	private LuaFunction m_cOnValidateFunc = null;
-	private LuaFunction m_cOnWillRenderObjectFunc = null;
+	//private LuaFunction m_cOnWillRenderObjectFunc = null;
 	private LuaFunction m_cStartFunc = null;
 	private LuaFunction m_cUpdateFunc = null;
 
@@ -351,7 +351,7 @@ public class YwLuaBehaviourBase
 	}
 	
 	/**
-     * This function is called when the behaviour becomes disabled () or inactive.
+     * This function is called when the behaviour becomes disabled or inactive.
      * 
      * @param void.
      * @return void.
@@ -484,62 +484,6 @@ public class YwLuaBehaviourBase
 	}
 
 	/**
-     * OnPostRender is called after a camera finished rendering the scene.
-     * 
-     * @param void.
-     * @return void.
-     */
-	public void OnPostRender()
-	{
-		CallMethod(ref m_cOnPostRenderFunc, ON_POST_RENDER, m_cLuaTableOpt.GetChunk());
-	}
-
-	/**
-     * OnPreCull is called before a camera culls the scene.
-     * 
-     * @param void.
-     * @return void.
-     */
-	public void OnPreCull()
-	{
-		CallMethod(ref m_cOnPreCullFunc, ON_PRE_CULL, m_cLuaTableOpt.GetChunk());
-	}
-
-	/**
-     * OnPreRender is called before a camera starts rendering the scene.
-     * 
-     * @param void.
-     * @return void.
-     */
-	public void OnPreRender()
-	{
-		CallMethod(ref m_cOnPreRenderFunc, ON_PRE_RENDER, m_cLuaTableOpt.GetChunk());
-	}
-
-	/**
-     * OnRenderImage is called after all rendering is complete to render image.
-     * 
-     * @param RenderTexture cSrc - The source render texture.
-     * @param RenderTexture cDst - The destination render texture.
-     * @return void.
-     */
-	public void OnRenderImage(RenderTexture cSrc, RenderTexture cDst)
-	{
-		CallMethod(ref m_cOnRenderImageFunc, ON_RENDER_IMAGE, m_cLuaTableOpt.GetChunk(), cSrc, cDst);
-	}
-
-	/**
-     * OnRenderObject is called after camera has rendered the scene.
-     * 
-     * @param void.
-     * @return void.
-     */
-	public void OnRenderObject()
-	{
-		CallMethod(ref m_cOnRenderObjectFunc, ON_RENDER_OBJECT, m_cLuaTableOpt.GetChunk());
-	}
-
-	/**
      * This function is called when the list of children of the transform of the GameObject has changed.
      * 
      * @param void.
@@ -636,17 +580,6 @@ public class YwLuaBehaviourBase
 	public void OnValidate()
 	{
 		CallMethod(ref m_cOnValidateFunc, ON_VALIDATE, m_cLuaTableOpt.GetChunk());
-	}
-
-	/**
-     * OnWillRenderObject is called once for each camera if the object is visible.
-     * 
-     * @param void.
-     * @return void.
-     */
-	public void OnWillRenderObject()
-	{
-		CallMethod(ref m_cOnWillRenderObjectFunc, ON_WILL_RENDER_OBJECT, m_cLuaTableOpt.GetChunk());
 	}
 
 	/**
@@ -786,7 +719,7 @@ public class YwLuaBehaviourBase
      * Set lua data to a lua table, used to communiate with other lua files.
      * 
      * @param string strName - The key name of the table.
-     * @param object cValue - The value associated to the key.
+     * @param object - The value associated to the key.
      * @return void.
      */
 	public void SetData(string strName, object cValue)
@@ -804,7 +737,7 @@ public class YwLuaBehaviourBase
      * This is used to set an array data to an sub-table.
      * 
      * @param string strName - The key name of the sub-table.
-     * @param object cValue - The value associated to the key.
+     * @param object - The value associated to the key.
      * @return void.
      */
 	public void SetData(string strName, object[] cArrayValue)
@@ -821,7 +754,7 @@ public class YwLuaBehaviourBase
      * Set lua data to a lua table, used to communiate with other lua files.
      * 
      * @param int nIndex - The index of the table. (Start from 1.).
-     * @param object cValue - The value associated to the key.
+     * @param object - The value associated to the key.
      * @return void.
      */
 	public void SetData(int nIndex, object cValue)
@@ -839,7 +772,7 @@ public class YwLuaBehaviourBase
      * This is used to set an array data to an sub-table.
      * 
      * @param int nIndex - The index of the sub-table. (Start from 1.)
-     * @param object cValue - The value associated to the key.
+     * @param object - The value associated to the key.
      * @return void.
      */
 	public void SetData(int nIndex, object[] cArrayValue)
@@ -856,7 +789,7 @@ public class YwLuaBehaviourBase
      * Get lua data from a lua table, used to communiate with other lua files.
      * 
      * @param string strName - The key name of the table.
-     * @return object cValue - The value associated to the key.
+     * @return object - The value associated to the key.
      */
 	public object GetData(string strName)
 	{
@@ -872,7 +805,7 @@ public class YwLuaBehaviourBase
      * Get lua data from a lua table, used to communiate with other lua files.
      * 
      * @param int nIndex - The index of the table.
-     * @return object cValue - The value associated to the key.
+     * @return object - The value associated to the key.
      */
 	public object GetData(int nIndex)
 	{

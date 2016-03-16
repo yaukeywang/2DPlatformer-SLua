@@ -10,8 +10,6 @@
 
 local YwRegisterObject = require "Base/YwRegisterObject"
 
-local YwDeclare = YwDeclare
-local YwClass = YwClass
 local DLog = YwDebug.Log
 local DLogWarn = YwDebug.LogWarning
 local DLogError = YwDebug.LogError

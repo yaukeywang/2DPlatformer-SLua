@@ -132,7 +132,7 @@ public class YwLuaSvr : SLua.LuaSvr
     }
 
 	/**
-     * The new lua file loader.
+     * The lua file loader resources folder.
      * 
      * @param string strFile - The file name.
      * @return byte[] - The loaded bytes.
@@ -144,8 +144,8 @@ public class YwLuaSvr : SLua.LuaSvr
 			return null;
 		}
 
-		strFile.Replace(".", "/");
-		string strLuaPath = "Lua/" + strFile;
+        string strFinalFile = strFile.Replace('.', YwPathMng.PATH_SEPARATE_CHAR_SLASH);
+        string strLuaPath =  YwPathMng.DATA_CATAGORY_LUA + YwPathMng.PATH_SEPARATE_CHAR_SLASH + strFinalFile;
 		TextAsset cLuaAsset = Resources.Load(strLuaPath, typeof(TextAsset)) as TextAsset;
 		if (null == cLuaAsset)
 		{
@@ -156,7 +156,7 @@ public class YwLuaSvr : SLua.LuaSvr
 	}
 
 	/**
-     * The new lua file loader.
+     * The lua file loader from streaming asset folder.
      * 
      * @param string strFile - The file name.
      * @return byte[] - The loaded bytes.
@@ -168,31 +168,125 @@ public class YwLuaSvr : SLua.LuaSvr
 			return null;
 		}
 		
-		strFile.Replace(".", "/");
-		strFile += YwPathMng.FILE_AFFIX_LUA;
+        string strFinalFile = strFile.Replace('.', YwPathMng.PATH_SEPARATE_CHAR_SLASH);
+        strFinalFile += YwPathMng.FILE_AFFIX_LUA;
 
-		string strLuaPath = YwPathMng.DATA_CATAGORY_LUA + Path.DirectorySeparatorChar + strFile;
+        string strLuaPath = YwPathMng.DATA_CATAGORY_LUA + Path.DirectorySeparatorChar + strFinalFile;
 		string strFullPath = YwPathMng.Instance.GetLoadUrl(strLuaPath);
 
-		// Read from file.
-		YwArchiveBinFile cArc = new YwArchiveBinFile();
-		if (!cArc.Open(strFullPath, FileMode.Open, FileAccess.Read))
-		{
-			return null;
-		}
+        // Get bytes from file.
+        byte[] aContents = null;
+        if (strFullPath.StartsWith(YwPathMng.JAR_URL_PREFIX))
+        {
+            // Read from www. (Android platform.)
+            WWW cDataPack = new WWW(strFullPath);
+            while (!cDataPack.isDone)
+            {
+            }
 
-		if (!cArc.IsValid())
-		{
-			return null;
-		}
+            if (!string.IsNullOrEmpty(cDataPack.error))
+            {
+                Debug.LogError(cDataPack.error);
+                return null;
+            }
 
-		int nContentLength = (int)cArc.GetStream().Length;
-		byte[] aContents = new byte[nContentLength];
-		cArc.ReadBuffer(ref aContents, nContentLength);
-		cArc.Close();
-		
+            int nDataLength = cDataPack.bytes.Length;
+            if (0 == nDataLength)
+            {
+                Debug.LogError("No content in file: " + strFullPath);
+            }
+
+            aContents = new byte[nDataLength];
+            Buffer.BlockCopy(cDataPack.bytes, 0, aContents, 0, nDataLength);
+
+            cDataPack.Dispose();
+            cDataPack = null;
+        }
+        else
+        {
+            // Read from file.
+            YwArchiveBinFile cArc = new YwArchiveBinFile();
+            if (!cArc.Open(strFullPath, FileMode.Open, FileAccess.Read))
+            {
+                return null;
+            }
+
+            if (!cArc.IsValid())
+            {
+                return null;
+            }
+
+            int nContentLength = (int)cArc.GetStream().Length;
+            aContents = new byte[nContentLength];
+            cArc.ReadBuffer(ref aContents, nContentLength);
+            cArc.Close();
+        }
+
 		return aContents;
 	}
+
+    /**
+     * The lua file loader from persistent data folder.
+     * 
+     * @param string strFile - The file name.
+     * @return byte[] - The loaded bytes.
+     */
+    private static byte[] LuaPersistentFileLoader(string strFile)
+    {
+        if (string.IsNullOrEmpty(strFile))
+        {
+            return null;
+        }
+
+        string strFinalFile = strFile.Replace('.', YwPathMng.PATH_SEPARATE_CHAR_SLASH);
+        strFinalFile += YwPathMng.FILE_AFFIX_LUA;
+
+        string strLuaPath = YwPathMng.DATA_CATAGORY_LUA + Path.DirectorySeparatorChar + strFinalFile;
+        string strFullPathPersistent = YwPathMng.Instance.GetLoadUrlPersistentAssetPath(strLuaPath);
+        string strFullPathStreaming = YwPathMng.Instance.GetLoadUrlStreamingAssetPath(strLuaPath);
+
+        // Get bytes from file.
+        byte[] aContents = null;
+        if (!File.Exists(strFullPathPersistent))
+        {
+            // Load from streaming asset folder first.
+            // Read from www. (Android platform has a prefix with jar:file://.)
+            WWW cDataPack = new WWW(strFullPathStreaming);
+            while (!cDataPack.isDone)
+            {
+            }
+
+            if (!string.IsNullOrEmpty(cDataPack.error))
+            {
+                Debug.LogError(cDataPack.error);
+                return null;
+            }
+
+            int nDataLength = cDataPack.bytes.Length;
+            if (0 == nDataLength)
+            {
+                Debug.LogError("No content in file: " + strFullPathStreaming);
+            }
+
+            aContents = new byte[nDataLength];
+            Buffer.BlockCopy(cDataPack.bytes, 0, aContents, 0, nDataLength);
+
+            cDataPack.Dispose();
+            cDataPack = null;
+
+            // Sava data content to persistent data folder.
+            YwPathMng.Instance.CreateDirIfNotExist(strFullPathPersistent, false);
+            File.WriteAllBytes(strFullPathPersistent, aContents);
+        }
+
+        // Read file bytes from persistent path file.
+        if (null == aContents)
+        {
+            aContents = File.ReadAllBytes(strFullPathPersistent);
+        }
+
+        return aContents;
+    }
 
     /**
      * Setup lua package search path.

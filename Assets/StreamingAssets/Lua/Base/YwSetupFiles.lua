@@ -17,8 +17,10 @@ require "Base/YwVersion"
 require "Base/YwClass"
 require "Base/YwRegister"
 require "Base/YwRegisterObject"
+require "Base/YwMonoBehaviour"
 require "Base/YwConfigMng"
 require "Base/YwDispatcher"
+require "Base/YwMonoBehaviourUpdater"
 
 -- Require Game module.
 --require "Base/YwBehaviourExample"

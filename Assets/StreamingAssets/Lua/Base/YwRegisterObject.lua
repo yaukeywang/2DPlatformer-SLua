@@ -8,10 +8,6 @@
 -- @date      2015-05-28
 --
 
-local YwRegister = require "Base/YwRegister"
-local YwDeclare = require "Base/YwGlobal"
-
-local YwClass = YwClass
 local str_len = string.len
 
 -- Register a new class.
@@ -30,7 +26,7 @@ function YwRegisterObject:Constructor(cRegister)
     end
 
     self.m_cRegister = cRegister
-    self.m_cRegister:YwRegisterObject(self:ToString(), self)
+    self.m_cRegister:RegisterObject(self:ToString(), self)
 end
 
 -- Destructor.

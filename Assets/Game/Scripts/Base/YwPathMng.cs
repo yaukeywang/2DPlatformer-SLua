@@ -28,6 +28,15 @@ public class YwPathMng
 	public static readonly string LOCAL_URL_PREFIX = "file://";
 #endif
 
+    // The android jar file prefix.
+    public static readonly string JAR_URL_PREFIX = "jar:file://";
+
+    // The slash of path separate char.
+    public static readonly char PATH_SEPARATE_CHAR_SLASH = '/';
+
+    // The backlash kind of path separate char.
+    public static readonly char PATH_SEPARATE_CHAR_BACKLASH = '\\';
+
 	// The asset path in persistent asset path.
 	private string m_strPersistAssetPath = string.Empty;
 	
@@ -147,6 +156,30 @@ public class YwPathMng
 			return strFilePath;
 		}
 	}
+
+    /**
+     * Get the final load url at persistent asset path.
+     * 
+     * @param string strPathName - The path name of the file with dir except the base url.
+     * @return string - The final full url load string.
+     */
+    public string GetLoadUrlPersistentAssetPath(string strPathName)
+    {
+        string strFilePath = PersistentAssetsPath + strPathName;
+        return strFilePath;
+    }
+
+    /**
+     * Get the final load url at streaming asset path.
+     * 
+     * @param string strPathName - The path name of the file with dir except the base url.
+     * @return string - The final full url load string.
+     */
+    public string GetLoadUrlStreamingAssetPath(string strPathName)
+    {
+        string strFilePath = StreamingAssetsPath + strPathName;
+        return strFilePath;
+    }
 	
 	/**
      * Get the final load url for directory.
@@ -167,4 +200,108 @@ public class YwPathMng
 			return strFilePath;
 		}
 	}
+
+    /**
+     * Get the final load url for directory at persistent asset path.
+     * 
+     * @param string strPathName - The path dir name of the file with dir except the base url.
+     * @return string - The final full url load string for the path dir.
+     */
+    public string GetLoadUrlForDirPersistentAssetPath(string strPathName)
+    {
+        string strFilePath = PersistentAssetsPath + strPathName;
+        return strFilePath;
+    }
+
+    /**
+     * Get the final load url for directory at streaming asset path.
+     * 
+     * @param string strPathName - The path dir name of the file with dir except the base url.
+     * @return string - The final full url load string for the path dir.
+     */
+    public string GetLoadUrlForDirStreamingAssetPath(string strPathName)
+    {
+        string strFilePath = StreamingAssetsPath + strPathName;
+        return strFilePath;
+    }
+
+    /**
+     * Copy file from a source path to a destination path, create directory if not exist, override the file if already exist.
+     * 
+     * @param string strSrcFilePath - The source path.
+     * @param string strDstFilePath - The destination path.
+     * @return bool - true if success, otherwise false.
+     */
+    public bool CopyFile(string strSrcFilePath, string strDstFilePath)
+    {
+        if (!File.Exists(strSrcFilePath))
+        {
+            return false;
+        }
+
+        if (!CreateDirIfNotExist(strDstFilePath, false))
+        {
+            return false;
+        }
+
+        File.Copy(strSrcFilePath, strDstFilePath, true);
+        return true;
+    }
+
+    /**
+     * Create directory if it not exist when giving a file or dir path.
+     * 
+     * @param string strPathName - The path file/dir name.
+     * @param bool bIsDirPath - If the path name is file path or dir path, true is dir path, false is file path.
+     * @return bool - true if success, otherwise false.
+     */
+    public bool CreateDirIfNotExist(string strPathName, bool bIsDirPath)
+    {
+        if (string.IsNullOrEmpty(strPathName))
+        {
+            return false;
+        }
+
+        if (Directory.Exists(strPathName))
+        {
+            return true;
+        }
+
+        string strFinalPathName = string.Empty;
+        char chDirSpt = Path.DirectorySeparatorChar;
+        if (PATH_SEPARATE_CHAR_SLASH == chDirSpt)
+        {
+            strFinalPathName = strPathName.Replace(PATH_SEPARATE_CHAR_BACKLASH, PATH_SEPARATE_CHAR_SLASH);
+        }
+        else if (PATH_SEPARATE_CHAR_BACKLASH == chDirSpt)
+        {
+            strFinalPathName = strPathName.Replace(PATH_SEPARATE_CHAR_SLASH, PATH_SEPARATE_CHAR_BACKLASH);
+        }
+
+        // Define the checking path.
+        #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+        string strCheckPath = string.Empty;
+        #else
+        string strCheckPath = chDirSpt.ToString();
+        #endif
+
+        // Split the path.
+        string[] aPathSegment = strFinalPathName.Split(new char[] {chDirSpt});
+        int nSegmentCount = bIsDirPath ? aPathSegment.Length : (aPathSegment.Length - 1);
+        for (int i = 0; i < nSegmentCount; i++)
+        {
+            if (string.IsNullOrEmpty(aPathSegment[i]))
+            {
+                continue;
+            }
+            
+            strCheckPath += aPathSegment[i] + chDirSpt;
+            if (!Directory.Exists(strCheckPath))
+            {
+                Directory.CreateDirectory(strCheckPath);
+            }
+        }
+
+        return true;
+    }
 }

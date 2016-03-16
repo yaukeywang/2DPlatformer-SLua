@@ -11,10 +11,8 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
-using SLua;
 
 // The extend debug library.
-[CustomLuaClass]
 public class YwDebug
 {
     /**

@@ -4,14 +4,11 @@
 -- @filename  $(Class).lua
 -- @copyright Copyright (c) 2015 Yaukey/yaukeywang/WangYaoqi (yaukeywang@gmail.com) all rights reserved.
 -- @license   The MIT License (MIT)
--- @author    $(Author) $(AuthorName)@$(Mail).com
+-- @author    Yaukey yaukeywang@gmail.com
 -- @date      2015-xx-xx
 --
 
 local YwRegisterObject = require "Base/YwRegisterObject"
-
-local YwDeclare = YwDeclare
-local YwClass = YwClass
 
 local DLog = YwDebug.Log
 local DLogWarn = YwDebug.LogWarning

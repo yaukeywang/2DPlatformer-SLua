@@ -19,7 +19,7 @@ local strClassName = "YwDispatcher"
 local YwDispatcher = YwDeclare(strClassName, YwClass(strClassName, YwRegister))
 
 -- The global instance.
-YwDispatcher.m_cInstance = false
+YwDispatcher.m_cInstance = nil
 
 -- Member variables.
 function YwDispatcher:Constructor()
@@ -30,6 +30,7 @@ function YwDispatcher:Constructor()
         return
     end
 
+    -- Assign the instance.
     YwDispatcher.m_cInstance = self
 end
 
