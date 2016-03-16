@@ -19,22 +19,22 @@ public class YwLuaBehaviourBase
     private static readonly string AWAKE = "Awake";
 	private static readonly string LATE_UPDATE = "LateUpdate";
 	private static readonly string FIXED_UPDATE = "FixedUpdate";
-	private static readonly string ON_ANIMATOR_IK = "OnAnimatorIK";
-	private static readonly string ON_ANIMATOR_MOVE = "OnAnimatorMove";
-	private static readonly string ON_APPLICATION_FOCUS = "OnApplicationFocus";
-	private static readonly string ON_APPLICATION_PAUSE = "OnApplicationPause";
-	private static readonly string ON_APPLICATION_QUIT = "OnApplicationQuit";
+	//private static readonly string ON_ANIMATOR_IK = "OnAnimatorIK";
+	//private static readonly string ON_ANIMATOR_MOVE = "OnAnimatorMove";
+	//private static readonly string ON_APPLICATION_FOCUS = "OnApplicationFocus";
+	//private static readonly string ON_APPLICATION_PAUSE = "OnApplicationPause";
+	//private static readonly string ON_APPLICATION_QUIT = "OnApplicationQuit";
 	//private static readonly string ON_AUDIO_FILTER_READ = "OnAudioFilterRead";	// Skip.
-	private static readonly string ON_BECAME_INVISIBLE = "OnBecameInvisible";
-	private static readonly string ON_BECAME_VISIBLE = "OnBecameVisible";
+	//private static readonly string ON_BECAME_INVISIBLE = "OnBecameInvisible";
+	//private static readonly string ON_BECAME_VISIBLE = "OnBecameVisible";
 	private static readonly string ON_COLLISION_ENTER = "OnCollisionEnter";
 	private static readonly string ON_COLLISION_ENTER_2D = "OnCollisionEnter2D";
 	private static readonly string ON_COLLISION_EXIT = "OnCollisionExit";
 	private static readonly string ON_COLLISION_EXIT_2D = "OnCollisionExit2D";
-	private static readonly string ON_COLLISION_STAY = "OnCollisionStay";
-	private static readonly string ON_COLLISION_STAY_2D = "OnCollisionStay2D";
+	//private static readonly string ON_COLLISION_STAY = "OnCollisionStay";
+	//private static readonly string ON_COLLISION_STAY_2D = "OnCollisionStay2D";
 	//private static readonly string ON_CONNECTED_SERVER = "OnConnectedToServer";	// Skip.
-	private static readonly string ON_CONTROLLER_COLLIDER_HIT = "OnControllerColliderHit";
+	//private static readonly string ON_CONTROLLER_COLLIDER_HIT = "OnControllerColliderHit";
 	private static readonly string ON_DESTROY = "OnDestroy";
 	private static readonly string ON_DISABLE = "OnDisable";
 	//private static readonly string ON_DISCONNECTED_FROM_SERVER = "OnDisconnectedFromServer";	// Skip.
@@ -44,18 +44,18 @@ public class YwLuaBehaviourBase
 	//private static readonly string ON_FAILED_TO_CONNECT = "OnFailedToConnect";	// Skip.
 	//private static readonly string ON_FAILED_TO_CONNECT_MASTER_SERVER = "OnFailedToConnectToMasterServer";	// Skip
 	//private static readonly string ON_GUI = "OnGUI";	// Skip.
-	private static readonly string ON_JOINT_BREAK = "OnJointBreak";
-	private static readonly string ON_LEVEL_WAS_LOADED = "OnLevelWasLoaded";
+	//private static readonly string ON_JOINT_BREAK = "OnJointBreak";
+	//private static readonly string ON_LEVEL_WAS_LOADED = "OnLevelWasLoaded";
 	//private static readonly string ON_MASTER_SERVER_EVENT = "OnMasterServerEvent";	// Skip.
-	private static readonly string ON_MOUSE_DOWN = "OnMouseDown";
-	private static readonly string ON_MOUSE_DRAG = "OnMouseDrag";
-	private static readonly string ON_MOUSE_ENTER = "OnMouseEnter";
-	private static readonly string ON_MOUSE_EXIT = "OnMouseExit";
-	private static readonly string ON_MOUSE_OVER = "OnMouseOver";
-	private static readonly string ON_MOUSE_UP = "OnMouseUp";
-	private static readonly string ON_MOUSE_UP_AS_BUTTON = "OnMouseUpAsButton";
+	//private static readonly string ON_MOUSE_DOWN = "OnMouseDown";
+	//private static readonly string ON_MOUSE_DRAG = "OnMouseDrag";
+	//private static readonly string ON_MOUSE_ENTER = "OnMouseEnter";
+	//private static readonly string ON_MOUSE_EXIT = "OnMouseExit";
+	//private static readonly string ON_MOUSE_OVER = "OnMouseOver";
+	//private static readonly string ON_MOUSE_UP = "OnMouseUp";
+	//private static readonly string ON_MOUSE_UP_AS_BUTTON = "OnMouseUpAsButton";
 	//private static readonly string ON_NETWORK_INSTANTIATE = "OnNetworkInstantiate";	// Skip.
-	private static readonly string ON_PARTICLE_COLLISION = "OnParticleCollision";
+	//private static readonly string ON_PARTICLE_COLLISION = "OnParticleCollision";
 	//private static readonly string ON_PLAYER_CONNECTED = "OnPlayerConnected";	// Skip.
 	//private static readonly string ON_PLAYER_DISCONNECTED = "OnPlayerDisconnected";	// Skip.
 	//private static readonly string ON_POST_RENDER = "OnPostRender";
@@ -65,15 +65,15 @@ public class YwLuaBehaviourBase
 	//private static readonly string ON_RENDER_OBJECT = "OnRenderObject";
 	//private static readonly string ON_SERIALIZE_NETWORK_VIEW = "OnSerializeNetworkView";	// Skip.
 	//private static readonly string ON_SERVER_INITIALIZED = "OnServerInitialized";	// Skip.
-	private static readonly string ON_TRANSFORM_CHILDREN_CHANGED = "OnTransformChildrenChanged";
-	private static readonly string ON_TRANSFORM_PARENT_CHANGED = "OnTransformParentChanged";
+	//private static readonly string ON_TRANSFORM_CHILDREN_CHANGED = "OnTransformChildrenChanged";
+	//private static readonly string ON_TRANSFORM_PARENT_CHANGED = "OnTransformParentChanged";
 	private static readonly string ON_TRIGGER_ENTER = "OnTriggerEnter";
 	private static readonly string ON_TRIGGER_ENTER_2D = "OnTriggerEnter2D";
 	private static readonly string ON_TRIGGER_EXIT = "OnTriggerExit";
 	private static readonly string ON_TRIGGER_EXIT_2D = "OnTriggerExit2D";
-	private static readonly string ON_TRIGGER_STAY = "OnTriggerStay";
-	private static readonly string ON_TRIGGER_STAY_2D = "OnTriggerStay2D";
-	private static readonly string ON_VALIDATE = "OnValidate";
+	//private static readonly string ON_TRIGGER_STAY = "OnTriggerStay";
+	//private static readonly string ON_TRIGGER_STAY_2D = "OnTriggerStay2D";
+	//private static readonly string ON_VALIDATE = "OnValidate";
 	//private static readonly string ON_WILL_RENDER_OBJECT = "OnWillRenderObject";
 	//private static readonly string RESET = "Reset";	// Skip.
 	private static readonly string START = "Start";
@@ -83,47 +83,47 @@ public class YwLuaBehaviourBase
     private LuaFunction m_cAwakeFunc = null;
 	private LuaFunction m_cLateUpdateFunc = null;
 	private LuaFunction m_cFixedUpdateFunc = null;
-	private LuaFunction m_cOnAnimatorIKFunc = null;
-	private LuaFunction m_cOnAnimatorMoveFunc = null;
-	private LuaFunction m_cOnApplicationFocusFunc = null;
-	private LuaFunction m_cOnApplicationPauseFunc = null;
-	private LuaFunction m_cOnApplicationQuitFunc = null;
-	private LuaFunction m_cOnBecameInvisibleFunc = null;
-	private LuaFunction m_cOnBecameVisibleFunc = null;
+	//private LuaFunction m_cOnAnimatorIKFunc = null;
+	//private LuaFunction m_cOnAnimatorMoveFunc = null;
+	//private LuaFunction m_cOnApplicationFocusFunc = null;
+	//private LuaFunction m_cOnApplicationPauseFunc = null;
+	//private LuaFunction m_cOnApplicationQuitFunc = null;
+	//private LuaFunction m_cOnBecameInvisibleFunc = null;
+	//private LuaFunction m_cOnBecameVisibleFunc = null;
 	private LuaFunction m_cOnCollisionEnterFunc = null;
 	private LuaFunction m_cOnCollisionEnter2DFunc = null;
 	private LuaFunction m_cOnCollisionExitFunc = null;
 	private LuaFunction m_cOnCollisionExit2DFunc = null;
-	private LuaFunction m_cOnCollisionStayFunc = null;
-	private LuaFunction m_cOnCollisionStay2DFunc = null;
-	private LuaFunction m_cOnControllerColliderHitFunc = null;
+	//private LuaFunction m_cOnCollisionStayFunc = null;
+	//private LuaFunction m_cOnCollisionStay2DFunc = null;
+	//private LuaFunction m_cOnControllerColliderHitFunc = null;
 	private LuaFunction m_cOnDestroy = null;
 	private LuaFunction m_cOnDisableFunc = null;
 	private LuaFunction m_cOnEnableFunc = null;
-	private LuaFunction m_cOnJointBreakFunc = null;
-	private LuaFunction m_cOnLevelWasLoadedFunc = null;
-	private LuaFunction m_cOnMouseDownFunc = null;
-	private LuaFunction m_cOnMouseDragFunc = null;
-	private LuaFunction m_cOnMouseEnterFunc = null;
-	private LuaFunction m_cOnMouseExitFunc = null;
-	private LuaFunction m_cOnMouseOverFunc = null;
-	private LuaFunction m_cOnMouseUpFunc = null;
-	private LuaFunction m_cOnMouseUpAsButtonFunc = null;
-	private LuaFunction m_cOnParticleCollisionFunc = null;
+	//private LuaFunction m_cOnJointBreakFunc = null;
+	//private LuaFunction m_cOnLevelWasLoadedFunc = null;
+	//private LuaFunction m_cOnMouseDownFunc = null;
+	//private LuaFunction m_cOnMouseDragFunc = null;
+	//private LuaFunction m_cOnMouseEnterFunc = null;
+	//private LuaFunction m_cOnMouseExitFunc = null;
+	//private LuaFunction m_cOnMouseOverFunc = null;
+	//private LuaFunction m_cOnMouseUpFunc = null;
+	//private LuaFunction m_cOnMouseUpAsButtonFunc = null;
+	//private LuaFunction m_cOnParticleCollisionFunc = null;
 	//private LuaFunction m_cOnPostRenderFunc = null;
 	//private LuaFunction m_cOnPreCullFunc = null;
 	//private LuaFunction m_cOnPreRenderFunc = null;
 	//private LuaFunction m_cOnRenderImageFunc = null;
 	//private LuaFunction m_cOnRenderObjectFunc = null;
-	private LuaFunction m_cOnTransformChildrenChangedFunc = null;
-	private LuaFunction m_cOnTransformParentChangedFunc = null;
+	//private LuaFunction m_cOnTransformChildrenChangedFunc = null;
+	//private LuaFunction m_cOnTransformParentChangedFunc = null;
 	private LuaFunction m_cOnTriggerEnterFunc = null;
 	private LuaFunction m_cOnTriggerEnter2DFunc = null;
 	private LuaFunction m_cOnTriggerExitFunc = null;
 	private LuaFunction m_cOnTriggerExit2DFunc = null;
-	private LuaFunction m_cOnTriggerStayFunc = null;
-	private LuaFunction m_cOnTriggerStay2DFunc = null;
-	private LuaFunction m_cOnValidateFunc = null;
+	//private LuaFunction m_cOnTriggerStayFunc = null;
+	//private LuaFunction m_cOnTriggerStay2DFunc = null;
+	//private LuaFunction m_cOnValidateFunc = null;
 	//private LuaFunction m_cOnWillRenderObjectFunc = null;
 	private LuaFunction m_cStartFunc = null;
 	private LuaFunction m_cUpdateFunc = null;
@@ -191,10 +191,10 @@ public class YwLuaBehaviourBase
      * @param int nLayerIndex - The layer index.
      * @return void.
      */
-	public void OnAnimatorIK(int nLayerIndex)
-	{
-		CallMethod(ref m_cOnAnimatorIKFunc, ON_ANIMATOR_IK, m_cLuaTableOpt.GetChunk(), nLayerIndex);
-	}
+	//public void OnAnimatorIK(int nLayerIndex)
+	//{
+	//	CallMethod(ref m_cOnAnimatorIKFunc, ON_ANIMATOR_IK, m_cLuaTableOpt.GetChunk(), nLayerIndex);
+	//}
 
 	/**
      * Callback for processing animation movements for modifying root motion.
@@ -202,10 +202,10 @@ public class YwLuaBehaviourBase
      * @param void.
      * @return void.
      */
-	public void OnAnimatorMove()
-	{
-		CallMethod(ref m_cOnAnimatorMoveFunc, ON_ANIMATOR_MOVE, m_cLuaTableOpt.GetChunk());
-	}
+	//public void OnAnimatorMove()
+	//{
+	//	CallMethod(ref m_cOnAnimatorMoveFunc, ON_ANIMATOR_MOVE, m_cLuaTableOpt.GetChunk());
+	//}
 
 	/**
      * Sent to all game objects when the player gets or loses focus.
@@ -213,10 +213,10 @@ public class YwLuaBehaviourBase
      * @param bool bFocusStatus - The focus status.
      * @return void.
      */
-	public void OnApplicationFocus(bool bFocusStatus)
-	{
-		CallMethod(ref m_cOnApplicationFocusFunc, ON_APPLICATION_FOCUS, m_cLuaTableOpt.GetChunk(), bFocusStatus);
-	}
+	//public void OnApplicationFocus(bool bFocusStatus)
+	//{
+	//	CallMethod(ref m_cOnApplicationFocusFunc, ON_APPLICATION_FOCUS, m_cLuaTableOpt.GetChunk(), bFocusStatus);
+	//}
 
 	/**
      * Sent to all game objects when the player pauses.
@@ -224,10 +224,10 @@ public class YwLuaBehaviourBase
      * @param bool bPauseStatus - The pause status.
      * @return void.
      */
-	public void OnApplicationPause(bool bPauseStatus)
-	{
-		CallMethod(ref m_cOnApplicationPauseFunc, ON_APPLICATION_PAUSE, m_cLuaTableOpt.GetChunk(), bPauseStatus);
-	}
+	//public void OnApplicationPause(bool bPauseStatus)
+	//{
+	//	CallMethod(ref m_cOnApplicationPauseFunc, ON_APPLICATION_PAUSE, m_cLuaTableOpt.GetChunk(), bPauseStatus);
+	//}
 
 	/**
      * Sent to all game objects before the application is quit.
@@ -235,10 +235,10 @@ public class YwLuaBehaviourBase
      * @param void.
      * @return void.
      */
-	public void OnApplicationQuit()
-	{
-		CallMethod(ref m_cOnApplicationQuitFunc, ON_APPLICATION_QUIT, m_cLuaTableOpt.GetChunk());
-	}
+	//public void OnApplicationQuit()
+	//{
+	//	CallMethod(ref m_cOnApplicationQuitFunc, ON_APPLICATION_QUIT, m_cLuaTableOpt.GetChunk());
+	//}
 
 	/**
      * OnBecameInvisible is called when the renderer is no longer visible by any camera.
@@ -246,10 +246,10 @@ public class YwLuaBehaviourBase
      * @param void.
      * @return void.
      */
-	public void OnBecameInvisible()
-	{
-		CallMethod(ref m_cOnBecameInvisibleFunc, ON_BECAME_INVISIBLE, m_cLuaTableOpt.GetChunk());
-	}
+	//public void OnBecameInvisible()
+	//{
+	//	CallMethod(ref m_cOnBecameInvisibleFunc, ON_BECAME_INVISIBLE, m_cLuaTableOpt.GetChunk());
+	//}
 
 	/**
      * OnBecameVisible is called when the renderer became visible by any camera.
@@ -257,10 +257,10 @@ public class YwLuaBehaviourBase
      * @param void.
      * @return void.
      */
-	public void OnBecameVisible()
-	{
-		CallMethod(ref m_cOnBecameVisibleFunc, ON_BECAME_VISIBLE, m_cLuaTableOpt.GetChunk());
-	}
+	//public void OnBecameVisible()
+	//{
+	//	CallMethod(ref m_cOnBecameVisibleFunc, ON_BECAME_VISIBLE, m_cLuaTableOpt.GetChunk());
+	//}
 
 	/**
      * OnCollisionEnter is called when this collider/rigidbody has begun touching another rigidbody/collider.
@@ -312,10 +312,10 @@ public class YwLuaBehaviourBase
      * @param Collision cCollisionInfo - The collison info.
      * @return void.
      */
-	public void OnCollisionStay(Collision cCollisionInfo)
-	{
-		CallMethod(ref m_cOnCollisionStayFunc, ON_COLLISION_STAY, m_cLuaTableOpt.GetChunk(), cCollisionInfo);
-	}
+	//public void OnCollisionStay(Collision cCollisionInfo)
+	//{
+	//	CallMethod(ref m_cOnCollisionStayFunc, ON_COLLISION_STAY, m_cLuaTableOpt.GetChunk(), cCollisionInfo);
+	//}
 
 	/**
      * Sent each frame where a collider on another object is touching this object's collider (2D physics only).
@@ -323,10 +323,10 @@ public class YwLuaBehaviourBase
      * @param Collision2D cCollision2DInfo - The collison info for 2d.
      * @return void.
      */
-	public void OnCollisionStay2D(Collision2D cCollision2DInfo)
-	{
-		CallMethod(ref m_cOnCollisionStay2DFunc, ON_COLLISION_STAY_2D, m_cLuaTableOpt.GetChunk(), cCollision2DInfo);
-	}
+	//public void OnCollisionStay2D(Collision2D cCollision2DInfo)
+	//{
+	//	CallMethod(ref m_cOnCollisionStay2DFunc, ON_COLLISION_STAY_2D, m_cLuaTableOpt.GetChunk(), cCollision2DInfo);
+	//}
 
 	/**
      * OnControllerColliderHit is called when the controller hits a collider while performing a Move.
@@ -334,10 +334,10 @@ public class YwLuaBehaviourBase
      * @param ControllerColliderHit cHit - The hit info.
      * @return void.
      */
-	public void OnControllerColliderHit(ControllerColliderHit cHit)
-	{
-		CallMethod(ref m_cOnControllerColliderHitFunc, ON_CONTROLLER_COLLIDER_HIT, m_cLuaTableOpt.GetChunk(), cHit);
-	}
+	//public void OnControllerColliderHit(ControllerColliderHit cHit)
+	//{
+	//	CallMethod(ref m_cOnControllerColliderHitFunc, ON_CONTROLLER_COLLIDER_HIT, m_cLuaTableOpt.GetChunk(), cHit);
+	//}
 
 	/**
      * On destroy method.
@@ -378,10 +378,10 @@ public class YwLuaBehaviourBase
      * @param float fBreakForce - The break force.
      * @return void.
      */
-	public void OnJointBreak(float fBreakForce)
-	{
-		CallMethod(ref m_cOnJointBreakFunc, ON_JOINT_BREAK, m_cLuaTableOpt.GetChunk(), fBreakForce);
-	}
+	//public void OnJointBreak(float fBreakForce)
+	//{
+	//	CallMethod(ref m_cOnJointBreakFunc, ON_JOINT_BREAK, m_cLuaTableOpt.GetChunk(), fBreakForce);
+	//}
 
 	/**
      * This function is called after a new level was loaded.
@@ -389,10 +389,10 @@ public class YwLuaBehaviourBase
      * @param int nLevel - The loaded level.
      * @return void.
      */
-	public void OnLevelWasLoaded(int nLevel)
-	{
-		CallMethod(ref m_cOnLevelWasLoadedFunc, ON_LEVEL_WAS_LOADED, m_cLuaTableOpt.GetChunk(), nLevel);
-	}
+	//public void OnLevelWasLoaded(int nLevel)
+	//{
+	//	CallMethod(ref m_cOnLevelWasLoadedFunc, ON_LEVEL_WAS_LOADED, m_cLuaTableOpt.GetChunk(), nLevel);
+	//}
 
 	/**
      * OnMouseDown is called when the user has pressed the mouse button while over the GUIElement or Collider.
@@ -400,10 +400,10 @@ public class YwLuaBehaviourBase
      * @param void.
      * @return void.
      */
-	public void OnMouseDown()
-	{
-		CallMethod(ref m_cOnMouseDownFunc, ON_MOUSE_DOWN, m_cLuaTableOpt.GetChunk());
-	}
+	//public void OnMouseDown()
+	//{
+	//	CallMethod(ref m_cOnMouseDownFunc, ON_MOUSE_DOWN, m_cLuaTableOpt.GetChunk());
+	//}
 
 	/**
      * OnMouseDrag is called when the user has clicked on a GUIElement or Collider and is still holding down the mouse.
@@ -411,10 +411,10 @@ public class YwLuaBehaviourBase
      * @param void.
      * @return void.
      */
-	public void OnMouseDrag()
-	{
-		CallMethod(ref m_cOnMouseDragFunc, ON_MOUSE_DRAG, m_cLuaTableOpt.GetChunk());
-	}
+	//public void OnMouseDrag()
+	//{
+	//	CallMethod(ref m_cOnMouseDragFunc, ON_MOUSE_DRAG, m_cLuaTableOpt.GetChunk());
+	//}
 
 	/**
      * Called when the mouse enters the GUIElement or Collider.
@@ -422,10 +422,10 @@ public class YwLuaBehaviourBase
      * @param void.
      * @return void.
      */
-	public void OnMouseEnter()
-	{
-		CallMethod(ref m_cOnMouseEnterFunc, ON_MOUSE_ENTER, m_cLuaTableOpt.GetChunk());
-	}
+	//public void OnMouseEnter()
+	//{
+	//	CallMethod(ref m_cOnMouseEnterFunc, ON_MOUSE_ENTER, m_cLuaTableOpt.GetChunk());
+	//}
 
 	/**
      * Called when the mouse is not any longer over the GUIElement or Collider.
@@ -433,10 +433,10 @@ public class YwLuaBehaviourBase
      * @param void.
      * @return void.
      */
-	public void OnMouseExit()
-	{
-		CallMethod(ref m_cOnMouseExitFunc, ON_MOUSE_EXIT, m_cLuaTableOpt.GetChunk());
-	}
+	//public void OnMouseExit()
+	//{
+	//	CallMethod(ref m_cOnMouseExitFunc, ON_MOUSE_EXIT, m_cLuaTableOpt.GetChunk());
+	//}
 
 	/**
      * Called every frame while the mouse is over the GUIElement or Collider.
@@ -444,10 +444,10 @@ public class YwLuaBehaviourBase
      * @param void.
      * @return void.
      */
-	public void OnMouseOver()
-	{
-		CallMethod(ref m_cOnMouseOverFunc, ON_MOUSE_OVER, m_cLuaTableOpt.GetChunk());
-	}
+	//public void OnMouseOver()
+	//{
+	//	CallMethod(ref m_cOnMouseOverFunc, ON_MOUSE_OVER, m_cLuaTableOpt.GetChunk());
+	//}
 
 	/**
      * OnMouseUp is called when the user has released the mouse button.
@@ -455,10 +455,10 @@ public class YwLuaBehaviourBase
      * @param void.
      * @return void.
      */
-	public void OnMouseUp()
-	{
-		CallMethod(ref m_cOnMouseUpFunc, ON_MOUSE_UP, m_cLuaTableOpt.GetChunk());
-	}
+	//public void OnMouseUp()
+	//{
+	//	CallMethod(ref m_cOnMouseUpFunc, ON_MOUSE_UP, m_cLuaTableOpt.GetChunk());
+	//}
 
 	/**
      * OnMouseUpAsButton is only called when the mouse is released over the same GUIElement or Collider as it was pressed.
@@ -466,10 +466,10 @@ public class YwLuaBehaviourBase
      * @param void.
      * @return void.
      */
-	public void OnMouseUpAsButton()
-	{
-		CallMethod(ref m_cOnMouseUpAsButtonFunc, ON_MOUSE_UP_AS_BUTTON, m_cLuaTableOpt.GetChunk());
-	}
+	//public void OnMouseUpAsButton()
+	//{
+	//	CallMethod(ref m_cOnMouseUpAsButtonFunc, ON_MOUSE_UP_AS_BUTTON, m_cLuaTableOpt.GetChunk());
+	//}
 
 	/**
      * OnParticleCollision is called when a particle hits a collider.
@@ -478,10 +478,10 @@ public class YwLuaBehaviourBase
      * @param GameObject cOtherObj - The other particle game object.
      * @return void.
      */
-	public void OnParticleCollision(GameObject cOtherObj)
-	{
-		CallMethod(ref m_cOnParticleCollisionFunc, ON_PARTICLE_COLLISION, m_cLuaTableOpt.GetChunk(), cOtherObj);
-	}
+	//public void OnParticleCollision(GameObject cOtherObj)
+	//{
+	//	CallMethod(ref m_cOnParticleCollisionFunc, ON_PARTICLE_COLLISION, m_cLuaTableOpt.GetChunk(), cOtherObj);
+	//}
 
 	/**
      * This function is called when the list of children of the transform of the GameObject has changed.
@@ -489,10 +489,10 @@ public class YwLuaBehaviourBase
      * @param void.
      * @return void.
      */
-	public void OnTransformChildrenChanged()
-	{
-		CallMethod(ref m_cOnTransformChildrenChangedFunc, ON_TRANSFORM_CHILDREN_CHANGED, m_cLuaTableOpt.GetChunk());
-	}
+	//public void OnTransformChildrenChanged()
+	//{
+	//	CallMethod(ref m_cOnTransformChildrenChangedFunc, ON_TRANSFORM_CHILDREN_CHANGED, m_cLuaTableOpt.GetChunk());
+	//}
 
 	/**
      * This function is called when the parent property of the transform of the GameObject has changed.
@@ -500,10 +500,10 @@ public class YwLuaBehaviourBase
      * @param void.
      * @return void.
      */
-	public void OnTransformParentChanged()
-	{
-		CallMethod(ref m_cOnTransformParentChangedFunc, ON_TRANSFORM_PARENT_CHANGED, m_cLuaTableOpt.GetChunk());
-	}
+	//public void OnTransformParentChanged()
+	//{
+	//	CallMethod(ref m_cOnTransformParentChangedFunc, ON_TRANSFORM_PARENT_CHANGED, m_cLuaTableOpt.GetChunk());
+	//}
 
 	/**
      * OnTriggerEnter is called when the Collider other enters the trigger.
@@ -555,10 +555,10 @@ public class YwLuaBehaviourBase
      * @param Collider2D cOther - The other collider.
      * @return void.
      */
-	public void OnTriggerStay(Collider cOther)
-	{
-		CallMethod(ref m_cOnTriggerStayFunc, ON_TRIGGER_STAY, m_cLuaTableOpt.GetChunk(), cOther);
-	}
+	//public void OnTriggerStay(Collider cOther)
+	//{
+	//	CallMethod(ref m_cOnTriggerStayFunc, ON_TRIGGER_STAY, m_cLuaTableOpt.GetChunk(), cOther);
+	//}
 
 	/**
      * Sent each frame where another object is within a trigger collider attached to this object (2D physics only).
@@ -566,21 +566,10 @@ public class YwLuaBehaviourBase
      * @param Collider2D cOther - The other collider for 2d.
      * @return void.
      */
-	public void OnTriggerStay2D(Collider2D cOther)
-	{
-		CallMethod(ref m_cOnTriggerStay2DFunc, ON_TRIGGER_STAY_2D, m_cLuaTableOpt.GetChunk(), cOther);
-	}
-
-	/**
-     * This function is called when the script is loaded or a value is changed in the inspector (Called in the editor only).
-     * 
-     * @param void.
-     * @return void.
-     */
-	public void OnValidate()
-	{
-		CallMethod(ref m_cOnValidateFunc, ON_VALIDATE, m_cLuaTableOpt.GetChunk());
-	}
+	//public void OnTriggerStay2D(Collider2D cOther)
+	//{
+	//	CallMethod(ref m_cOnTriggerStay2DFunc, ON_TRIGGER_STAY_2D, m_cLuaTableOpt.GetChunk(), cOther);
+	//}
 
 	/**
      * Start method, this is the main entry.

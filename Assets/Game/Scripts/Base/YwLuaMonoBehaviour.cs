@@ -31,6 +31,10 @@ public class YwLuaMonoBehaviour : YwLuaMonoBehaviourBase
         OnTriggerEnter2D,
         OnTriggerExit,
         OnTriggerExit2D,
+        OnCollisionEnter,
+        OnCollisionEnter2D,
+        OnCollisionExit,
+        OnCollisionExit2D,
         // Add more if your need.
     }
 
@@ -103,50 +107,6 @@ public class YwLuaMonoBehaviour : YwLuaMonoBehaviourBase
         m_cBehavior.Start();
     }
 
-    // OnTriggerEnter is called when the Collider other enters the trigger.
-    void OnTriggerEnter(Collider cOther)
-    {
-        if (!m_bReady || !m_monoMethods.Contains(EMonoMethod.OnTriggerEnter))
-        {
-            return;
-        }
-
-        m_cBehavior.OnTriggerEnter(cOther);
-    }
-
-    // Sent when another object enters a trigger collider attached to this object (2D physics only).
-    void OnTriggerEnter2D(Collider2D cOther)
-    {
-        if (!m_bReady || !m_monoMethods.Contains(EMonoMethod.OnTriggerEnter2D))
-        {
-            return;
-        }
-
-        m_cBehavior.OnTriggerEnter2D(cOther);
-    }
-
-    // OnTriggerExit is called when the Collider other has stopped touching the trigger.
-    void OnTriggerExit(Collider cOther)
-    {
-        if (!m_bReady || !m_monoMethods.Contains(EMonoMethod.OnTriggerExit))
-        {
-            return;
-        }
-
-        m_cBehavior.OnTriggerExit(cOther);
-    }
-
-    // Sent when another object leaves a trigger collider attached to this object (2D physics only).
-    void OnTriggerExit2D(Collider2D cOther)
-    {
-        if (!m_bReady || !m_monoMethods.Contains(EMonoMethod.OnTriggerExit2D))
-        {
-            return;
-        }
-
-        m_cBehavior.OnTriggerExit2D(cOther);
-    }
-
     // This function is called when the behaviour becomes disabled or inactive.
     void OnEnable()
     {
@@ -200,6 +160,94 @@ public class YwLuaMonoBehaviour : YwLuaMonoBehaviourBase
         {
             m_cBehavior.OnDestroy();
         }
+    }
+
+    // OnTriggerEnter is called when the Collider other enters the trigger.
+    void OnTriggerEnter(Collider cOther)
+    {
+        if (!m_bReady || !m_monoMethods.Contains(EMonoMethod.OnTriggerEnter))
+        {
+            return;
+        }
+
+        m_cBehavior.OnTriggerEnter(cOther);
+    }
+
+    // Sent when another object enters a trigger collider attached to this object (2D physics only).
+    void OnTriggerEnter2D(Collider2D cOther)
+    {
+        if (!m_bReady || !m_monoMethods.Contains(EMonoMethod.OnTriggerEnter2D))
+        {
+            return;
+        }
+
+        m_cBehavior.OnTriggerEnter2D(cOther);
+    }
+
+    // OnTriggerExit is called when the Collider other has stopped touching the trigger.
+    void OnTriggerExit(Collider cOther)
+    {
+        if (!m_bReady || !m_monoMethods.Contains(EMonoMethod.OnTriggerExit))
+        {
+            return;
+        }
+
+        m_cBehavior.OnTriggerExit(cOther);
+    }
+
+    // Sent when another object leaves a trigger collider attached to this object (2D physics only).
+    void OnTriggerExit2D(Collider2D cOther)
+    {
+        if (!m_bReady || !m_monoMethods.Contains(EMonoMethod.OnTriggerExit2D))
+        {
+            return;
+        }
+
+        m_cBehavior.OnTriggerExit2D(cOther);
+    }
+
+    // OnCollisionEnter is called when this collider/rigidbody has begun touching another rigidbody/collider.
+    void OnCollisionEnter(Collision cCollision)
+    {
+        if (!m_bReady || !m_monoMethods.Contains(EMonoMethod.OnCollisionEnter))
+        {
+            return;
+        }
+
+        m_cBehavior.OnCollisionEnter(cCollision);
+    }
+
+    // Sent when an incoming collider makes contact with this object's collider (2D physics only).
+    void OnCollisionEnter2D(Collision2D cCollision)
+    {
+        if (!m_bReady || !m_monoMethods.Contains(EMonoMethod.OnCollisionEnter2D))
+        {
+            return;
+        }
+
+        m_cBehavior.OnCollisionEnter2D(cCollision);
+    }
+
+    // OnCollisionExit is called when this collider/rigidbody has stopped touching another rigidbody/collider.
+    void OnCollisionExit(Collision cCollision)
+    {
+        if (!m_bReady || !m_monoMethods.Contains(EMonoMethod.OnCollisionExit))
+        {
+            return;
+        }
+
+        m_cBehavior.OnCollisionExit(cCollision);
+    }
+
+    // Sent when a collider on another object stops touching this object's collider (2D physics only).
+    void OnCollisionExit2D(Collision2D cCollision)
+    {
+        if (!m_bReady || !m_monoMethods.Contains(EMonoMethod.OnCollisionExit2D))
+        {
+            return;
+        }
+
+        m_cBehavior.OnCollisionExit2D(cCollision);
     }
 
     /**
