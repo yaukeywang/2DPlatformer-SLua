@@ -12,7 +12,7 @@
 print(jit and "jit on, using: " .. jit.version .. " " .. jit.arch or "jit off, using: " .. _VERSION)
 
 -- Load essential.
-require "Base/YwSetupFiles"
+require "Logic/LgSetupFiles"
 
 -- To create manager.
 local function CreateManager()

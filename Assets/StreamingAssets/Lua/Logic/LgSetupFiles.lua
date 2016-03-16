@@ -1,7 +1,7 @@
 --
 -- Lua setup file, require all need files.
 --
--- @filename  SetupFiles.lua
+-- @filename  LgSetupFiles.lua
 -- @copyright Copyright (c) 2015 Yaukey/yaukeywang/WangYaoqi (yaukeywang@gmail.com) all rights reserved.
 -- @license   The MIT License (MIT)
 -- @author    Yaukey
