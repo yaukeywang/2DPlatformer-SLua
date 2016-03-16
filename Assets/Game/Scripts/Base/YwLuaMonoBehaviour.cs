@@ -42,10 +42,13 @@ public class YwLuaMonoBehaviour : YwLuaMonoBehaviourBase
     public string m_className = string.Empty;
 
     // All mono method we have.
-    public List<EMonoMethod> m_monoMethods = new List<EMonoMethod>(); // System.Enum.GetValues(typeof(EFunction)).Length
+    public List<EMonoMethod> m_monoMethods = new List<EMonoMethod>();
 
     // The parameters used to pass to lua.
     public GameObject[] m_parameters = null;
+
+    // The static method array.
+    private bool[] m_aMonoMethodFlags = new bool[System.Enum.GetValues(typeof(EMonoMethod)).Length];
 
     // Name of enable base lua function.
     private static readonly string LUA_FUNC_NAME_ON_ENABLE_BASE = "OnEnableBase";
@@ -67,7 +70,7 @@ public class YwLuaMonoBehaviour : YwLuaMonoBehaviourBase
             return;
         }
 
-        // Directly creat a lua class instance to associate with this monobehavior.
+        // Directly create a lua class instance to associate with this monobehavior.
         if (string.IsNullOrEmpty(m_className) || !CreateClassInstance(m_className))
         {
             return;
@@ -79,11 +82,21 @@ public class YwLuaMonoBehaviour : YwLuaMonoBehaviourBase
             m_cBehavior.SetData("m_aParameters", m_parameters);
         }
 
+        // Init all method flags.
+        for (int i = 0; i < m_aMonoMethodFlags.Length; i++)
+        {
+            m_aMonoMethodFlags[i] = m_monoMethods.Contains((EMonoMethod)i);
+        }
+
+        // Clear method list.
+        m_monoMethods.Clear();
+        m_monoMethods = null;
+
         // Init update flags.
-        m_cBehavior.SetData("m_bUpdate", m_monoMethods.Contains(EMonoMethod.Update));
-        m_cBehavior.SetData("m_bLateUpdate", m_monoMethods.Contains(EMonoMethod.LateUpdate));
-        m_cBehavior.SetData("m_bFixedUpdate", m_monoMethods.Contains(EMonoMethod.FixedUpdate));
-        m_cBehavior.SetData("m_bLiteUpdate", m_monoMethods.Contains(EMonoMethod.LiteUpdate));
+        m_cBehavior.SetData("m_bUpdate", m_aMonoMethodFlags[(int)EMonoMethod.Update]);
+        m_cBehavior.SetData("m_bLateUpdate", m_aMonoMethodFlags[(int)EMonoMethod.LateUpdate]);
+        m_cBehavior.SetData("m_bFixedUpdate", m_aMonoMethodFlags[(int)EMonoMethod.FixedUpdate]);
+        m_cBehavior.SetData("m_bLiteUpdate", m_aMonoMethodFlags[(int)EMonoMethod.LiteUpdate]);
 
         // To set custom parameters need to be passed to lua.
         OnSetCustomParameters();
@@ -99,7 +112,7 @@ public class YwLuaMonoBehaviour : YwLuaMonoBehaviourBase
 	// Use this for initialization.
 	void Start()
     {
-	    if (!m_bReady || !m_monoMethods.Contains(EMonoMethod.Start))
+	    if (!m_bReady || !m_aMonoMethodFlags[(int)EMonoMethod.Start])
         {
             return;
         }
@@ -119,7 +132,7 @@ public class YwLuaMonoBehaviour : YwLuaMonoBehaviourBase
         m_cBehavior.CallMethod(ref m_cOnEnableBase, LUA_FUNC_NAME_ON_ENABLE_BASE, m_cBehavior.GetChunk());
 
         // Call enable.
-        if (m_monoMethods.Contains(EMonoMethod.OnEnable))
+        if (m_aMonoMethodFlags[(int)EMonoMethod.OnEnable])
         {
             m_cBehavior.OnEnable();
         }
@@ -137,7 +150,7 @@ public class YwLuaMonoBehaviour : YwLuaMonoBehaviourBase
         m_cBehavior.CallMethod(ref m_cOnDisableBase, LUA_FUNC_NAME_ON_DISENABLE_BASE, m_cBehavior.GetChunk());
 
         // Call disable.
-        if (m_monoMethods.Contains(EMonoMethod.OnDisable))
+        if (m_aMonoMethodFlags[(int)EMonoMethod.OnDisable])
         {
             m_cBehavior.OnDisable();
         }
@@ -156,7 +169,7 @@ public class YwLuaMonoBehaviour : YwLuaMonoBehaviourBase
         m_cBehavior.CallMethod(ref cOnDestroyBase, "OnDestroyBase", m_cBehavior.GetChunk());
 
         // Call on destroy.
-        if (m_monoMethods.Contains(EMonoMethod.OnDestroy))
+        if (m_aMonoMethodFlags[(int)EMonoMethod.OnDestroy])
         {
             m_cBehavior.OnDestroy();
         }
@@ -165,7 +178,7 @@ public class YwLuaMonoBehaviour : YwLuaMonoBehaviourBase
     // OnTriggerEnter is called when the Collider other enters the trigger.
     void OnTriggerEnter(Collider cOther)
     {
-        if (!m_bReady || !m_monoMethods.Contains(EMonoMethod.OnTriggerEnter))
+        if (!m_bReady || !m_aMonoMethodFlags[(int)EMonoMethod.OnTriggerEnter])
         {
             return;
         }
@@ -176,7 +189,7 @@ public class YwLuaMonoBehaviour : YwLuaMonoBehaviourBase
     // Sent when another object enters a trigger collider attached to this object (2D physics only).
     void OnTriggerEnter2D(Collider2D cOther)
     {
-        if (!m_bReady || !m_monoMethods.Contains(EMonoMethod.OnTriggerEnter2D))
+        if (!m_bReady || !m_aMonoMethodFlags[(int)EMonoMethod.OnTriggerEnter2D])
         {
             return;
         }
@@ -187,7 +200,7 @@ public class YwLuaMonoBehaviour : YwLuaMonoBehaviourBase
     // OnTriggerExit is called when the Collider other has stopped touching the trigger.
     void OnTriggerExit(Collider cOther)
     {
-        if (!m_bReady || !m_monoMethods.Contains(EMonoMethod.OnTriggerExit))
+        if (!m_bReady || !m_aMonoMethodFlags[(int)EMonoMethod.OnTriggerExit])
         {
             return;
         }
@@ -198,7 +211,7 @@ public class YwLuaMonoBehaviour : YwLuaMonoBehaviourBase
     // Sent when another object leaves a trigger collider attached to this object (2D physics only).
     void OnTriggerExit2D(Collider2D cOther)
     {
-        if (!m_bReady || !m_monoMethods.Contains(EMonoMethod.OnTriggerExit2D))
+        if (!m_bReady || !m_aMonoMethodFlags[(int)EMonoMethod.OnTriggerExit2D])
         {
             return;
         }
@@ -209,7 +222,7 @@ public class YwLuaMonoBehaviour : YwLuaMonoBehaviourBase
     // OnCollisionEnter is called when this collider/rigidbody has begun touching another rigidbody/collider.
     void OnCollisionEnter(Collision cCollision)
     {
-        if (!m_bReady || !m_monoMethods.Contains(EMonoMethod.OnCollisionEnter))
+        if (!m_bReady || !m_aMonoMethodFlags[(int)EMonoMethod.OnCollisionEnter])
         {
             return;
         }
@@ -220,7 +233,7 @@ public class YwLuaMonoBehaviour : YwLuaMonoBehaviourBase
     // Sent when an incoming collider makes contact with this object's collider (2D physics only).
     void OnCollisionEnter2D(Collision2D cCollision)
     {
-        if (!m_bReady || !m_monoMethods.Contains(EMonoMethod.OnCollisionEnter2D))
+        if (!m_bReady || !m_aMonoMethodFlags[(int)EMonoMethod.OnCollisionEnter2D])
         {
             return;
         }
@@ -231,7 +244,7 @@ public class YwLuaMonoBehaviour : YwLuaMonoBehaviourBase
     // OnCollisionExit is called when this collider/rigidbody has stopped touching another rigidbody/collider.
     void OnCollisionExit(Collision cCollision)
     {
-        if (!m_bReady || !m_monoMethods.Contains(EMonoMethod.OnCollisionExit))
+        if (!m_bReady || !m_aMonoMethodFlags[(int)EMonoMethod.OnCollisionExit])
         {
             return;
         }
@@ -242,7 +255,7 @@ public class YwLuaMonoBehaviour : YwLuaMonoBehaviourBase
     // Sent when a collider on another object stops touching this object's collider (2D physics only).
     void OnCollisionExit2D(Collision2D cCollision)
     {
-        if (!m_bReady || !m_monoMethods.Contains(EMonoMethod.OnCollisionExit2D))
+        if (!m_bReady || !m_aMonoMethodFlags[(int)EMonoMethod.OnCollisionExit2D])
         {
             return;
         }
