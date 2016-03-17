@@ -20,4 +20,7 @@ public class YwLuaMonoDataBridge : MonoBehaviour
 
     // The float data array.
     public float[] m_floats = null;
+
+    // The string data array.
+    public string[] m_strings = null;
 }

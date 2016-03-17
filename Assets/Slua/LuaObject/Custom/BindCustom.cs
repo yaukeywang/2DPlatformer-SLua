@@ -5,7 +5,6 @@ namespace SLua {
 	public class BindCustom {
 		public static Action<IntPtr>[] GetBindList() {
 			Action<IntPtr>[] list= {
-				Lua_YwDebug.reg,
 				Lua_Bomb.reg,
 				Lua_Enemy.reg,
 				Lua_Gun.reg,
@@ -29,6 +28,7 @@ namespace SLua {
 				Lua_UnityEngine_GUIElement.reg,
 				Lua_UnityEngine_GUIText.reg,
 				Lua_UnityEngine_GUITexture.reg,
+				Lua_YwDebug.reg,
 				Lua_YwLuaMonoDataBridge.reg,
 			};
 			return list;
