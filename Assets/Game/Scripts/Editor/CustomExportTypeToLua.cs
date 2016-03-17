@@ -36,6 +36,7 @@ public class CustomExportTypeToLua : ICustomExportPost
         cAdd(typeof(YwDebug), null);
         cAdd(typeof(YwLuaMonoBehaviourBase), null);
         cAdd(typeof(YwLuaMonoDataBridge), null);
+        cAdd(typeof(LgLuaMonoDataBridge), null);
     }
 
     /**

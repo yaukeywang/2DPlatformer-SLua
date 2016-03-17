@@ -54,7 +54,7 @@ function LgScore:Awake()
 
     -- Setting up the reference.
     self.m_cLgScoreTxt = self.gameObject:GetComponent(GUIText)
-	self.m_cPlayerControl = GameObject.FindGameObjectWithTag("Player"):GetComponent(PlayerControl);
+	self.m_cPlayerControl = GameObject.FindGameObjectWithTag("Player"):GetComponent(YwLuaMonoBehaviourBase):GetLuaTable().m_cPlayerCtrl
 end
 
 -- Update.
@@ -64,7 +64,8 @@ function LgScore:Update()
     local this = self.this
 
     -- Check if player control is valid (Maybe player shoot enemies after dead).
-    if Slua.IsNull(self.m_cPlayerControl) then
+    local cPlayerControl = self:GetPlayerControl()
+    if (not cPlayerControl) or Slua.IsNull(self.m_cPlayerControl) then
         return
     end
 
@@ -78,6 +79,16 @@ function LgScore:Update()
 
     -- Set the previous score to this frame's score.
     self.m_nPreviousLgScore = this.m_score
+end
+
+-- Get player control.
+function LgScore:GetPlayerControl()
+    --print("LgScore:GetPlayerHealth")
+    if (not self.m_cPlayerControl) or Slua.IsNull(self.m_cPlayerControl) then
+        self.m_cPlayerControl = GameObject.FindGameObjectWithTag("Player"):GetComponent(YwLuaMonoBehaviourBase):GetLuaTable().m_cPlayerCtrl
+    end
+
+    return self.m_cPlayerControl
 end
 
 -- Return this class.

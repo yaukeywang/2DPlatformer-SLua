@@ -50,7 +50,7 @@ function LgPickupSpawner:Awake()
     self.m_bDestroy = false
 
     -- Setting up the reference.
-    self.m_cPlayerHealth = GameObject.FindGameObjectWithTag("Player"):GetComponent(PlayerHealth);
+    self.m_cPlayerHealth = GameObject.FindGameObjectWithTag("Player"):GetComponent(YwLuaMonoBehaviourBase):GetLuaTable().m_cPlayerHealth
 end
 
 -- Start method.
@@ -71,8 +71,11 @@ end
 function LgPickupSpawner:DeliverPickup()
     --print("LgPickupSpawner:DeliverPickup")
 
+    -- Get player health.
+    local cPlayerHealth = self:GetPlayerHealth()
+
     -- Check if this object is destroyed.
-    if self.m_bDestroy or Slua.IsNull(self.m_cPlayerHealth) then
+    if self.m_bDestroy or (not cPlayerHealth) or Slua.IsNull(cPlayerHealth) then
         return
     end
 
@@ -84,8 +87,11 @@ function LgPickupSpawner:DeliverPickup()
         -- Wait for the delivery delay.
         Yield(WaitForSeconds(this.m_pickupDeliveryTime))
 
+        -- Get player health.
+        local cPlayerHealth = self:GetPlayerHealth()
+
         -- Check if this object is destroyed.
-        if self.m_bDestroy or Slua.IsNull(self.m_cPlayerHealth) then
+        if self.m_bDestroy or (not cPlayerHealth) or Slua.IsNull(cPlayerHealth) then
             return
         end
 
@@ -97,10 +103,10 @@ function LgPickupSpawner:DeliverPickup()
 
         -- Check player health.
         -- If the player's health is above the high threshold...
-        if self.m_cPlayerHealth.m_health >= this.m_highHealthThreshold then
+        if self.m_cPlayerHealth.m_fHealth >= this.m_highHealthThreshold then
             -- ... instantiate a bomb pickup at the drop position.
             GameObject.Instantiate(this.m_pickups[1], vDropPos, Quaternion.identity)
-        elseif self.m_cPlayerHealth.m_health <= this.m_lowHealthThreshold then
+        elseif self.m_cPlayerHealth.m_fHealth <= this.m_lowHealthThreshold then
             -- ... instantiate a health pickup at the drop position.
             GameObject.Instantiate(this.m_pickups[2], vDropPos, Quaternion.identity)
         else
@@ -113,6 +119,16 @@ function LgPickupSpawner:DeliverPickup()
 
     -- Resume the coroutine.
     coroutine.resume(cCol)
+end
+
+-- Get player health.
+function LgPickupSpawner:GetPlayerHealth()
+    --print("LgPickupSpawner:GetPlayerHealth")
+    if (not self.m_cPlayerHealth) and (not self.m_bDestroy) then
+        self.m_cPlayerHealth = GameObject.FindGameObjectWithTag("Player"):GetComponent(YwLuaMonoBehaviourBase):GetLuaTable().m_cPlayerHealth
+    end
+
+    return self.m_cPlayerHealth
 end
 
 -- Return this class.

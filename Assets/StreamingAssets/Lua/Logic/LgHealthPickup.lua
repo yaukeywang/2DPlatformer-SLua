@@ -63,15 +63,15 @@ function LgHealthPickup:OnTriggerEnter2D(cOtherCollider2D)
     -- If the player enters the trigger zone...
     if "Player" == cOtherCollider2D.tag then
         -- Get a reference to the player health script.
-        local cPlayerHealth = cOtherCollider2D:GetComponent(PlayerHealth)
+        local cPlayerHealth = cOtherCollider2D:GetComponent(YwLuaMonoBehaviourBase):GetLuaTable().m_cPlayerHealth
 
         -- Increasse the player's health by the health bonus but clamp it at 100.
-        cPlayerHealth.m_health = cPlayerHealth.m_health + this.m_healthBonus
+        cPlayerHealth.m_fHealth = cPlayerHealth.m_fHealth + this.m_healthBonus
         --cPlayerHealth.health = Mathf.Clamp(cPlayerHealth.health, 0.0, 100.0) -- Match type error.
-        if cPlayerHealth.m_health < 0.0 then
-            cPlayerHealth.m_health = 0.0
-        elseif cPlayerHealth.m_health > 100.0 then
-            cPlayerHealth.m_health = 100.0
+        if cPlayerHealth.m_fHealth < 0.0 then
+            cPlayerHealth.m_fHealth = 0.0
+        elseif cPlayerHealth.m_fHealth > 100.0 then
+            cPlayerHealth.m_fHealth = 100.0
         end
 
         -- Update the health bar.

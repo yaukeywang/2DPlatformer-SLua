@@ -63,8 +63,8 @@ function LgBombPickup:OnTriggerEnter2D(cOtherCollider2D)
         AudioSource.PlayClipAtPoint(self.m_cPickupClip, self.transform.position)
 
         -- Increase the number of bombs the player has.
-        local cLayBombs = cOtherCollider2D:GetComponent(LayBombs)
-        cLayBombs.m_bombCount = cLayBombs.m_bombCount + 1
+        local cLayBombs = cOtherCollider2D:GetComponent(YwLuaMonoBehaviourBase):GetLuaTable().m_cLayBombs
+        cLayBombs.m_nBombCount = cLayBombs.m_nBombCount + 1
 
         -- Destroy the crate.
         GameObject.Destroy(self.transform.root.gameObject)

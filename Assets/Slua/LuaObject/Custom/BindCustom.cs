@@ -7,11 +7,7 @@ namespace SLua {
 			Action<IntPtr>[] list= {
 				Lua_Bomb.reg,
 				Lua_Enemy.reg,
-				Lua_Gun.reg,
-				Lua_LayBombs.reg,
 				Lua_PickupSpawner.reg,
-				Lua_PlayerControl.reg,
-				Lua_PlayerHealth.reg,
 				Lua_Score.reg,
 				Lua_Custom.reg,
 				Lua_Deleg.reg,
@@ -31,6 +27,7 @@ namespace SLua {
 				Lua_YwDebug.reg,
 				Lua_YwLuaMonoBehaviourBase.reg,
 				Lua_YwLuaMonoDataBridge.reg,
+				Lua_LgLuaMonoDataBridge.reg,
 			};
 			return list;
 		}

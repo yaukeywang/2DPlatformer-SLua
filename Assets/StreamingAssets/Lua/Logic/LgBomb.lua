@@ -33,17 +33,17 @@ LgBomb.gameObject = false
 -- Public.
 
 -- Prefab of explosion effect.
-LgBomb.m_cExplosion = false
+LgBomb.m_cExplosion = nil
 
 -- Private.
 -- Reference to the player's LayBombs script.
-LgBomb.m_cLayBombs = false
+LgBomb.m_cLayBombs = nil
 
 -- Reference to the PickupSpawner script.
-LgBomb.m_cPickupSpawner = false
+LgBomb.m_cPickupSpawner = nil
 
 -- Reference to the particle system of the explosion effect.
-LgBomb.m_cExplosionFx = false
+LgBomb.m_cExplosionFx = nil
 
 -- Awake method.
 function LgBomb:Awake()
@@ -58,7 +58,7 @@ function LgBomb:Awake()
     self.m_cExplosionFx = GameObject.FindGameObjectWithTag("ExplosionFX"):GetComponent(ParticleSystem)
     self.m_cPickupSpawner = GameObject.Find("pickupManager"):GetComponent(PickupSpawner)
     if GameObject.FindGameObjectWithTag("Player") then
-        self.m_cLayBombs = GameObject.FindGameObjectWithTag("Player"):GetComponent(LayBombs)
+        self.m_cLayBombs = GameObject.FindGameObjectWithTag("Player"):GetComponent(YwLuaMonoBehaviourBase):GetLuaTable().m_cLayBombs
     end
 end
 
@@ -79,7 +79,7 @@ function LgBomb:Explode()
     local this = self.this
 
     -- The player is now free to lay bombs when he has them.
-    self.m_cLayBombs.BombLaid = false
+    self.m_cLayBombs.m_bBombLaid = false
 
     -- Make the pickup spawner start to deliver a new pickup.
     self.m_cPickupSpawner:DeliverPickup()
