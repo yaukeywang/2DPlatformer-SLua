@@ -7,7 +7,6 @@ namespace SLua {
 			Action<IntPtr>[] list= {
 				Lua_YwDebug.reg,
 				Lua_Bomb.reg,
-				Lua_CameraFollow.reg,
 				Lua_Enemy.reg,
 				Lua_Gun.reg,
 				Lua_LayBombs.reg,
