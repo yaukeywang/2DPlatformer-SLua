@@ -17,20 +17,9 @@ local DLogError = YwDebug.LogError
 
 -- Register new class LgBackgroundPropSpawner.
 local strClassName = "LgBackgroundPropSpawner"
-local LgBackgroundPropSpawner = YwDeclare(strClassName, YwClass(strClassName))
+local LgBackgroundPropSpawner = YwDeclare(strClassName, YwClass(strClassName, YwMonoBehaviour))
 
 -- Member variables.
-
--- The c# class object.
-LgBackgroundPropSpawner.this = false
-
--- The transform.
-LgBackgroundPropSpawner.transform = false
-
--- The c# gameObject.
-LgBackgroundPropSpawner.gameObject = false
-
--- Public.
 
 -- The prop to be instantiated.
 LgBackgroundPropSpawner.m_cBackgroundProp = false
@@ -76,6 +65,22 @@ function LgBackgroundPropSpawner:Awake()
 
     -- Init the destroy flag.
     self.m_bDestroy = false
+
+    -- Init component.
+    -- Get rigid body 2d.
+    self.m_cBackgroundProp = self.m_aParameters[1]
+
+    -- Get data bridge.
+    local cDataBridge = self.gameObject:GetComponent(YwLuaMonoDataBridge)
+    local aFloatArray = cDataBridge.m_floats
+    self.m_fLeftSpawnPosX = aFloatArray[1]
+    self.m_fRightSpawnPosX = aFloatArray[2]
+    self.m_fMinSpawnPosY = aFloatArray[3]
+    self.m_fMaxSpawnPosY = aFloatArray[4]
+    self.m_fMinTimeBetweenSpawns = aFloatArray[5]
+    self.m_fMaxTimeBetweenSpawns = aFloatArray[6]
+    self.m_fMinSpeed = aFloatArray[7]
+    self.m_fMaxSpeed = aFloatArray[8]
 end
 
 -- Start method.
@@ -131,7 +136,8 @@ function LgBackgroundPropSpawner:Spawn()
         local vSpawnPos = Vector3(fPosX, fPosY, self.transform.position.z)
 
         -- Instantiate the prop at the desired position.
-        local cPropInstance = GameObject.Instantiate(self.m_cBackgroundProp, vSpawnPos, Quaternion.identity)
+        local cPropObject = GameObject.Instantiate(self.m_cBackgroundProp, vSpawnPos, Quaternion.identity)
+        local cPropInstance = cPropObject:GetComponent(Rigidbody2D)
 
         -- The sprites for the props all face left.  Therefore, if the prop should be facing right...
         if not bFacingLeft then

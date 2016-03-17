@@ -33,6 +33,8 @@ public class CustomExportTypeToLua : ICustomExportPost
         cAdd(typeof(GUIElement), null);
         cAdd(typeof(GUIText), null);
         cAdd(typeof(GUITexture), null);
+        cAdd(typeof(YwDebug), null);
+        cAdd(typeof(YwLuaMonoDataBridge), null);
     }
 
     /**
