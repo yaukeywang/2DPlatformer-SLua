@@ -8,9 +8,6 @@
 -- @date      2015-09-01
 --
 
-local YwDeclare = YwDeclare
-local YwClass = YwClass
-
 local DLog = YwDebug.Log
 local DLogWarn = YwDebug.LogWarning
 local DLogError = YwDebug.LogError
@@ -21,7 +18,7 @@ local KeyCode = KeyCode
 
 -- Register new class LgPauser.
 local strClassName = "LgPauser"
-local LgPauser = YwDeclare(strClassName, YwClass(strClassName))
+local LgPauser = YwDeclare(strClassName, YwClass(strClassName, YwMonoBehaviour))
 
 -- Member variables.
 
