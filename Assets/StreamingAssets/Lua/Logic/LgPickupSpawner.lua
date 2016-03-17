@@ -50,7 +50,7 @@ function LgPickupSpawner:Awake()
     self.m_bDestroy = false
 
     -- Setting up the reference.
-    self.m_cPlayerHealth = GameObject.FindGameObjectWithTag("Player"):GetComponent(YwLuaMonoBehaviourBase):GetLuaTable().m_cPlayerHealth
+    self.m_cPlayerHealth = GameObject.FindGameObjectWithTag("Player"):GetComponent(YwLuaMonoBehaviour):GetLuaTable().m_cPlayerHealth
 end
 
 -- Start method.
@@ -125,7 +125,7 @@ end
 function LgPickupSpawner:GetPlayerHealth()
     --print("LgPickupSpawner:GetPlayerHealth")
     if (not self.m_cPlayerHealth) and (not self.m_bDestroy) then
-        self.m_cPlayerHealth = GameObject.FindGameObjectWithTag("Player"):GetComponent(YwLuaMonoBehaviourBase):GetLuaTable().m_cPlayerHealth
+        self.m_cPlayerHealth = GameObject.FindGameObjectWithTag("Player"):GetComponent(YwLuaMonoBehaviour):GetLuaTable().m_cPlayerHealth
     end
 
     return self.m_cPlayerHealth

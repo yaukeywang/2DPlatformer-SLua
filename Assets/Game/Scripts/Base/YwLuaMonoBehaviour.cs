@@ -269,7 +269,7 @@ public class YwLuaMonoBehaviour : YwLuaMonoBehaviourBase
      * @param void.
      * @return void.
      */
-    public virtual void OnSetCustomParameters()
+    protected virtual void OnSetCustomParameters()
     {
     }
 }

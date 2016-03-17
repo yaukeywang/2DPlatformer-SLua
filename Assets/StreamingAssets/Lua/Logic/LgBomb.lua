@@ -58,7 +58,7 @@ function LgBomb:Awake()
     self.m_cExplosionFx = GameObject.FindGameObjectWithTag("ExplosionFX"):GetComponent(ParticleSystem)
     self.m_cPickupSpawner = GameObject.Find("pickupManager"):GetComponent(PickupSpawner)
     if GameObject.FindGameObjectWithTag("Player") then
-        self.m_cLayBombs = GameObject.FindGameObjectWithTag("Player"):GetComponent(YwLuaMonoBehaviourBase):GetLuaTable().m_cLayBombs
+        self.m_cLayBombs = GameObject.FindGameObjectWithTag("Player"):GetComponent(YwLuaMonoBehaviour):GetLuaTable().m_cLayBombs
     end
 end
 

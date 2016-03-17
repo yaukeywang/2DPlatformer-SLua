@@ -44,7 +44,7 @@ function LgRemover:OnTriggerEnter2D(cOtherCollider2D)
     -- If the player hits the trigger...
     if "Player" == cOtherCollider2D.gameObject.tag then
         -- .. stop the camera tracking the player
-        GameObject.FindGameObjectWithTag("MainCamera"):GetComponent(YwLuaMonoBehaviourBase).enabled = false
+        GameObject.FindGameObjectWithTag("MainCamera"):GetComponent(YwLuaMonoBehaviour).enabled = false
 
         -- .. stop the Health Bar following the player.
         local cHealthBarObj = GameObject.FindGameObjectWithTag("HealthBar")

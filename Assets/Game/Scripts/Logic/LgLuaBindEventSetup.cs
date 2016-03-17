@@ -1,7 +1,7 @@
 ﻿/**
  * The lua bind progress event setup class.
  *
- * @filename  LuaBindEventSetup.cs
+ * @filename  LgLuaBindEventSetup.cs
  * @copyright Copyright (c) 2015 Yaukey/yaukeywang/WangYaoqi (yaukeywang@gmail.com) all rights reserved.
  * @license   
  * @author    Yaukey
@@ -13,7 +13,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 // The lua bind progress event setup class.
-public class LuaBindEventSetup : MonoBehaviour
+public class LgLuaBindEventSetup : MonoBehaviour
 {
 	public Text m_luaBindProgressTips = null;
 	private Slider m_cLuaBindProgressBar = null;

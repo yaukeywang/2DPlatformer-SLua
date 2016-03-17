@@ -26,6 +26,7 @@ namespace SLua {
 				Lua_UnityEngine_GUITexture.reg,
 				Lua_YwDebug.reg,
 				Lua_YwLuaMonoBehaviourBase.reg,
+				Lua_YwLuaMonoBehaviour.reg,
 				Lua_YwLuaMonoDataBridge.reg,
 				Lua_LgLuaMonoDataBridge.reg,
 			};

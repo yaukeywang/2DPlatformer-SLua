@@ -54,7 +54,7 @@ function LgScore:Awake()
 
     -- Setting up the reference.
     self.m_cLgScoreTxt = self.gameObject:GetComponent(GUIText)
-	self.m_cPlayerControl = GameObject.FindGameObjectWithTag("Player"):GetComponent(YwLuaMonoBehaviourBase):GetLuaTable().m_cPlayerCtrl
+	self.m_cPlayerControl = GameObject.FindGameObjectWithTag("Player"):GetComponent(YwLuaMonoBehaviour):GetLuaTable().m_cPlayerCtrl
 end
 
 -- Update.
@@ -85,7 +85,7 @@ end
 function LgScore:GetPlayerControl()
     --print("LgScore:GetPlayerHealth")
     if (not self.m_cPlayerControl) or Slua.IsNull(self.m_cPlayerControl) then
-        self.m_cPlayerControl = GameObject.FindGameObjectWithTag("Player"):GetComponent(YwLuaMonoBehaviourBase):GetLuaTable().m_cPlayerCtrl
+        self.m_cPlayerControl = GameObject.FindGameObjectWithTag("Player"):GetComponent(YwLuaMonoBehaviour):GetLuaTable().m_cPlayerCtrl
     end
 
     return self.m_cPlayerControl

@@ -97,7 +97,7 @@ function LgPlayer:Start()
     aOuchClips[4] = aAudioArray[15]
 
     cPlayerHealth.m_cPlayerControl = cPlayerCtrl
-    cPlayerHealth.m_cGun = self.m_aParameters[1]:GetComponent(YwLuaMonoBehaviourBase):GetLuaTable()
+    cPlayerHealth.m_cGun = self.m_aParameters[1]:GetComponent(YwLuaMonoBehaviour):GetLuaTable()
     cPlayerHealth.m_cGun.m_cPlayerCtrl = cPlayerCtrl
 
     -- Init lay bombs.
