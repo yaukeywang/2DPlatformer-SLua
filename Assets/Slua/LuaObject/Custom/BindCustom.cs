@@ -29,6 +29,7 @@ namespace SLua {
 				Lua_UnityEngine_GUIText.reg,
 				Lua_UnityEngine_GUITexture.reg,
 				Lua_YwDebug.reg,
+				Lua_YwLuaMonoBehaviourBase.reg,
 				Lua_YwLuaMonoDataBridge.reg,
 			};
 			return list;
