@@ -8,27 +8,15 @@
 -- @date      2015-09-05
 --
 
-local YwDeclare = YwDeclare
-local YwClass = YwClass
-
 local DLog = YwDebug.Log
 local DLogWarn = YwDebug.LogWarning
 local DLogError = YwDebug.LogError
 
 -- Register new class LgBombPickup.
 local strClassName = "LgBombPickup"
-local LgBombPickup = YwDeclare(strClassName, YwClass(strClassName))
+local LgBombPickup = YwDeclare(strClassName, YwClass(strClassName, YwMonoBehaviour))
 
 -- Member variables.
-
--- The c# class object.
-LgBombPickup.this = false
-
--- The transform.
-LgBombPickup.transform = false
-
--- The c# gameObject.
-LgBombPickup.gameObject = false
 
 -- Sound for when the bomb crate is picked up.
 LgBombPickup.m_cPickupClip = false;
@@ -51,6 +39,10 @@ function LgBombPickup:Awake()
 
     -- Setting up the reference.
     self.m_cAnim = self.transform.root:GetComponent(Animator)
+
+    -- Get data bridge and set params.
+    local cDataBridge = self.gameObject:GetComponent(YwLuaMonoDataBridge)
+    self.m_cPickupClip = cDataBridge.m_audioClips[3]
 end
 
 -- OnTriggerEnter2D method.

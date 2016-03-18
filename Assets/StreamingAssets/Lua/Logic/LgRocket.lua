@@ -58,7 +58,13 @@ function LgRocket:OnTriggerEnter2D(cOtherCollider2D)
     -- Otherwise if it hits a bomb crate...
     elseif "BombPickup" == cOtherCollider2D.tag then
         -- ... find the Bomb script and call the Explode function.
-        cOtherCollider2D.gameObject:GetComponent(YwLuaMonoBehaviour):GetLuaTable():Explode()
+        local aYwMonoBeh = cOtherCollider2D.gameObject:GetComponents(YwLuaMonoBehaviour)
+        for i = 1, #aYwMonoBeh do
+            if "LgBomb" == aYwMonoBeh[i].m_className then
+                aYwMonoBeh[i]:GetLuaTable():Explode()
+                break
+            end
+        end
 
         -- Destroy the bomb crate.
         GameObject.Destroy(cOtherCollider2D.transform.root.gameObject)
