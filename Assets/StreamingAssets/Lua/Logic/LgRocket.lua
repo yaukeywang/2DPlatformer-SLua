@@ -8,30 +8,18 @@
 -- @date      2015-09-05
 --
 
-local YwDeclare = YwDeclare
-local YwClass = YwClass
-
 local DLog = YwDebug.Log
 local DLogWarn = YwDebug.LogWarning
 local DLogError = YwDebug.LogError
 
 -- Register new class LgRocket.
 local strClassName = "LgRocket"
-local LgRocket = YwDeclare(strClassName, YwClass(strClassName))
+local LgRocket = YwDeclare(strClassName, YwClass(strClassName, YwMonoBehaviour))
 
 -- Member variables.
 
--- The c# class object.
-LgRocket.this = false
-
--- The transform.
-LgRocket.transform = false
-
--- The c# gameObject.
-LgRocket.gameObject = false
-
 -- The explosion object.
-LgRocket.m_cExplosion = false
+LgRocket.m_cExplosion = nil
 
 -- Awake method.
 function LgRocket:Awake()
@@ -42,6 +30,9 @@ function LgRocket:Awake()
         DLogError("Init error in LgRocket!")
         return
     end
+
+    -- Get explosion prefab.
+    self.m_cExplosion = self.m_aParameters[1]
 end
 
 -- Start method.

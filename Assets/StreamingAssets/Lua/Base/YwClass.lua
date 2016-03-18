@@ -1,7 +1,7 @@
 --
 -- Lua class type define file.
 --
--- @filename  Class.lua
+-- @filename  YwClass.lua
 -- @copyright Copyright (c) 2015 Yaukey/yaukeywang/WangYaoqi (yaukeywang@gmail.com) all rights reserved.
 -- @license   The MIT License (MIT)
 -- @author    Yaukey
