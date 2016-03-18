@@ -8,7 +8,6 @@ namespace SLua {
 				Lua_Bomb.reg,
 				Lua_Enemy.reg,
 				Lua_PickupSpawner.reg,
-				Lua_Score.reg,
 				Lua_Custom.reg,
 				Lua_Deleg.reg,
 				Lua_foostruct.reg,

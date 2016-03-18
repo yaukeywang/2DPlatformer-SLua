@@ -63,7 +63,7 @@ function LgEnemy:Awake()
     -- Setting up the references.
     self.m_cSpriteRen = self.transform:Find("body"):GetComponent(SpriteRenderer)
     self.m_cTrsFrontCheck = self.transform:Find("frontCheck").transform
-    self.m_cScore = GameObject.Find("Score"):GetComponent(Score)
+    self.m_cScore = GameObject.Find("Score"):GetComponent(YwLuaMonoBehaviour):GetLuaTable()
 end
 
 -- Fixed update method.
@@ -119,7 +119,7 @@ function LgEnemy:Death()
     self.m_cSpriteRen.sprite = this.m_deadEnemy
 
     -- Increase the score by 100 points.
-    self.m_cScore.m_score = self.m_cScore.m_score + 100
+    self.m_cScore.m_nScore = self.m_cScore.m_nScore + 100
 
     -- Set dead to true.
     self.m_bDead = true
