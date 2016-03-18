@@ -8,9 +8,6 @@
 -- @date      2015-09-03
 --
 
-local YwDeclare = YwDeclare
-local YwClass = YwClass
-
 local DLog = YwDebug.Log
 local DLogWarn = YwDebug.LogWarning
 local DLogError = YwDebug.LogError
@@ -23,18 +20,33 @@ local Quaternion = Quaternion
 
 -- Register new class LgEnemy.
 local strClassName = "LgEnemy"
-local LgEnemy = YwDeclare(strClassName, YwClass(strClassName))
+local LgEnemy = YwDeclare(strClassName, YwClass(strClassName, YwMonoBehaviour))
 
 -- Member variables.
 
--- The c# class object.
-LgEnemy.this = false
+-- The speed the enemy moves at.
+LgEnemy.m_fMoveSpeed = 2.0
 
--- The transform.
-LgEnemy.transform = false
+-- How many times the enemy can be hit before it dies.
+LgEnemy.m_nHP = 2
 
--- The c# gameObject.
-LgEnemy.gameObject = false
+-- A value to give the minimum amount of Torque when dying.
+LgEnemy.m_fDeathSpinMin = -100.0
+
+-- A value to give the maximum amount of Torque when dying.
+LgEnemy.m_fDeathSpinMax = 100.0
+
+-- A sprite of the enemy when it's dead.
+LgEnemy.m_cDeadEnemy = nil
+
+-- An optional sprite of the enemy when it's damaged.
+LgEnemy.m_cDamagedEnemy = nil
+
+-- An array of audioclips that can play when the enemy dies.
+LgEnemy.m_aDeathClips = nil
+
+-- A prefab of 100 that appears when the enemy dies.
+LgEnemy.m_cHundredPointsUI = nil;
 
 -- Private.
 
@@ -64,13 +76,33 @@ function LgEnemy:Awake()
     self.m_cSpriteRen = self.transform:Find("body"):GetComponent(SpriteRenderer)
     self.m_cTrsFrontCheck = self.transform:Find("frontCheck").transform
     self.m_cScore = GameObject.Find("Score"):GetComponent(YwLuaMonoBehaviour):GetLuaTable()
+
+    -- Get data bridge.
+    local cDataBridge = self.gameObject:GetComponent(YwLuaMonoDataBridge)
+    local aFloatArray = cDataBridge.m_floats
+    local aSpriteArray = cDataBridge.m_sprites
+    local aAudioArray = cDataBridge.m_audioClips
+
+    -- Set params.
+    self.m_fMoveSpeed = aFloatArray[1]
+    self.m_nHP = math.tointeger(aFloatArray[2])
+    self.m_fDeathSpinMin = aFloatArray[3]
+    self.m_fDeathSpinMax = aFloatArray[4]
+
+    self.m_cDeadEnemy = aSpriteArray[1]
+    self.m_cDamagedEnemy = aSpriteArray[2]
+
+    self.m_aDeathClips = {}
+    for i = 1, #aAudioArray do
+        self.m_aDeathClips[i] = aAudioArray[i]
+    end
+
+    self.m_cHundredPointsUI = self.m_aParameters[1]
 end
 
 -- Fixed update method.
 function LgEnemy:FixedUpdate()
     --print("LgEnemy:FixedUpdate")
-
-    local this = self.this
 
     -- Create an array of all the colliders in front of the enemy.
     local aFrontHits = Physics2D.OverlapPointAll(self.m_cTrsFrontCheck.position, 1)
@@ -86,25 +118,28 @@ function LgEnemy:FixedUpdate()
     end
 
     -- Set the enemy's velocity to moveSpeed in the x direction.
-    self.gameObject:GetComponent(Rigidbody2D).velocity = Vector2(self.transform.localScale.x * this.m_moveSpeed, self.gameObject:GetComponent(Rigidbody2D).velocity.y)
+    self.gameObject:GetComponent(Rigidbody2D).velocity = Vector2(self.transform.localScale.x * self.m_fMoveSpeed, self.gameObject:GetComponent(Rigidbody2D).velocity.y)
 
     -- If the enemy has one hit point left and has a damagedEnemy sprite...
-    if (1 == this.m_HP) and (not Slua.IsNull(this.m_damagedEnemy)) then
+    if (1 == self.m_nHP) and (not Slua.IsNull(self.m_cDamagedEnemy)) then
         -- ... set the sprite renderer's sprite to be the damagedEnemy sprite.
-        self.m_cSpriteRen.sprite = this.m_damagedEnemy
+        self.m_cSpriteRen.sprite = self.m_cDamagedEnemy
     end
 
     -- If the enemy has zero or fewer hit points and isn't dead yet...
-    if (this.m_HP <= 0) and (not self.m_bDead) then
+    if (self.m_nHP <= 0) and (not self.m_bDead) then
         -- ... call the death function.
         self:Death()
     end
 end
 
+function LgEnemy:Hurt()
+    --print("LgEnemy:Hurt")
+    self.m_nHP = self.m_nHP - 1
+end
+
 function LgEnemy:Death()
     --print("LgEnemy:Death")
-
-    local this = self.this
 
     -- Find all of the sprite renderers on this object and it's children.
     local aOtherRenderers = self.gameObject:GetComponentsInChildren(SpriteRenderer)
@@ -116,7 +151,7 @@ function LgEnemy:Death()
 
     -- Re-enable the main sprite renderer and set it's sprite to the deadEnemy sprite.
     self.m_cSpriteRen.enabled = true
-    self.m_cSpriteRen.sprite = this.m_deadEnemy
+    self.m_cSpriteRen.sprite = self.m_cDeadEnemy
 
     -- Increase the score by 100 points.
     self.m_cScore.m_nScore = self.m_cScore.m_nScore + 100
@@ -127,7 +162,7 @@ function LgEnemy:Death()
     -- Allow the enemy to rotate and spin it by adding a torque.
     local cRigid2D = self.gameObject:GetComponent(Rigidbody2D)
     cRigid2D.constraints = RigidbodyConstraints2D.None
-    cRigid2D:AddTorque(this.m_deathSpinMin + math.random() * (this.m_deathSpinMax - this.m_deathSpinMin))
+    cRigid2D:AddTorque(self.m_fDeathSpinMin + math.random() * (self.m_fDeathSpinMax - self.m_fDeathSpinMin))
 
     -- Find all of the colliders on the gameobject and set them all to be triggers.
     local aColls = self.gameObject:GetComponents(Collider2D)
@@ -136,15 +171,15 @@ function LgEnemy:Death()
     end
 
     -- Play a random audioclip from the deathClips array.
-    local nIdx = math.random(1, #this.m_deathClips)
-    AudioSource.PlayClipAtPoint(this.m_deathClips[nIdx], self.transform.position)
+    local nIdx = math.random(1, #self.m_aDeathClips)
+    AudioSource.PlayClipAtPoint(self.m_aDeathClips[nIdx], self.transform.position)
 
     -- Create a vector that is just above the enemy.
     local vScorePos = self.transform.position
     vScorePos.y = vScorePos.y + 1.5
 
     -- Instantiate the 100 points prefab at this point.
-    GameObject.Instantiate(this.m_hundredPointsUI, vScorePos, Quaternion.identity)
+    GameObject.Instantiate(self.m_cHundredPointsUI, vScorePos, Quaternion.identity)
 end
 
 function LgEnemy:Flip()

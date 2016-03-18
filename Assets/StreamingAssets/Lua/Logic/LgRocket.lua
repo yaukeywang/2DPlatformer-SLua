@@ -48,7 +48,7 @@ function LgRocket:OnTriggerEnter2D(cOtherCollider2D)
     -- If it hits an enemy...
     if "Enemy" == cOtherCollider2D.tag then
         -- ... find the Enemy script and call the Hurt function.
-        cOtherCollider2D.gameObject:GetComponent(Enemy):Hurt()
+        cOtherCollider2D.gameObject:GetComponent(YwLuaMonoBehaviour):GetLuaTable():Hurt()
 
         -- Call the explosion instantiation.
         self:OnExplode()
@@ -58,7 +58,7 @@ function LgRocket:OnTriggerEnter2D(cOtherCollider2D)
     -- Otherwise if it hits a bomb crate...
     elseif "BombPickup" == cOtherCollider2D.tag then
         -- ... find the Bomb script and call the Explode function.
-        cOtherCollider2D.gameObject:GetComponent(Bomb):Explode()
+        cOtherCollider2D.gameObject:GetComponent(YwLuaMonoBehaviour):GetLuaTable():Explode()
 
         -- Destroy the bomb crate.
         GameObject.Destroy(cOtherCollider2D.transform.root.gameObject)

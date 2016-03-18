@@ -14,6 +14,9 @@ using System.Collections;
 // The lua mono data bridge class.
 public class LgLuaMonoDataBridge : YwLuaMonoDataBridge
 {
+    // The sprite data array.
+    public Sprite[] m_sprites = null;
+
     // The audio source data array.
     public AudioClip[] m_audioClips = null;
 }

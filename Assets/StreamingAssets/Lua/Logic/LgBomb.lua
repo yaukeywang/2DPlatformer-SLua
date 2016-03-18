@@ -108,7 +108,7 @@ function LgBomb:Explode()
         local cRb = aEnemies[i]:GetComponent(Rigidbody2D)
         if cRb and ("Enemy" == cRb.tag) then
             -- Find the Enemy script and set the enemy's health to zero.
-            cRb.gameObject:GetComponent(Enemy).m_HP = 0
+            cRb.gameObject:GetComponent(YwLuaMonoBehaviour):GetLuaTable().m_nHP = 0
 
             -- Find a vector from the bomb to the enemy.
             local vDeltaPos = cRb.transform.position - self.transform.position

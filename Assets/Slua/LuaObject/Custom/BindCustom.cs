@@ -5,7 +5,6 @@ namespace SLua {
 	public class BindCustom {
 		public static Action<IntPtr>[] GetBindList() {
 			Action<IntPtr>[] list= {
-				Lua_Enemy.reg,
 				Lua_PickupSpawner.reg,
 				Lua_Custom.reg,
 				Lua_Deleg.reg,
