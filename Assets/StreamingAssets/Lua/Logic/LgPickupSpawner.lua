@@ -8,30 +8,36 @@
 -- @date      2015-09-07
 --
 
-local YwDeclare = YwDeclare
-local YwClass = YwClass
-
 local DLog = YwDebug.Log
 local DLogWarn = YwDebug.LogWarning
 local DLogError = YwDebug.LogError
 
 -- Register new class LgPickupSpawner.
 local strClassName = "LgPickupSpawner"
-local LgPickupSpawner = YwDeclare(strClassName, YwClass(strClassName))
+local LgPickupSpawner = YwDeclare(strClassName, YwClass(strClassName, YwMonoBehaviour))
 
 -- Member variables.
 
--- The c# class object.
-LgPickupSpawner.this = false
+-- Array of pickup prefabs with the bomb pickup first and health second.
+LgPickupSpawner.m_aPickups = nil
 
--- The transform.
-LgPickupSpawner.transform = false
+-- Delay on delivery.
+LgPickupSpawner.m_fPickupDeliveryTime = 5.0
 
--- The c# gameObject.
-LgPickupSpawner.gameObject = false
+-- Smallest value of x in world coordinates the delivery can happen at.
+LgPickupSpawner.m_fDropRangeLeft = 0.0
+
+-- Largest value of x in world coordinates the delivery can happen at.
+LgPickupSpawner.m_fDropRangeRight = 0.0
+
+-- The health of the player, above which only bomb crates will be delivered.
+LgPickupSpawner.m_fHighHealthThreshold = 75.0
+
+-- The health of the player, below which only health crates will be delivered.
+LgPickupSpawner.m_fLowHealthThreshold = 25.0
 
 -- Reference to the PlayerHealth script.
-LgPickupSpawner.m_cPlayerHealth = false
+LgPickupSpawner.m_cPlayerHealth = nil
 
 -- The destroy flag.
 LgPickupSpawner.m_bDestroy = false
@@ -51,6 +57,23 @@ function LgPickupSpawner:Awake()
 
     -- Setting up the reference.
     self.m_cPlayerHealth = GameObject.FindGameObjectWithTag("Player"):GetComponent(YwLuaMonoBehaviour):GetLuaTable().m_cPlayerHealth
+
+    -- Set pickup prefabs.
+    self.m_aPickups = {}
+    for i = 1, #self.m_aParameters do
+        self.m_aPickups[i] = self.m_aParameters[i]
+    end
+
+    -- Get data bridge.
+    local cDataBridge = self.gameObject:GetComponent(YwLuaMonoDataBridge)
+    local aFloatArray = cDataBridge.m_floats
+
+    -- Set params.
+    self.m_fPickupDeliveryTime = aFloatArray[1]
+    self.m_fDropRangeLeft = aFloatArray[2]
+    self.m_fDropRangeRight = aFloatArray[3]
+    self.m_fHighHealthThreshold = aFloatArray[4]
+    self.m_fLowHealthThreshold = aFloatArray[5]
 end
 
 -- Start method.
@@ -79,13 +102,10 @@ function LgPickupSpawner:DeliverPickup()
         return
     end
 
-    -- Temp local
-    local this = self.this
-
     -- Create coroutine.
     local cCol = coroutine.create(function ()
         -- Wait for the delivery delay.
-        Yield(WaitForSeconds(this.m_pickupDeliveryTime))
+        Yield(WaitForSeconds(self.m_fPickupDeliveryTime))
 
         -- Get player health.
         local cPlayerHealth = self:GetPlayerHealth()
@@ -96,24 +116,24 @@ function LgPickupSpawner:DeliverPickup()
         end
 
         -- Create a random x coordinate for the delivery in the drop range.
-        local fDropPosX = Random.Range(this.m_dropRangeLeft, this.m_dropRangeRight)
+        local fDropPosX = Random.Range(self.m_fDropRangeLeft, self.m_fDropRangeRight)
 
         -- Create a position with the random x coordinate.
         local vDropPos = Vector3(fDropPosX, 15.0, 1.0)
 
         -- Check player health.
         -- If the player's health is above the high threshold...
-        if self.m_cPlayerHealth.m_fHealth >= this.m_highHealthThreshold then
+        if self.m_cPlayerHealth.m_fHealth >= self.m_fHighHealthThreshold then
             -- ... instantiate a bomb pickup at the drop position.
-            GameObject.Instantiate(this.m_pickups[1], vDropPos, Quaternion.identity)
-        elseif self.m_cPlayerHealth.m_fHealth <= this.m_lowHealthThreshold then
+            GameObject.Instantiate(self.m_aPickups[1], vDropPos, Quaternion.identity)
+        elseif self.m_cPlayerHealth.m_fHealth <= self.m_fLowHealthThreshold then
             -- ... instantiate a health pickup at the drop position.
-            GameObject.Instantiate(this.m_pickups[2], vDropPos, Quaternion.identity)
+            GameObject.Instantiate(self.m_aPickups[2], vDropPos, Quaternion.identity)
         else
             -- Otherwise...
             -- ... instantiate a random pickup at the drop position.
-            local nPickupIndex = Random.Range(1, #this.m_pickups)
-            GameObject.Instantiate(this.m_pickups[nPickupIndex], vDropPos, Quaternion.identity)
+            local nPickupIndex = Random.Range(1, #self.m_aPickups + 1)
+            GameObject.Instantiate(self.m_aPickups[nPickupIndex], vDropPos, Quaternion.identity)
         end
     end)
 

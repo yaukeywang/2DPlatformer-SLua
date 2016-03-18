@@ -44,7 +44,7 @@ function LgHealthPickup:Awake()
     end
 
     -- Setting up the references.
-    self.m_cPickupSpawner = GameObject.Find("pickupManager"):GetComponent(PickupSpawner)
+    self.m_cPickupSpawner = GameObject.Find("pickupManager"):GetComponent(YwLuaMonoBehaviour):GetLuaTable()
     self.m_cAnim = self.transform.root:GetComponent(Animator)
 
     -- Get data bridge and set params.
