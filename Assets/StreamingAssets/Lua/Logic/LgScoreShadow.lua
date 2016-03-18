@@ -8,27 +8,15 @@
 -- @date      2015-09-01
 --
 
-local YwDeclare = YwDeclare
-local YwClass = YwClass
-
 local DLog = YwDebug.Log
 local DLogWarn = YwDebug.LogWarning
 local DLogError = YwDebug.LogError
 
 -- Register new class LgScoreShadow.
 local strClassName = "LgScoreShadow"
-local LgScoreShadow = YwDeclare(strClassName, YwClass(strClassName))
+local LgScoreShadow = YwDeclare(strClassName, YwClass(strClassName, YwMonoBehaviour))
 
 -- Member variables.
-
--- The c# class object.
-LgScoreShadow.this = false
-
--- The transform.
-LgScoreShadow.transform = false
-
--- The c# gameObject.
-LgScoreShadow.gameObject = false
 
 -- The gui copy object.
 LgScoreShadow.m_cGuiCopy = false
@@ -44,10 +32,13 @@ function LgScoreShadow:Awake()
     --print("LgScoreShadow:Awake")
 
     -- Check variable.
-    if (not self.this) or (not self.transform) or (not self.gameObject) or (not self.m_cGuiCopy) then
+    if (not self.this) or (not self.transform) or (not self.gameObject) then
         DLogError("Init error in LgScoreShadow!")
         return
     end
+
+    -- Get gui copy.
+    self.m_cGuiCopy = self.m_aParameters[1]
 
     -- Setting up the reference.
     self.m_cScoreTxt = self.gameObject:GetComponent(GUIText)
