@@ -277,9 +277,9 @@ namespace SLua
             // Add custom namespaces.
             object[] aCustomExport = null;
             List<object> aCustomNs = LuaCodeGen.InvokeEditorMethod<ICustomExportPost>("OnAddCustomNamespace", ref aCustomExport);
-            if (null != aCustomNs[0])
+            foreach (object cNsSet in aCustomNs)
             {
-                foreach (string strNs in (HashSet<string>)aCustomNs[0])
+                foreach (string strNs in (HashSet<string>)cNsSet)
                 {
                     namespaces.Add(strNs);
                 }
