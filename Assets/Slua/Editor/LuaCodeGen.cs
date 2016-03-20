@@ -128,7 +128,7 @@ namespace SLua
 
             aCustomExport[0] = null;
             InvokeEditorMethod<ICustomExportPost>("OnGetNoUseList", ref aCustomExport);
-            if ((null != noUseList) && (null != aCustomExport[0]))
+            if (null != aCustomExport[0])
             {
                 if ((null != noUseList))
                 {
@@ -206,7 +206,7 @@ namespace SLua
 
             aCustomExport[0] = null;
             InvokeEditorMethod<ICustomExportPost>("OnGetNoUseList", ref aCustomExport);
-            if ((null != noUseList) && (null != aCustomExport[0]))
+            if (null != aCustomExport[0])
             {
                 if ((null != noUseList))
                 {
