@@ -8,33 +8,27 @@
 -- @date      2015-09-07
 --
 
-local YwDeclare = YwDeclare
-local YwClass = YwClass
-
 local DLog = YwDebug.Log
 local DLogWarn = YwDebug.LogWarning
 local DLogError = YwDebug.LogError
 
 -- Register new class LgHealthPickup.
 local strClassName = "LgHealthPickup"
-local LgHealthPickup = YwDeclare(strClassName, YwClass(strClassName))
+local LgHealthPickup = YwDeclare(strClassName, YwClass(strClassName, YwMonoBehaviour))
 
 -- Member variables.
 
--- The c# class object.
-LgHealthPickup.this = false
+-- How much health the crate gives the player.
+LgHealthPickup.m_fHealthBonus = 0.0
 
--- The transform.
-LgHealthPickup.transform = false
-
--- The c# gameObject.
-LgHealthPickup.gameObject = false
+-- The sound of the crate being collected.
+LgHealthPickup.m_cCollectClip = nil
 
 -- Reference to the pickup spawner.
-LgHealthPickup.m_cPickupSpawner = false
+LgHealthPickup.m_cPickupSpawner = nil
 
 -- Reference to the animator component.
-LgHealthPickup.m_cAnim = false
+LgHealthPickup.m_cAnim = nil
 
 -- Whether or not the crate has landed.
 LgHealthPickup.m_bLanded = false
@@ -50,28 +44,31 @@ function LgHealthPickup:Awake()
     end
 
     -- Setting up the references.
-    self.m_cPickupSpawner = GameObject.Find("pickupManager"):GetComponent(PickupSpawner)
+    self.m_cPickupSpawner = GameObject.Find("pickupManager"):GetComponent(YwLuaMonoBehaviour):GetLuaTable()
     self.m_cAnim = self.transform.root:GetComponent(Animator)
+
+    -- Get data bridge and set params.
+    local cDataBridge = self.gameObject:GetComponent(YwLuaMonoDataBridge)
+    self.m_fHealthBonus = cDataBridge.m_floats[1]
+    self.m_cCollectClip = cDataBridge.m_audioClips[1]
 end
 
 -- OnTriggerEnter2D method.
 function LgHealthPickup:OnTriggerEnter2D(cOtherCollider2D)
     --print("LgHealthPickup:OnTriggerEnter2D")
 
-    local this = self.this
-
     -- If the player enters the trigger zone...
     if "Player" == cOtherCollider2D.tag then
         -- Get a reference to the player health script.
-        local cPlayerHealth = cOtherCollider2D:GetComponent(PlayerHealth)
+        local cPlayerHealth = cOtherCollider2D:GetComponent(YwLuaMonoBehaviour):GetLuaTable().m_cPlayerHealth
 
         -- Increasse the player's health by the health bonus but clamp it at 100.
-        cPlayerHealth.m_health = cPlayerHealth.m_health + this.m_healthBonus
-        --cPlayerHealth.health = Mathf.Clamp(cPlayerHealth.health, 0.0, 100.0) -- Match type error.
-        if cPlayerHealth.m_health < 0.0 then
-            cPlayerHealth.m_health = 0.0
-        elseif cPlayerHealth.m_health > 100.0 then
-            cPlayerHealth.m_health = 100.0
+        cPlayerHealth.m_fHealth = cPlayerHealth.m_fHealth + self.m_fHealthBonus
+        --cPlayerHealth.m_fHealth = Mathf.Clamp(cPlayerHealth.m_fHealth, 0.0, 100.0) -- Match type error.
+        if cPlayerHealth.m_fHealth < 0.0 then
+            cPlayerHealth.m_fHealth = 0.0
+        elseif cPlayerHealth.m_fHealth > 100.0 then
+            cPlayerHealth.m_fHealth = 100.0
         end
 
         -- Update the health bar.
@@ -81,7 +78,7 @@ function LgHealthPickup:OnTriggerEnter2D(cOtherCollider2D)
         self.m_cPickupSpawner:DeliverPickup()
 
         -- Play the collection sound.
-        AudioSource.PlayClipAtPoint(this.m_collect, self.transform.position);
+        AudioSource.PlayClipAtPoint(self.m_cCollectClip, self.transform.position);
 
         -- Destroy the crate.
         GameObject.Destroy(self.transform.root.gameObject)

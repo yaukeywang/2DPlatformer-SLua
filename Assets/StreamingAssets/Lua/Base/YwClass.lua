@@ -1,7 +1,7 @@
 --
 -- Lua class type define file.
 --
--- @filename  Class.lua
+-- @filename  YwClass.lua
 -- @copyright Copyright (c) 2015 Yaukey/yaukeywang/WangYaoqi (yaukeywang@gmail.com) all rights reserved.
 -- @license   The MIT License (MIT)
 -- @author    Yaukey
@@ -9,9 +9,7 @@
 --
 
 local YwDeclare = require "Base/YwGlobal"
-local YwIsDeclared = YwIsDeclared
 local YW_VERSION = require "Base/YwVersion"
-local YW_VERSION_520 = YW_VERSION_520
 
 -- The hold all class type.
 local __YwClassTypeList = {}
@@ -23,8 +21,9 @@ local function __YwClass(TypeName, SuperType)
 
     -- Set class type property.
     ClassType.TypeName = TypeName
-    ClassType.Constructor = false
     ClassType.SuperType = SuperType
+    ClassType.ctor = false
+    ClassType.dtor = false
 
     -- The new alloc function of this class.
     ClassType.new = function (...)
@@ -33,9 +32,18 @@ local function __YwClass(TypeName, SuperType)
 
         -- Give a tostring method.
         Obj.ToString = function (self)
-            local str = tostring(self)
-            local _, _, addr = string.find(str, "table%s*:%s*(0?[xX]?%x+)")
-            return ClassType.TypeName .. ":" .. addr
+            if not self.__InstanceName then
+                local str = tostring(self)
+                local _, _, addr = string.find(str, "table%s*:%s*(0?[xX]?%x+)")
+                self.__InstanceName = ClassType.TypeName .. ":" .. addr
+            end
+
+            return self.__InstanceName
+        end
+
+        -- Get class type name.
+        Obj.GetType = function (self)
+            return ClassType.TypeName
         end
 
         -- Do constructor recursively.
@@ -46,8 +54,8 @@ local function __YwClass(TypeName, SuperType)
                     Create(c.SuperType, ...)
                 end
 
-                if c.Constructor then
-                    c.Constructor(Object, ...)
+                if c.ctor then
+                    c.ctor(Object, ...)
                 end
             end
 
@@ -58,8 +66,8 @@ local function __YwClass(TypeName, SuperType)
         local ReleaseObj = function (Class, Object)
             local Release
             Release = function (c)
-                if c.Destructor then
-                    c.Destructor(Object)
+                if c.dtor then
+                    c.dtor(Object)
                 end
 
                 if c.SuperType then
@@ -122,7 +130,7 @@ local function __YwClass(TypeName, SuperType)
         })
     end
 
-    -- Virtual table
+    -- Virtual table.
     local Vtbl = {}
     __YwClassTypeList[ClassType] = Vtbl
  

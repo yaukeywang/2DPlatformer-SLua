@@ -4,12 +4,9 @@
 -- @filename  $(Class).lua
 -- @copyright Copyright (c) 2015 Yaukey/yaukeywang/WangYaoqi (yaukeywang@gmail.com) all rights reserved.
 -- @license   The MIT License (MIT)
--- @author    $(Author) @(AuthorName)@$(Mail).com
--- @date      2015-xx-xx
+-- @author    Yaukey yaukeywang@gmail.com
+-- @date      2016-xx-xx
 --
-
-local YwDeclare = YwDeclare
-local YwClass = YwClass
 
 local DLog = YwDebug.Log
 local DLogWarn = YwDebug.LogWarning
@@ -22,13 +19,13 @@ local $(Class) = YwDeclare(strClassName, YwClass(strClassName, $(SuperClass)))
 -- Member variables.
 
 -- Constructor.
-function $(Class):Constructor()
-    --print("$(Class):Constructor")
+function $(Class):ctor()
+    --print("$(Class):ctor")
 end
 
 -- Destructor.
-function $(Class):Destructor()
-    --print("$(Class):Destructor")
+function $(Class):dtor()
+    --print("$(Class):dtor")
 end
 
 -- Virtual.

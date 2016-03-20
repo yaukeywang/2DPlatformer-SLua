@@ -8,30 +8,18 @@
 -- @date      2015-09-05
 --
 
-local YwDeclare = YwDeclare
-local YwClass = YwClass
-
 local DLog = YwDebug.Log
 local DLogWarn = YwDebug.LogWarning
 local DLogError = YwDebug.LogError
 
 -- Register new class LgRocket.
 local strClassName = "LgRocket"
-local LgRocket = YwDeclare(strClassName, YwClass(strClassName))
+local LgRocket = YwDeclare(strClassName, YwClass(strClassName, YwMonoBehaviour))
 
 -- Member variables.
 
--- The c# class object.
-LgRocket.this = false
-
--- The transform.
-LgRocket.transform = false
-
--- The c# gameObject.
-LgRocket.gameObject = false
-
 -- The explosion object.
-LgRocket.m_cExplosion = false
+LgRocket.m_cExplosion = nil
 
 -- Awake method.
 function LgRocket:Awake()
@@ -42,6 +30,9 @@ function LgRocket:Awake()
         DLogError("Init error in LgRocket!")
         return
     end
+
+    -- Get explosion prefab.
+    self.m_cExplosion = self.m_aParameters[1]
 end
 
 -- Start method.
@@ -57,7 +48,7 @@ function LgRocket:OnTriggerEnter2D(cOtherCollider2D)
     -- If it hits an enemy...
     if "Enemy" == cOtherCollider2D.tag then
         -- ... find the Enemy script and call the Hurt function.
-        cOtherCollider2D.gameObject:GetComponent(Enemy):Hurt()
+        cOtherCollider2D.gameObject:GetComponent(YwLuaMonoBehaviour):GetLuaTable():Hurt()
 
         -- Call the explosion instantiation.
         self:OnExplode()
@@ -67,7 +58,13 @@ function LgRocket:OnTriggerEnter2D(cOtherCollider2D)
     -- Otherwise if it hits a bomb crate...
     elseif "BombPickup" == cOtherCollider2D.tag then
         -- ... find the Bomb script and call the Explode function.
-        cOtherCollider2D.gameObject:GetComponent(Bomb):Explode()
+        local aYwMonoBeh = cOtherCollider2D.gameObject:GetComponents(YwLuaMonoBehaviour)
+        for i = 1, #aYwMonoBeh do
+            if "LgBomb" == aYwMonoBeh[i].m_className then
+                aYwMonoBeh[i]:GetLuaTable():Explode()
+                break
+            end
+        end
 
         -- Destroy the bomb crate.
         GameObject.Destroy(cOtherCollider2D.transform.root.gameObject)

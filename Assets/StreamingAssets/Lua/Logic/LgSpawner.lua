@@ -8,9 +8,6 @@
 -- @date      2015-09-01
 --
 
-local YwDeclare = YwDeclare
-local YwClass = YwClass
-
 local DLog = YwDebug.Log
 local DLogWarn = YwDebug.LogWarning
 local DLogError = YwDebug.LogError
@@ -20,18 +17,9 @@ local GameObject = GameObject
 
 -- Register new class LgSpawner.
 local strClassName = "LgSpawner"
-local LgSpawner = YwDeclare(strClassName, YwClass(strClassName))
+local LgSpawner = YwDeclare(strClassName, YwClass(strClassName, YwMonoBehaviour))
 
 -- Member variables.
-
--- The c# class object.
-LgSpawner.this = false
-
--- The transform.
-LgSpawner.transform = false
-
--- The c# gameObject.
-LgSpawner.gameObject = false
 
 -- The spawner time.
 LgSpawner.m_fSpawnTime = 5.0
@@ -56,20 +44,20 @@ local function LgSpawner_Spawn(LgSpawner)
 
     --Play the spawning effect from all of the particle systems.
     local aParticles = self.gameObject:GetComponentsInChildren(ParticleSystem)
-    for _, v in pairs(aParticles) do
-        v:Play()
+    for i = 1, aParticles.Length do
+        aParticles[i]:Play()
     end
 end
 
 -- Constructor.
-function LgSpawner:Constructor()
-    --print("LgSpawner:Constructor")
+function LgSpawner:ctor()
+    --print("LgSpawner:ctor")
     self.m_aEnemys = {}
 end
 
 -- Destructor.
-function LgSpawner:Destructor()
-    --print("LgSpawner:Destructor")
+function LgSpawner:dtor()
+    --print("LgSpawner:dtor")
     self.m_aEnemys = nil
     if -1 ~= self.m_nTimerID then
         LuaTimer.Delete(self.m_nTimerID)
@@ -85,6 +73,17 @@ function LgSpawner:Awake()
     if (not self.this) or (not self.transform) or (not self.gameObject) then
         DLogError("Init error in LgSpawner!")
         return
+    end
+
+    -- Get data bridge and set params.
+    local cDataBridge = self.gameObject:GetComponent(YwLuaMonoDataBridge)
+    local aFloatArray = cDataBridge.m_floats
+    self.m_fSpawnTime = aFloatArray[1]
+    self.m_fSpawnDelay = aFloatArray[2]
+
+    -- Get all enemy prefabs.
+    for i = 1, #self.m_aParameters do
+        self.m_aEnemys[i] = self.m_aParameters[i]
     end
 end
 

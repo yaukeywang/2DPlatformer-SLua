@@ -8,42 +8,45 @@
 -- @date      2015-09-01
 --
 
-local YwDeclare = YwDeclare
-local YwClass = YwClass
-
 local DLog = YwDebug.Log
 local DLogWarn = YwDebug.LogWarning
 local DLogError = YwDebug.LogError
 
 -- Register new class LgBomb.
 local strClassName = "LgBomb"
-local LgBomb = YwDeclare(strClassName, YwClass(strClassName))
+local LgBomb = YwDeclare(strClassName, YwClass(strClassName, YwMonoBehaviour))
 
 -- Member variables.
 
--- The c# class object.
-LgBomb.this = false
-
--- The transform.
-LgBomb.transform = false
-
--- The c# gameObject.
-LgBomb.gameObject = false
-
 -- Public.
 
+-- Radius within which enemies are killed.
+LgBomb.m_fBombRadius = 10.0
+
+-- Force that enemies are thrown from the blast.
+LgBomb.m_fBombForce = 100.0
+
+-- Fuse time.
+LgBomb.m_fFuseTime = 1.5
+
+-- Bomb clip.
+LgBomb.m_cBombClip = nil
+
+-- Fuse clip.
+LgBomb.m_cFuseClip = nil
+
 -- Prefab of explosion effect.
-LgBomb.m_cExplosion = false
+LgBomb.m_cExplosion = nil
 
 -- Private.
 -- Reference to the player's LayBombs script.
-LgBomb.m_cLayBombs = false
+LgBomb.m_cLayBombs = nil
 
 -- Reference to the PickupSpawner script.
-LgBomb.m_cPickupSpawner = false
+LgBomb.m_cPickupSpawner = nil
 
 -- Reference to the particle system of the explosion effect.
-LgBomb.m_cExplosionFx = false
+LgBomb.m_cExplosionFx = nil
 
 -- Awake method.
 function LgBomb:Awake()
@@ -55,11 +58,25 @@ function LgBomb:Awake()
         return
     end
 
+    -- Get component.
     self.m_cExplosionFx = GameObject.FindGameObjectWithTag("ExplosionFX"):GetComponent(ParticleSystem)
-    self.m_cPickupSpawner = GameObject.Find("pickupManager"):GetComponent(PickupSpawner)
+    self.m_cPickupSpawner = GameObject.Find("pickupManager"):GetComponent(YwLuaMonoBehaviour):GetLuaTable()
     if GameObject.FindGameObjectWithTag("Player") then
-        self.m_cLayBombs = GameObject.FindGameObjectWithTag("Player"):GetComponent(LayBombs)
+        self.m_cLayBombs = GameObject.FindGameObjectWithTag("Player"):GetComponent(YwLuaMonoBehaviour):GetLuaTable().m_cLayBombs
     end
+
+    -- Get data bridge.
+    local cDataBridge = self.gameObject:GetComponent(LgLuaMonoDataBridge)
+    local aFloatArray = cDataBridge.m_floats
+    local aAudioArray = cDataBridge.m_audioClips
+
+    -- Set params.
+    self.m_fBombRadius = aFloatArray[1]
+    self.m_fBombForce = aFloatArray[2]
+    self.m_fFuseTime = aFloatArray[3]
+    self.m_cBombClip = aAudioArray[1]
+    self.m_cFuseClip = aAudioArray[2]
+    self.m_cExplosion = self.m_aParameters[1]
 end
 
 -- Start method.
@@ -76,30 +93,28 @@ end
 function LgBomb:Explode()
     --print("LgBomb:Explode")
 
-    local this = self.this
-
     -- The player is now free to lay bombs when he has them.
-    self.m_cLayBombs.BombLaid = false
+    self.m_cLayBombs.m_bBombLaid = false
 
     -- Make the pickup spawner start to deliver a new pickup.
     self.m_cPickupSpawner:DeliverPickup()
 
     -- Find all the colliders on the Enemies layer within the bombRadius.
-    local aEnemies = Physics2D.OverlapCircleAll(self.transform.position, this.m_bombRadius, 1 << LayerMask.NameToLayer("Enemies"))
+    local aEnemies = Physics2D.OverlapCircleAll(self.transform.position, self.m_fBombRadius, 1 << LayerMask.NameToLayer("Enemies"))
 
     -- For each collider...
-    for _, cEnemy in pairs(aEnemies) do
+    for i = 1, aEnemies.Length do
         -- Check if it has a rigidbody (since there is only one per enemy, on the parent).
-        local cRb = cEnemy:GetComponent(Rigidbody2D)
+        local cRb = aEnemies[i]:GetComponent(Rigidbody2D)
         if cRb and ("Enemy" == cRb.tag) then
             -- Find the Enemy script and set the enemy's health to zero.
-            cRb.gameObject:GetComponent(Enemy).m_HP = 0
+            cRb.gameObject:GetComponent(YwLuaMonoBehaviour):GetLuaTable().m_nHP = 0
 
             -- Find a vector from the bomb to the enemy.
             local vDeltaPos = cRb.transform.position - self.transform.position
 
             -- Apply a force in this direction with a magnitude of bombForce.
-            local vForce = vDeltaPos.normalized * this.m_bombForce
+            local vForce = vDeltaPos.normalized * self.m_fBombForce
             cRb:AddForce(vForce)
         end
     end
@@ -109,10 +124,10 @@ function LgBomb:Explode()
     self.m_cExplosionFx:Play()
 
     -- Instantiate the explosion prefab.
-    GameObject.Instantiate(this.m_explosion, self.transform.position, Quaternion.identity)
+    GameObject.Instantiate(self.m_cExplosion, self.transform.position, Quaternion.identity)
 
     -- Play the explosion sound effect.
-    AudioSource.PlayClipAtPoint(this.m_boom, self.transform.position)
+    AudioSource.PlayClipAtPoint(self.m_cBombClip, self.transform.position)
 
     -- Destroy the bomb.
     GameObject.Destroy(self.gameObject)
@@ -130,10 +145,10 @@ function LgBomb:BombDetonation()
     -- LgBomb detonation.
     local cCo = coroutine.create(function ()
         -- Play the fuse seconds.
-        AudioSource.PlayClipAtPoint(self.this.m_fuse, self.transform.position)
+        AudioSource.PlayClipAtPoint(self.m_cFuseClip, self.transform.position)
 
         -- Wait for 2 seconds.
-        Yield(WaitForSeconds(self.this.m_fuseTime))
+        Yield(WaitForSeconds(self.m_fFuseTime))
 
         -- Check the validation.
         if Slua.IsNull(self.gameObject) then

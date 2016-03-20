@@ -8,27 +8,18 @@
 -- @date      2015-09-01
 --
 
-local YwDeclare = YwDeclare
-local YwClass = YwClass
-
 local DLog = YwDebug.Log
 local DLogWarn = YwDebug.LogWarning
 local DLogError = YwDebug.LogError
 
 -- Register new class LgSetParticleSortingLayer.
 local strClassName = "LgSetParticleSortingLayer"
-local LgSetParticleSortingLayer = YwDeclare(strClassName, YwClass(strClassName))
+local LgSetParticleSortingLayer = YwDeclare(strClassName, YwClass(strClassName, YwMonoBehaviour))
 
 -- Member variables.
 
--- The c# class object.
-LgSetParticleSortingLayer.this = false
-
--- The transform.
-LgSetParticleSortingLayer.transform = false
-
--- The c# gameObject.
-LgSetParticleSortingLayer.gameObject = false
+-- Sorting layer name.
+LgSetParticleSortingLayer.m_strSortingLayerName = ""
 
 -- Awake method.
 function LgSetParticleSortingLayer:Awake()
@@ -39,6 +30,13 @@ function LgSetParticleSortingLayer:Awake()
         DLogError("Init error in LgSetParticleSortingLayer!")
         return
     end
+
+    -- Get data bridge.
+    local cDataBridge = self.gameObject:GetComponent(YwLuaMonoDataBridge)
+    local aStringArray = cDataBridge.m_strings
+
+    -- Get layer name.
+    self.m_strSortingLayerName = aStringArray[1]
 end
 
 -- Start method.
@@ -46,7 +44,7 @@ function LgSetParticleSortingLayer:Start()
     --print("LgSetParticleSortingLayer:Start")
 
     -- Set the sorting layer of the particle system.
-    self.gameObject:GetComponent(ParticleSystem):GetComponent(Renderer).sortingLayerName = self.this.m_sortingLayerName
+    self.gameObject:GetComponent(ParticleSystem):GetComponent(Renderer).sortingLayerName = self.m_strSortingLayerName
 end
 
 -- Return this class.

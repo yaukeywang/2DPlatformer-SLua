@@ -8,9 +8,6 @@
 -- @date      2015-09-02
 --
 
-local YwDeclare = YwDeclare
-local YwClass = YwClass
-
 local DLog = YwDebug.Log
 local DLogWarn = YwDebug.LogWarning
 local DLogError = YwDebug.LogError
@@ -20,30 +17,21 @@ local Time = Time
 
 -- Register new class LgBackgroundParallax.
 local strClassName = "LgBackgroundParallax"
-local LgBackgroundParallax = YwDeclare(strClassName, YwClass(strClassName))
+local LgBackgroundParallax = YwDeclare(strClassName, YwClass(strClassName, YwMonoBehaviour))
 
 -- Member variables.
-
--- The c# class object.
-LgBackgroundParallax.this = false
-
--- The transform.
-LgBackgroundParallax.transform = false
-
--- The c# gameObject.
-LgBackgroundParallax.gameObject = false
 
 -- The background transforms.
 LgBackgroundParallax.m_aBackgrounds = false
 
 -- The parallax scale.
-LgBackgroundParallax.m_fParallaxScale = 1.0
+LgBackgroundParallax.m_fParallaxScale = 0.5
 
 -- The parallax reduction factor.
-LgBackgroundParallax.m_fParallaxReductionFactor = 1.0
+LgBackgroundParallax.m_fParallaxReductionFactor = 0.4
 
 -- The smoothing.
-LgBackgroundParallax.m_fSmoothing = 0.1
+LgBackgroundParallax.m_fSmoothing = 8.0
 
 -- The current camera transform.
 LgBackgroundParallax.m_cCam = false
@@ -52,15 +40,15 @@ LgBackgroundParallax.m_cCam = false
 LgBackgroundParallax.m_vPreviousCamPos = false
 
 -- Constructor.
-function LgBackgroundParallax:Constructor()
-    --print("LgBackgroundParallax:Constructor")
+function LgBackgroundParallax:ctor()
+    --print("LgBackgroundParallax:ctor")
     self.m_aBackgrounds = {}
     self.m_vPreviousCamPos = Vector3.zero
 end
 
 -- Destructor.
-function LgBackgroundParallax:Destructor()
-    --print("LgBackgroundParallax:Destructor")
+function LgBackgroundParallax:dtor()
+    --print("LgBackgroundParallax:dtor")
     self.m_aBackgrounds = nil
 end
 
@@ -74,7 +62,13 @@ function LgBackgroundParallax:Awake()
         return
     end
 
+    -- Get camera.
     self.m_cCam = Camera.main.transform
+
+    -- Init background transform
+    for i = 1, #self.m_aParameters do
+        self.m_aBackgrounds[i] = self.m_aParameters[i].transform
+    end
 end
 
 -- Start method.

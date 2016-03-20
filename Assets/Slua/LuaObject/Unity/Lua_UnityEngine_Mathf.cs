@@ -430,33 +430,15 @@ public class Lua_UnityEngine_Mathf : LuaObject {
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static public int Clamp_s(IntPtr l) {
 		try {
-			int argc = LuaDLL.lua_gettop(l);
-			if(matchType(l,argc,1,typeof(int),typeof(int),typeof(int))){
-				System.Int32 a1;
-				checkType(l,1,out a1);
-				System.Int32 a2;
-				checkType(l,2,out a2);
-				System.Int32 a3;
-				checkType(l,3,out a3);
-				var ret=UnityEngine.Mathf.Clamp(a1,a2,a3);
-				pushValue(l,true);
-				pushValue(l,ret);
-				return 2;
-			}
-			else if(matchType(l,argc,1,typeof(float),typeof(float),typeof(float))){
-				System.Single a1;
-				checkType(l,1,out a1);
-				System.Single a2;
-				checkType(l,2,out a2);
-				System.Single a3;
-				checkType(l,3,out a3);
-				var ret=UnityEngine.Mathf.Clamp(a1,a2,a3);
-				pushValue(l,true);
-				pushValue(l,ret);
-				return 2;
-			}
-			pushValue(l,false);
-			LuaDLL.lua_pushstring(l,"No matched override function to call");
+			System.Single a1;
+			checkType(l,1,out a1);
+			System.Single a2;
+			checkType(l,2,out a2);
+			System.Single a3;
+			checkType(l,3,out a3);
+			var ret=UnityEngine.Mathf.Clamp(a1,a2,a3);
+			pushValue(l,true);
+			pushValue(l,ret);
 			return 2;
 		}
 		catch(Exception e) {

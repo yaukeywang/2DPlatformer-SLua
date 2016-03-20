@@ -8,9 +8,6 @@
 -- @date      2015-09-07
 --
 
-local YwDeclare = YwDeclare
-local YwClass = YwClass
-
 local DLog = YwDebug.Log
 local DLogWarn = YwDebug.LogWarning
 local DLogError = YwDebug.LogError
@@ -21,14 +18,25 @@ local LgPlayerControl = YwDeclare(strClassName, YwClass(strClassName))
 
 -- Member variables.
 
--- The c# class object.
-LgPlayerControl.this = false
+-- The parent class.
+LgPlayerControl.m_cParent = nil
 
 -- The transform.
 LgPlayerControl.transform = false
 
 -- The c# gameObject.
 LgPlayerControl.gameObject = false
+
+-- Params from unity editor.
+LgPlayerControl.m_bFacingRight = true
+LgPlayerControl.m_bJump = false
+LgPlayerControl.m_fMoveForce = 365.0
+LgPlayerControl.m_fMaxSpeed = 5.0
+LgPlayerControl.m_fJumpForce = 1000.0
+LgPlayerControl.m_fTauntProbability = 50.0
+LgPlayerControl.m_fTauntDelay = 1.0
+LgPlayerControl.m_aJumpClips = nil
+LgPlayerControl.m_aTaunts = nil
 
 -- The index of the taunts array indicating the most recent taunt.
 LgPlayerControl.m_nTauntIndex = 0
@@ -45,19 +53,35 @@ LgPlayerControl.m_cAnim = false
 -- The destroy flag.
 LgPlayerControl.m_bDestroy = false
 
--- Awake method.
-function LgPlayerControl:Awake()
-    --print("LgPlayerControl:Awake")
+-- The enable flag.
+LgPlayerControl.m_bEnabled = true
 
-    -- Check variable.
-    if (not self.this) or (not self.transform) or (not self.gameObject) then
-        DLogError("Init error in LgPlayerControl!")
-        return
-    end
+-- Constructor.
+function LgPlayerControl:ctor(cParent)
+    --print("LgPlayerControl:ctor")
+    self.m_cParent = cParent
+    self.gameObject = cParent.gameObject
+    self.transform = cParent.gameObject.transform
 
     -- Setting up references.
     self.m_cGroundCheck = self.transform:Find("groundCheck")
     self.m_cAnim = self.gameObject:GetComponent(Animator)
+
+    -- Init audio clip array.
+    self.m_aJumpClips = {}
+    self.m_aTaunts = {}
+end
+
+-- Destructor.
+function LgPlayerControl:dtor()
+    --print("LgPlayerControl:dtor")
+
+    self.gameObject = nil
+    self.transform = nil
+    self.m_cGroundCheck = nil
+    self.m_cAnim = nil
+    self.m_aJumpClips = nil
+    self.m_aTaunts = nil
 end
 
 -- Update method.
@@ -65,11 +89,9 @@ function LgPlayerControl:Update()
     --print("LgPlayerControl:Update")
 
     -- Check the validation.
-    if self.m_bDestroy then
+    if self.m_bDestroy or (not self.m_bEnabled) then
         return
     end
-
-    local this = self.this
 
     -- The player is grounded if a linecast to the groundcheck position hits anything on the ground layer.
     local cHitRes = Physics2D.Linecast(self.transform.position, self.m_cGroundCheck.position, 1 << LayerMask.NameToLayer("Ground"))
@@ -77,7 +99,7 @@ function LgPlayerControl:Update()
 
     -- If the jump button is pressed and the player is grounded then the player should jump.
     if Input.GetButtonDown("Jump") and self.m_bGrounded then
-        this.m_bJump = true
+        self.m_bJump = true
     end
 end
 
@@ -86,11 +108,9 @@ function LgPlayerControl:FixedUpdate()
     --print("LgPlayerControl:FixedUpdate")
 
     -- Check the validation.
-    if self.m_bDestroy then
+    if self.m_bDestroy or (not self.m_bEnabled) then
         return
     end
-
-    local this = self.this
 
     -- Cache the horizontal input.
     local fHoriz = Input.GetAxis("Horizontal")
@@ -100,56 +120,62 @@ function LgPlayerControl:FixedUpdate()
 
     -- If the player is changing direction (h has a different sign to velocity.x) or hasn't reached maxSpeed yet...
     local cRigid = self.gameObject:GetComponent(Rigidbody2D)
-    if fHoriz * cRigid.velocity.x < this.m_maxSpeed then
-        cRigid:AddForce(Vector2.right * fHoriz * this.m_moveForce)
+    if fHoriz * cRigid.velocity.x < self.m_fMaxSpeed then
+        cRigid:AddForce(Vector2.right * fHoriz * self.m_fMoveForce)
     end
 
     -- If the player's horizontal velocity is greater than the maxSpeed...
-    if math.abs(cRigid.velocity.x) > this.m_maxSpeed then
+    if math.abs(cRigid.velocity.x) > self.m_fMaxSpeed then
         -- ... set the player's velocity to the maxSpeed in the x axis.
-        cRigid.velocity = Vector2(Mathf.Sign(cRigid.velocity.x) * this.m_maxSpeed, cRigid.velocity.y)
+        cRigid.velocity = Vector2(Mathf.Sign(cRigid.velocity.x) * self.m_fMaxSpeed, cRigid.velocity.y)
     end
 
     -- If the input is moving the player right and the player is facing left...
-    if (fHoriz > 0.0) and (not this.m_bFacingRight) then
+    if (fHoriz > 0.0) and (not self.m_bFacingRight) then
         -- ... flip the player.
         self:Flip()
     -- Otherwise if the input is moving the player left and the player is facing right...
-    elseif (fHoriz < 0.0) and this.m_bFacingRight then
+    elseif (fHoriz < 0.0) and self.m_bFacingRight then
         -- ... flip the player.
         self:Flip()
     end
 
     -- If the player should jump...
-    if this.m_bJump then
+    if self.m_bJump then
         -- Set the Jump animator trigger parameter.
         self.m_cAnim:SetTrigger("Jump")
 
         -- Play a random jump audio clip.
-        local nIdx = Random.Range(1, #this.m_jumpClips + 1)
-        AudioSource.PlayClipAtPoint(this.m_jumpClips[nIdx], self.transform.position);
+        local nIdx = Random.Range(1, #self.m_aJumpClips + 1)
+        AudioSource.PlayClipAtPoint(self.m_aJumpClips[nIdx], self.transform.position);
 
         -- Add a vertical force to the player.
-        cRigid:AddForce(Vector2(0.0, this.m_jumpForce))
+        cRigid:AddForce(Vector2(0.0, self.m_fJumpForce))
 
         -- Make sure the player can't jump again until the jump conditions from Update are satisfied.
-        this.m_bJump = false
+        self.m_bJump = false
     end
 end
 
 -- On destroy method.
 function LgPlayerControl:OnDestroy()
     --print("LgPlayerControl:OnDestroy")
+    
     self.m_bDestroy = true
+
+    self.gameObject = nil
+    self.transform = nil
+    self.m_cGroundCheck = nil
+    self.m_cAnim = nil
+    self.m_aJumpClips = nil
+    self.m_aTaunts = nil
 end
 
 function LgPlayerControl:Flip()
     --print("LgPlayerControl:Flip")
 
-    local this = self.this
-
     -- Switch the way the player is labelled as facing.
-    this.m_bFacingRight = not this.m_bFacingRight
+    self.m_bFacingRight = not self.m_bFacingRight
 
     -- Multiply the player's x local scale by -1.
     local vTheScale = self.transform.localScale
@@ -161,22 +187,20 @@ function LgPlayerControl:Taunt()
     --print("LgPlayerControl:Taunt")
 
     -- Check the validation.
-    if self.m_bDestroy then
+    if self.m_bDestroy  or (not self.m_bEnabled) then
         return
     end
-
-    local this = self.this
 
     -- Create a coroutine.
     local cCor = coroutine.create(function ()
         -- Check the random chance of taunting.
         local fTauntChance = math.random() * 100.0
-        if fTauntChance > this.m_tauntProbability then
+        if fTauntChance > self.m_fTauntProbability then
             -- Wait for tauntDelay number of seconds.
-            Yield(WaitForSeconds(this.m_tauntDelay))
+            Yield(WaitForSeconds(self.m_fTauntDelay))
 
             -- Check the validation.
-            if self.m_bDestroy then
+            if self.m_bDestroy  or (not self.m_bEnabled) then
                 return
             end
 
@@ -187,7 +211,7 @@ function LgPlayerControl:Taunt()
                 self.m_nTauntIndex = self:TauntRandom()
 
                 -- Play the new taunt.
-                cAs.clip = this.m_taunts[self.m_nTauntIndex]
+                cAs.clip = self.m_aTaunts[self.m_nTauntIndex]
                 cAs:Play()
             end
         end
@@ -200,7 +224,7 @@ function LgPlayerControl:TauntRandom()
     --print("LgPlayerControl:TauntRandom")
 
     -- Choose a random index of the taunts array.
-    local nIdx = Random.Range(1, #self.this.m_taunts + 1)
+    local nIdx = Random.Range(1, #self.m_aTaunts + 1)
 
     -- If it's the same as the previous taunt...
     if nIdx == self.m_nTauntIndex then

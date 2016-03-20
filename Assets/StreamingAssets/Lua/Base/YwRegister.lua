@@ -8,9 +8,6 @@
 -- @date      2015-05-28
 --
 
-local YwDeclare = require "Base/YwGlobal"
-
-local YwClass = YwClass
 local str_len = string.len
 
 -- YwRegister a new class.
@@ -18,35 +15,37 @@ local strClassName = "YwRegister"
 local YwRegister = YwDeclare(strClassName, YwClass(strClassName))
 
 -- The object list.
-YwRegister.m_cObjectList = false
+YwRegister.m_aObjectList = false
 
 -- Constructor.
-function YwRegister:Constructor()
-    --print("YwRegister:Constructor")
-    self.m_cObjectList = {}
+function YwRegister:ctor()
+    --print("YwRegister:ctor")
+    self.m_aObjectList = {}
 end
 
 -- Destructor.
-function YwRegister:Destructor()
-    --print("YwRegister:Destructor")
+function YwRegister:dtor()
+    --print("YwRegister:dtor")
+    self.m_aObjectList = nil
 end
 
 -- Virtual.
 -- Validate this object.
 function YwRegister:Validate()
-    -- body
+    --print("YwRegister:Validate")
 end
 
 -- Virtual.
 -- Invalidate this object.
 function YwRegister:Invalidate()
-    -- body
+    --print("YwRegister:Invalidate")
 end
 
 -- Virtual.
 function YwRegister:Update()
-    local ObjList = self.m_cObjectList
-    for _, v in pairs(ObjList) do
+    --print("YwRegister:Update")
+    local aObjList = self.m_aObjectList
+    for _, v in pairs(aObjList) do
         if v then
             v:Update()
         end
@@ -54,44 +53,48 @@ function YwRegister:Update()
 end
 
 -- YwRegister an object.
-function YwRegister:YwRegisterObject(Name, YwRegisterObj)
-    --print("YwRegister:YwRegisterObject")
+function YwRegister:RegisterObject(strName, cYwRegisterObj)
+    --print("YwRegister:RegisterObject")
     
-    if 0 == str_len(Name) then
+    if (0 == str_len(strName)) or (not cYwRegisterObj) then
         return false
     end
 
-    local ObjList = self.m_cObjectList
-    if ObjList[Name] then
+    local aObjList = self.m_aObjectList
+    if aObjList[strName] then
         return false
     end
 
-    ObjList[Name] = YwRegisterObj
+    aObjList[strName] = cYwRegisterObj
     return true
 end
 
 -- UnYwregister an object.
-function YwRegister:UnYwregisterObject(Name)
-    if 0 == str_len(Name) then
+function YwRegister:UnregisterObject(strName)
+    --print("YwRegister:UnregisterObject")
+
+    if 0 == str_len(strName) then
         return false
     end
 
-    local ObjList = self.m_cObjectList
-    if not ObjList[Name] then
+    local aObjList = self.m_aObjectList
+    if not aObjList[strName] then
         return false
     end
 
-    ObjList[Name] = nil
+    aObjList[strName] = nil
     return true
 end
 
 -- Get an Ywregister object by name.
-function YwRegister:GetYwRegisterObject(Name)
-     if 0 == str_len(Name) then
+function YwRegister:GetRegisterObject(strName)
+    --print("YwRegister:GetRegisterObject")
+
+    if 0 == str_len(strName) then
         return false
     end
 
-    return self.m_cObjectList[Name]
+    return self.m_aObjectList[strName]
 end
 
 -- Return this class.

@@ -14,6 +14,15 @@ using System.Collections;
 // The global object that not be destroyed.
 public class YwGlobal : MonoBehaviour
 {
+    // The lite update fps.
+    public int m_liteUpdateFps = 10;
+
+    // The lite upate flag.
+    private bool m_bLiteUpdate = true;
+
+    // The lite update timer.
+    private WaitForSeconds m_cLiteUpdateTimer = null;
+
     // The instance.
     private static YwGlobal m_cInstance = null;
 
@@ -44,19 +53,77 @@ public class YwGlobal : MonoBehaviour
     }
 
     // Start to init.
-    void Start()
+    IEnumerator Start()
     {
+        // Wait the script environment init ok.
+        while (!YwLuaScriptMng.Instance.Initialized)
+        {
+            yield return null;
+        }
+
+        // Init lite update settings.
+        m_cLiteUpdateTimer = new WaitForSeconds(1.0f / (float)m_liteUpdateFps);
+        StartCoroutine(LiteUpdateControler());
     }
 
-    // Update is called once per frame
+    // Update is called once per frame.
     void Update()
     {
+        // Check if init ok.
+        if (!YwLuaScriptMng.Instance.Initialized)
+        {
+            return;
+        }
+
+        // The main update.
         YwLuaScriptMng.Instance.Update();
+
+        // The lite update.
+        if (m_bLiteUpdate)
+        {
+            m_bLiteUpdate = false;
+            YwLuaScriptMng.Instance.LiteUpdate();
+        }
     }
 
+    // LateUpdate is called every frame.
+    void LateUpdate()
+    {
+        // Check if init ok.
+        if (!YwLuaScriptMng.Instance.Initialized)
+        {
+            return;
+        }
+
+        YwLuaScriptMng.Instance.LateUpdate();
+    }
+
+    // FixedUpdate is called every fixed framerate frame.
+    void FixedUpdate()
+    {
+        // Check if init ok.
+        if (!YwLuaScriptMng.Instance.Initialized)
+        {
+            return;
+        }
+
+        YwLuaScriptMng.Instance.FixedUpdate();
+    }
+
+    // Init the global lua script manager.
     private void InitGlobalManager()
     {
         // The base support.
         YwLuaScriptMng.Instance.Initialize();
+    }
+
+    // The coroutine to control lite update.
+    private IEnumerator LiteUpdateControler()
+    {
+        while (true)
+        {
+            m_bLiteUpdate = true;
+            yield return m_cLiteUpdateTimer;
+        }
     }
 }

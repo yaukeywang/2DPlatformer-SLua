@@ -8,27 +8,15 @@
 -- @date      2015-09-01
 --
 
-local YwDeclare = YwDeclare
-local YwClass = YwClass
-
 local DLog = YwDebug.Log
 local DLogWarn = YwDebug.LogWarning
 local DLogError = YwDebug.LogError
 
 -- Register new class LgScore.
 local strClassName = "LgScore"
-local LgScore = YwDeclare(strClassName, YwClass(strClassName))
+local LgScore = YwDeclare(strClassName, YwClass(strClassName, YwMonoBehaviour))
 
 -- Member variables.
-
--- The c# class object.
-LgScore.this = false
-
--- The transform.
-LgScore.transform = false
-
--- The c# gameObject.
-LgScore.gameObject = false
 
 -- The score.
 LgScore.m_nScore = 0
@@ -54,30 +42,43 @@ function LgScore:Awake()
 
     -- Setting up the reference.
     self.m_cLgScoreTxt = self.gameObject:GetComponent(GUIText)
-	self.m_cPlayerControl = GameObject.FindGameObjectWithTag("Player"):GetComponent(PlayerControl);
+	self.m_cPlayerControl = GameObject.FindGameObjectWithTag("Player"):GetComponent(YwLuaMonoBehaviour):GetLuaTable().m_cPlayerCtrl
+
+    -- Get data bridge.
+    local cDataBridge = self.gameObject:GetComponent(YwLuaMonoDataBridge)
+    self.m_nScore = cDataBridge.m_integers[1]
 end
 
 -- Update.
 function LgScore:Update()
     --print("LgScore:Update")
-
-    local this = self.this
-
+    
     -- Check if player control is valid (Maybe player shoot enemies after dead).
-    if Slua.IsNull(self.m_cPlayerControl) then
+    local cPlayerControl = self:GetPlayerControl()
+    if (not cPlayerControl) or Slua.IsNull(self.m_cPlayerControl) then
         return
     end
 
     -- Set the score text.
-    self.m_cLgScoreTxt.text = "Score" .. tostring(this.m_score)
+    self.m_cLgScoreTxt.text = "Score" .. tostring(self.m_nScore)
    
     -- If the score has changed...
-    if self.m_nPreviousLgScore ~= this.m_score then
+    if self.m_nPreviousLgScore ~= self.m_nScore then
         self.m_cPlayerControl:Taunt()
     end
 
     -- Set the previous score to this frame's score.
-    self.m_nPreviousLgScore = this.m_score
+    self.m_nPreviousLgScore = self.m_nScore
+end
+
+-- Get player control.
+function LgScore:GetPlayerControl()
+    --print("LgScore:GetPlayerHealth")
+    if (not self.m_cPlayerControl) or Slua.IsNull(self.m_cPlayerControl) then
+        self.m_cPlayerControl = GameObject.FindGameObjectWithTag("Player"):GetComponent(YwLuaMonoBehaviour):GetLuaTable().m_cPlayerCtrl
+    end
+
+    return self.m_cPlayerControl
 end
 
 -- Return this class.

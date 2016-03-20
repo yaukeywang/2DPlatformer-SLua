@@ -8,27 +8,18 @@
 -- @date      2015-09-05
 --
 
-local YwDeclare = YwDeclare
-local YwClass = YwClass
-
 local DLog = YwDebug.Log
 local DLogWarn = YwDebug.LogWarning
 local DLogError = YwDebug.LogError
 
 -- Register new class LgRemover.
 local strClassName = "LgRemover"
-local LgRemover = YwDeclare(strClassName, YwClass(strClassName))
+local LgRemover = YwDeclare(strClassName, YwClass(strClassName, YwMonoBehaviour))
 
 -- Member variables.
 
--- The c# class object.
-LgRemover.this = false
-
--- The transform.
-LgRemover.transform = false
-
--- The c# gameObject.
-LgRemover.gameObject = false
+-- The splash object.
+LgRemover.m_cSplash = nil
 
 -- Awake method.
 function LgRemover:Awake()
@@ -39,6 +30,9 @@ function LgRemover:Awake()
         DLogError("Init error in LgRemover!")
         return
     end
+
+    -- Get splash object.
+    self.m_cSplash = self.m_aParameters[1]
 end
 
 -- OnTriggerEnter2D method.
@@ -50,7 +44,7 @@ function LgRemover:OnTriggerEnter2D(cOtherCollider2D)
     -- If the player hits the trigger...
     if "Player" == cOtherCollider2D.gameObject.tag then
         -- .. stop the camera tracking the player
-        GameObject.FindGameObjectWithTag("MainCamera"):GetComponent(CameraFollow).enabled = false
+        GameObject.FindGameObjectWithTag("MainCamera"):GetComponent(YwLuaMonoBehaviour).enabled = false
 
         -- .. stop the Health Bar following the player.
         local cHealthBarObj = GameObject.FindGameObjectWithTag("HealthBar")
@@ -59,7 +53,7 @@ function LgRemover:OnTriggerEnter2D(cOtherCollider2D)
         end
 
         -- ... instantiate the splash where the player falls in.
-        GameObject.Instantiate(this.m_splash, cOtherCollider2D.transform.position, self.transform.rotation)
+        GameObject.Instantiate(self.m_cSplash, cOtherCollider2D.transform.position, self.transform.rotation)
 
         -- ... destroy the player.
         GameObject.Destroy(cOtherCollider2D.gameObject)
@@ -68,7 +62,7 @@ function LgRemover:OnTriggerEnter2D(cOtherCollider2D)
         self:ReloadGame()
     else
         -- ... instantiate the splash where the enemy falls in.
-        GameObject.Instantiate(this.m_splash, cOtherCollider2D.transform.position, self.transform.rotation)
+        GameObject.Instantiate(self.m_cSplash, cOtherCollider2D.transform.position, self.transform.rotation)
 
         -- Destroy the enemy.
         GameObject.Destroy(cOtherCollider2D.gameObject)
@@ -83,7 +77,7 @@ function LgRemover:ReloadGame()
         Yield(WaitForSeconds(2.0))
 
         -- ... and then reload the level.
-        Application.LoadLevel(Application.loadedLevel)
+        SceneManagement.SceneManager.LoadScene("Level")
     end)
 
     coroutine.resume(cCol)

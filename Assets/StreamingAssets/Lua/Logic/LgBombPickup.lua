@@ -8,27 +8,15 @@
 -- @date      2015-09-05
 --
 
-local YwDeclare = YwDeclare
-local YwClass = YwClass
-
 local DLog = YwDebug.Log
 local DLogWarn = YwDebug.LogWarning
 local DLogError = YwDebug.LogError
 
 -- Register new class LgBombPickup.
 local strClassName = "LgBombPickup"
-local LgBombPickup = YwDeclare(strClassName, YwClass(strClassName))
+local LgBombPickup = YwDeclare(strClassName, YwClass(strClassName, YwMonoBehaviour))
 
 -- Member variables.
-
--- The c# class object.
-LgBombPickup.this = false
-
--- The transform.
-LgBombPickup.transform = false
-
--- The c# gameObject.
-LgBombPickup.gameObject = false
 
 -- Sound for when the bomb crate is picked up.
 LgBombPickup.m_cPickupClip = false;
@@ -51,6 +39,10 @@ function LgBombPickup:Awake()
 
     -- Setting up the reference.
     self.m_cAnim = self.transform.root:GetComponent(Animator)
+
+    -- Get data bridge and set params.
+    local cDataBridge = self.gameObject:GetComponent(YwLuaMonoDataBridge)
+    self.m_cPickupClip = cDataBridge.m_audioClips[3]
 end
 
 -- OnTriggerEnter2D method.
@@ -63,8 +55,8 @@ function LgBombPickup:OnTriggerEnter2D(cOtherCollider2D)
         AudioSource.PlayClipAtPoint(self.m_cPickupClip, self.transform.position)
 
         -- Increase the number of bombs the player has.
-        local cLayBombs = cOtherCollider2D:GetComponent(LayBombs)
-        cLayBombs.m_bombCount = cLayBombs.m_bombCount + 1
+        local cLayBombs = cOtherCollider2D:GetComponent(YwLuaMonoBehaviour):GetLuaTable().m_cLayBombs
+        cLayBombs.m_nBombCount = cLayBombs.m_nBombCount + 1
 
         -- Destroy the crate.
         GameObject.Destroy(self.transform.root.gameObject)
