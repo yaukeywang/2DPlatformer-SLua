@@ -36,11 +36,18 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
 
     public override float GetPropertyHeight(SerializedProperty cProperty, GUIContent cLabel)
     {
+        int nMethodsSize = cProperty.FindPropertyRelative("m_cMonoMethods").arraySize;
+        int nGameObjSize = cProperty.FindPropertyRelative("m_aParameters").arraySize;
+        nGameObjSize = (nGameObjSize > 0) ? nGameObjSize : 1;
         return m_fSingleLineHeight +    // Class name label.
             m_fSingleLineGap * 2 +      // Line gap.
             m_fSingleLineHeight +       // Method block header.
-            m_fSingleLineGap + (m_fSingleLineHeight + m_fSingleLineGap) * (cProperty.FindPropertyRelative("m_cMonoMethods").arraySize + 1) + m_fSingleLineGap +    // Method block list.
-            m_fSingleLineHeight;        // Method block footer.
+            m_fSingleLineGap + (m_fSingleLineHeight + m_fSingleLineGap) * (nMethodsSize + 1) + m_fSingleLineGap +    // Method block list.
+            m_fSingleLineHeight +       // Method block footer.
+            m_fSingleLineGap * 2 +      // Line gap.
+            m_fSingleLineHeight +       // GameObject Parameters block header.
+            m_fSingleLineGap + (m_fSingleLineHeight + m_fSingleLineGap) * nGameObjSize + m_fSingleLineGap +         // GameObject Parameters block list.
+            m_fSingleLineHeight;        // GameObject Parameters block footer.
     }
 
     public override void OnGUI(Rect rcPosition, SerializedProperty cProperty, GUIContent cLabel)
@@ -74,50 +81,113 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
 
         float fFooterBgROffset = rcPosition.xMax - m_fFooterROffset - m_fFooterBtnROffset * 1;
         Rect rcFooterBackground = new Rect(fFooterBgROffset, rcBoxBackground.yMax, rcBoxBackground.xMax - fFooterBgROffset, m_fSingleLineHeight);
-
         Rect rcFooterBtnAdd = new Rect(fFooterBgROffset + m_fFooterROffsetEx, rcFooterBackground.y - m_fFooterROffsetEx, m_fFooterBtnWidth, m_fFooterBtnHeight);
-        //Rect rcFooterBtnMinus = new Rect(rcFooterBackground.xMax - m_fFooterROffsetEx - m_fFooterBtnROffset, rcFooterBackground.y - 3.0f, m_fFooterBtnWidth, m_fFooterBtnHeight);
+        Rect rcFooterBtnMinus = new Rect(rcHeader.xMax - m_fFooterROffsetEx - m_fFooterBtnROffset, rcHeader.y, m_fFooterBtnWidth, m_fFooterBtnHeight);
+        Rect rcMethodArea = new Rect(rcHeader.x, rcHeader.y, rcHeader.width, rcFooterBackground.yMax - rcHeader.y);
 
         // Draw method gui style.
         DrawGUIStyle(m_cGsHeaderBackground, rcHeader, false, false, false, false);
         DrawGUIStyle(m_cGsBoxBackground, rcBoxBackground, false, false, false, false);
         DrawGUIStyle(m_cGsFooterBackground, rcFooterBackground, false, false, false, false);
 
+        EditorGUI.BeginProperty(rcMethodArea, cLabel, cProperty);
+
         // Draw header string.
         Rect rcHeaderLabel = new Rect(rcHeader.x + m_fElementLROffset, rcHeader.y, rcHeader.width - m_fElementLROffset * 2, rcHeader.height);
         EditorGUI.LabelField(rcHeaderLabel, "Select MonoBehaviour event for Lua.");
 
+        GUI.Button(rcFooterBtnMinus, m_cIconToolbarMinus, m_cGsPreButton);
+
         // Draw method list.
-        Rect rcElementBg = new Rect(rcBoxBackground.x, rcBoxBackground.y + m_fSingleLineGap, rcBoxBackground.width, fElementSingleLineHeight);
-        Rect rcElementLabel = new Rect(rcBoxBackground.x + m_fElementLROffset, rcBoxBackground.y + m_fSingleLineGap, rcBoxBackground.width, fElementSingleLineHeight);
-        DrawGUIStyle(m_cGsElementBackground2, new Rect(rcElementBg.x, rcElementBg.y, rcElementBg.width - m_fElementLROffsetEx, rcElementBg.height), false, false, false, false);
+        Rect rcElementBg = new Rect(rcBoxBackground.x, rcBoxBackground.y + m_fSingleLineGap, rcBoxBackground.width - m_fElementLROffsetEx, fElementSingleLineHeight);
+        Rect rcElementLabel = new Rect(rcBoxBackground.x + m_fElementLROffset, rcBoxBackground.y + m_fSingleLineGap, rcBoxBackground.width - m_fElementLROffset, fElementSingleLineHeight);
+        DrawGUIStyle(m_cGsElementBackground2, rcElementBg, false, false, false, false);
         EditorGUI.LabelField(rcElementLabel, "Awake (Built-in)");
 
-        Color clrBg = GUI.backgroundColor;
-        GUI.backgroundColor = Color.black;
-
-        rcElementBg.width -= m_fElementLROffsetEx;
         for (int i = 0; i < nMethodCount; i++)
         {
+            Color clrBg = GUI.backgroundColor;
+            GUI.backgroundColor = Color.black;
+            GUI.Box(rcElementBg, "");
+            GUI.backgroundColor = clrBg;
+
             rcElementBg.y = rcElementBg.yMax;
             rcElementLabel.y = rcElementLabel.yMax;
-            //DrawGUIStyle(m_cGsElementBackground, rcElementBg, false, true, true, true);
-            GUI.Box(rcElementBg, "");
+
             EditorGUI.LabelField(rcElementLabel, Enum.GetName(typeof(YwLuaMonoBehaviourParams.EMonoMethod), cMethodList.GetArrayElementAtIndex(i).enumValueIndex));
             GUI.Button(new Rect(rcElementBg.xMax - m_fElementRemoveBtnLROffset, rcElementBg.y + m_fSingleLineGap, m_fElementRemoveBtnSize, m_fElementRemoveBtnSize), m_cIconToolbarMinus, m_cGsInvisibleRemoveButton);
         }
 
-        GUI.backgroundColor = clrBg;
+        GUI.Button(rcFooterBtnAdd, m_cIconToolbarPlusMore, m_cGsPreButton);
 
-        GUI.Button(rcFooterBtnAdd, m_cIconToolbarPlus, m_cGsPreButton);
-        //GUI.Button(rcFooterBtnMinus, m_cIconToolbarMinus, m_cGsPreButton);
+        EditorGUI.EndProperty();
 
-        return rcHeader;
+        return rcMethodArea;
     }
 
-    protected void OnParametersGUI(Rect rcPosition, Rect rcLastRect, SerializedProperty cProperty, GUIContent cLabel)
+    protected Rect OnParametersGUI(Rect rcPosition, Rect rcLastRect, SerializedProperty cProperty, GUIContent cLabel)
     {
+        SerializedProperty cGameObjList = cProperty.FindPropertyRelative("m_aParameters");
+        bool bListIsEmpty = cGameObjList.arraySize <= 0;
+        int nGameObjCount = bListIsEmpty ? 1 : cGameObjList.arraySize;
+        float fElementSingleLineHeight = m_fSingleLineHeight + m_fSingleLineGap;
 
+        Rect rcHeader = new Rect(rcPosition.x, rcLastRect.yMax + m_fSingleLineGap * 2, rcPosition.width, m_fSingleLineHeight);
+        Rect rcBoxBackground = new Rect(rcPosition.x, rcHeader.yMax, rcPosition.width, m_fSingleLineGap + fElementSingleLineHeight * nGameObjCount + m_fSingleLineGap);
+
+        float fFooterBgROffset = rcPosition.xMax - m_fFooterROffset - m_fFooterBtnROffset * 1;
+        Rect rcFooterBackground = new Rect(fFooterBgROffset, rcBoxBackground.yMax, rcBoxBackground.xMax - fFooterBgROffset, m_fSingleLineHeight);
+        Rect rcFooterBtnAdd = new Rect(fFooterBgROffset + m_fFooterROffsetEx, rcFooterBackground.y - m_fFooterROffsetEx, m_fFooterBtnWidth, m_fFooterBtnHeight);
+        Rect rcFooterBtnMinus = new Rect(rcHeader.xMax - m_fFooterROffsetEx - m_fFooterBtnROffset, rcHeader.y, m_fFooterBtnWidth, m_fFooterBtnHeight);
+        Rect rcMethodArea = new Rect(rcHeader.x, rcHeader.y, rcHeader.width, rcFooterBackground.yMax - rcHeader.y);
+
+        // Draw method gui style.
+        DrawGUIStyle(m_cGsHeaderBackground, rcHeader, false, false, false, false);
+        DrawGUIStyle(m_cGsBoxBackground, rcBoxBackground, false, false, false, false);
+        DrawGUIStyle(m_cGsFooterBackground, rcFooterBackground, false, false, false, false);
+
+        EditorGUI.BeginProperty(rcMethodArea, cLabel, cProperty);
+
+        // Draw header string.
+        Rect rcHeaderLabel = new Rect(rcHeader.x + m_fElementLROffset, rcHeader.y, rcHeader.width - m_fElementLROffset * 2, rcHeader.height);
+        EditorGUI.LabelField(rcHeaderLabel, "Select GameObjects for Lua.");
+
+        GUI.Button(rcFooterBtnMinus, m_cIconToolbarMinus, m_cGsPreButton);
+
+        // Draw method list.
+        Rect rcElementBg = new Rect(rcBoxBackground.x, rcBoxBackground.y + m_fSingleLineGap, rcBoxBackground.width - m_fElementLROffsetEx, fElementSingleLineHeight);
+        Rect rcElementLabel = new Rect(rcBoxBackground.x + m_fElementLROffset, rcBoxBackground.y + m_fSingleLineGap, rcBoxBackground.width - m_fElementLROffset, fElementSingleLineHeight);
+
+        if (bListIsEmpty)
+        {
+            EditorGUI.LabelField(rcElementLabel, "List is empty!");
+        }
+        else
+        {
+            for (int i = 0; i < nGameObjCount; i++)
+            {
+                Color clrBg = GUI.backgroundColor;
+                GUI.backgroundColor = Color.black;
+                GUI.Box(rcElementBg, "");
+                GUI.backgroundColor = clrBg;
+
+                Rect rcElementObjField = rcElementLabel;
+                rcElementObjField.width -= m_fFooterBtnWidth * 2;
+                rcElementObjField.height = m_fSingleLineHeight;
+
+                EditorGUI.ObjectField(rcElementObjField, new GUIContent("GameObject " + i), cGameObjList.GetArrayElementAtIndex(i).objectReferenceValue, typeof(GameObject), true);
+                GUI.Button(new Rect(rcElementBg.xMax - m_fElementRemoveBtnLROffset, rcElementBg.y + m_fSingleLineGap, m_fElementRemoveBtnSize, m_fElementRemoveBtnSize), m_cIconToolbarMinus, m_cGsInvisibleRemoveButton);
+
+                rcElementBg.y = rcElementBg.yMax;
+                rcElementLabel.y = rcElementLabel.yMax;
+            }
+        }
+
+        GUI.Button(rcFooterBtnAdd, m_cIconToolbarPlus, m_cGsPreButton);
+
+        EditorGUI.EndProperty();
+
+        return rcMethodArea;
     }
 
     protected void DrawGUIStyle(GUIStyle cStyle, Rect rcSize, bool bIsHover, bool bIsActive, bool bIsOn, bool bHasKeyboardFocus)
