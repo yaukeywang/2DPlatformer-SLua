@@ -43,7 +43,7 @@ public class YwLuaMonoBehaviourParams
     public string m_strLuaClassName = string.Empty;
 
     // All mono method we have.
-    public List<EMonoMethod> m_cMonoMethods = new List<EMonoMethod>() { EMonoMethod.Start, EMonoMethod.Update, EMonoMethod.LateUpdate };
+    public List<EMonoMethod> m_cMonoMethods = new List<EMonoMethod>();
 
     // The parameters used to pass to lua.
     public GameObject[] m_aParameters = null;
