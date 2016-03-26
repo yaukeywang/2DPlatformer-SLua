@@ -18,78 +18,13 @@ public class Lua_YwLuaMonoBehaviour : LuaObject {
 		}
 	}
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static public int get_m_className(IntPtr l) {
+	static public int GetLuaClassName(IntPtr l) {
 		try {
 			YwLuaMonoBehaviour self=(YwLuaMonoBehaviour)checkSelf(l);
+			var ret=self.GetLuaClassName();
 			pushValue(l,true);
-			pushValue(l,self.m_className);
+			pushValue(l,ret);
 			return 2;
-		}
-		catch(Exception e) {
-			return error(l,e);
-		}
-	}
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static public int set_m_className(IntPtr l) {
-		try {
-			YwLuaMonoBehaviour self=(YwLuaMonoBehaviour)checkSelf(l);
-			System.String v;
-			checkType(l,2,out v);
-			self.m_className=v;
-			pushValue(l,true);
-			return 1;
-		}
-		catch(Exception e) {
-			return error(l,e);
-		}
-	}
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static public int get_m_monoMethods(IntPtr l) {
-		try {
-			YwLuaMonoBehaviour self=(YwLuaMonoBehaviour)checkSelf(l);
-			pushValue(l,true);
-			pushValue(l,self.m_monoMethods);
-			return 2;
-		}
-		catch(Exception e) {
-			return error(l,e);
-		}
-	}
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static public int set_m_monoMethods(IntPtr l) {
-		try {
-			YwLuaMonoBehaviour self=(YwLuaMonoBehaviour)checkSelf(l);
-			System.Collections.Generic.List<YwLuaMonoBehaviour.EMonoMethod> v;
-			checkType(l,2,out v);
-			self.m_monoMethods=v;
-			pushValue(l,true);
-			return 1;
-		}
-		catch(Exception e) {
-			return error(l,e);
-		}
-	}
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static public int get_m_parameters(IntPtr l) {
-		try {
-			YwLuaMonoBehaviour self=(YwLuaMonoBehaviour)checkSelf(l);
-			pushValue(l,true);
-			pushValue(l,self.m_parameters);
-			return 2;
-		}
-		catch(Exception e) {
-			return error(l,e);
-		}
-	}
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static public int set_m_parameters(IntPtr l) {
-		try {
-			YwLuaMonoBehaviour self=(YwLuaMonoBehaviour)checkSelf(l);
-			UnityEngine.GameObject[] v;
-			checkArray(l,2,out v);
-			self.m_parameters=v;
-			pushValue(l,true);
-			return 1;
 		}
 		catch(Exception e) {
 			return error(l,e);
@@ -97,9 +32,7 @@ public class Lua_YwLuaMonoBehaviour : LuaObject {
 	}
 	static public void reg(IntPtr l) {
 		getTypeTable(l,"YwLuaMonoBehaviour");
-		addMember(l,"m_className",get_m_className,set_m_className,true);
-		addMember(l,"m_monoMethods",get_m_monoMethods,set_m_monoMethods,true);
-		addMember(l,"m_parameters",get_m_parameters,set_m_parameters,true);
+		addMember(l,GetLuaClassName);
 		createTypeMetatable(l,constructor, typeof(YwLuaMonoBehaviour),typeof(YwLuaMonoBehaviourBase));
 	}
 }
