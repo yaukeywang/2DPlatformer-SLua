@@ -70,6 +70,12 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
     // Current control id.
     private int m_nControlID = -1;
 
+    // Constructor.
+    public YwLuaMonoBehaviourParamsPropertyDrawer() : base()
+    {
+        m_nControlID = GUIUtility.GetControlID(FocusType.Keyboard);
+    }
+
     /**
      * Override this method to specify how tall the GUI for this field is in pixels.
      * The default is one line high.
@@ -429,11 +435,6 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
     // If has the keyboard control.
     protected bool HasKeyboardControl()
     {
-        if (-1 == m_nControlID)
-        {
-            m_nControlID = GUIUtility.GetControlID(FocusType.Keyboard);
-        }
-
         return GUIUtility.keyboardControl == m_nControlID;
     }
 }
