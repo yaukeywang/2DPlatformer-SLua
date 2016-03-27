@@ -1,16 +1,32 @@
-﻿using UnityEngine;
+﻿/**
+ * The property drawer of the YwLuaMonoBehaviourParamsPropertyDrawer class.
+ *
+ * @filename  YwLuaMonoBehaviourParamsPropertyDrawer.cs
+ * @copyright Copyright (c) 2015 Yaukey/yaukeywang/WangYaoqi (yaukeywang@gmail.com) all rights reserved.
+ * @license   The MIT License (MIT)
+ * @author    Yaukey
+ * @date      2016-03-25
+ */
+
+using UnityEngine;
 using UnityEditor;
 using System.Collections;
 using System;
 
+// The property drawer of the YwLuaMonoBehaviourParamsPropertyDrawer class.
 [CustomPropertyDrawer(typeof(YwLuaMonoBehaviourParams))]
 public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
 {
+    // The param of the contex menu for mono methods selection.
     protected struct MethodMenuEventParam
     {
+        // The serialized property.
         public readonly SerializedProperty m_cListener;
+
+        // The enum value of the event (YwLuaMonoBehaviourParams.EMonoMethod).
         public readonly int m_nEventIdx;
 
+        // Constructor.
         public MethodMenuEventParam(SerializedProperty cListener, int nEventIdx)
         {
             m_cListener = cListener;
@@ -18,12 +34,15 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
         }
     }
 
+    // The built-in icon resources.
     protected static readonly GUIContent m_cIconToolbarPlus = EditorGUIUtility.IconContent("Toolbar Plus", "Add to list.");
     protected static readonly GUIContent m_cIconToolbarPlusMore = EditorGUIUtility.IconContent("Toolbar Plus More", "Choose to add to list.");
     protected static readonly GUIContent m_cIconToolbarMinus = EditorGUIUtility.IconContent("Toolbar Minus", "Remove selection from list.");
 
+    // The name content.
     protected static readonly GUIContent m_cLabelClassName = new GUIContent("Lua Class Name");
 
+    // The built-in gui style.
     protected static readonly GUIStyle m_cGsHeaderBackground = "RL Header";
     protected static readonly GUIStyle m_cGsBoxBackground = "RL Background";
     protected static readonly GUIStyle m_cGsFooterBackground = "RL Footer";
@@ -32,6 +51,7 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
     protected static readonly GUIStyle m_cGsElementBackground2 = "OL Box";
     protected static readonly GUIStyle m_cGsInvisibleRemoveButton = "InvisibleButton";
 
+    // The constant value for gui area.
     protected static readonly float m_fSingleLineHeight = EditorGUIUtility.singleLineHeight;
     protected static readonly float m_fSingleLineGap = 3.0f;
     protected static readonly float m_fFooterROffset = 8.0f;
@@ -41,11 +61,22 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
     protected static readonly float m_fFooterBtnHeight = 13.0f;
     protected static readonly float m_fElementLROffset = 6.0f;
     protected static readonly float m_fElementLROffsetEx = 2.0f;
+    protected static readonly float m_fElementLROffsetEx2 = 1.0f;
+    protected static readonly float m_fElementLROffsetEx3 = 4.0f;
     protected static readonly float m_fElementRemoveBtnSize = 16.0f;
     protected static readonly float m_fElementRemoveBtnLROffset = 22.0f;
 
+    // Current control id.
     private int m_nControlID = -1;
 
+    /**
+     * Override this method to specify how tall the GUI for this field is in pixels.
+     * The default is one line high.
+     * 
+     * @param SerializedProperty cProperty - The SerializedProperty to make the custom GUI for.
+     * @param GUIContent cLabel - The label of this property.
+     * @return float - The height in pixels.
+     */
     public override float GetPropertyHeight(SerializedProperty cProperty, GUIContent cLabel)
     {
         int nMethodsSize = cProperty.FindPropertyRelative("m_cMonoMethods").arraySize;
@@ -62,19 +93,31 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
             m_fSingleLineHeight;        // GameObject Parameters block footer.
     }
 
+    /**
+     * Override this method to make your own GUI for the property.
+     * 
+     * @param Rect rcPosition - TheRectangle on the screen to use for the property GUI.
+     * @param SerializedProperty cProperty - The SerializedProperty to make the custom GUI for.
+     * @param GUIContent cLabel - The label of this property.
+     * @return void.
+     */
     public override void OnGUI(Rect rcPosition, SerializedProperty cProperty, GUIContent cLabel)
     {
+        // Draw all the gui.
         Rect rcCurrent = OnClassNameGUI(rcPosition, cProperty, cLabel);
         rcCurrent = OnMethodsGUI(rcPosition, rcCurrent, cProperty, cLabel);
         OnParametersGUI(rcPosition, rcCurrent, cProperty, cLabel);
     }
 
+    // Draw the class name gui.
     protected Rect OnClassNameGUI(Rect rcPosition, SerializedProperty cProperty, GUIContent cLabel)
     {
+        // Calc the rect.
         Rect rcClassName = rcPosition;
         rcClassName.width -= 2.0f;
         rcClassName.height = m_fSingleLineHeight;
 
+        // Draw property field.
         EditorGUI.BeginProperty(rcClassName, cLabel, cProperty);
         EditorGUI.PropertyField(rcClassName, cProperty.FindPropertyRelative("m_strLuaClassName"), m_cLabelClassName);
         EditorGUI.EndProperty();
@@ -82,34 +125,42 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
         return rcClassName;
     }
 
+    // Draw the mono behaviour method event gui.
     protected Rect OnMethodsGUI(Rect rcPosition, Rect rcLastRect, SerializedProperty cProperty, GUIContent cLabel)
     {
+        // Get method list and count.
         SerializedProperty cMethodList = cProperty.FindPropertyRelative("m_cMonoMethods");
         int nMethodCount = cMethodList.arraySize;
         int nToBeRemovedMethod = -1;
         bool bRemoveAllMethod = false;
         float fElementSingleLineHeight = m_fSingleLineHeight + m_fSingleLineGap;
 
+        // Get background header and box area.
         Rect rcHeader = new Rect(rcPosition.x, rcLastRect.yMax + m_fSingleLineGap * 2, rcPosition.width, m_fSingleLineHeight);
         Rect rcBoxBackground = new Rect(rcPosition.x, rcHeader.yMax, rcPosition.width, m_fSingleLineGap + fElementSingleLineHeight * (nMethodCount + 1) + m_fSingleLineGap);
 
+        // Get footer background.
         float fFooterBgROffset = rcPosition.xMax - m_fFooterROffset - m_fFooterBtnROffset * 1;
         Rect rcFooterBackground = new Rect(fFooterBgROffset, rcBoxBackground.yMax, rcBoxBackground.xMax - fFooterBgROffset, m_fSingleLineHeight);
         Rect rcFooterBtnAdd = new Rect(fFooterBgROffset + m_fFooterROffsetEx, rcFooterBackground.y - m_fFooterROffsetEx, m_fFooterBtnWidth, m_fFooterBtnHeight);
         Rect rcFooterBtnMinus = new Rect(rcHeader.xMax - m_fFooterROffsetEx - m_fFooterBtnROffset, rcHeader.y, m_fFooterBtnWidth, m_fFooterBtnHeight);
+
+        // Get the whole area.
         Rect rcMethodArea = new Rect(rcHeader.x, rcHeader.y, rcHeader.width, rcFooterBackground.yMax - rcHeader.y);
 
-        // Draw method gui style.
+        // Draw background gui style.
         DrawGUIStyle(m_cGsHeaderBackground, rcHeader, false, false, false, false);
         DrawGUIStyle(m_cGsBoxBackground, rcBoxBackground, false, false, false, false);
         DrawGUIStyle(m_cGsFooterBackground, rcFooterBackground, false, false, false, false);
 
+        // Begin to edit property.
         EditorGUI.BeginProperty(rcMethodArea, cLabel, cProperty);
 
         // Draw header string.
         Rect rcHeaderLabel = new Rect(rcHeader.x + m_fElementLROffset, rcHeader.y, rcHeader.width - m_fElementLROffset * 2, rcHeader.height);
         EditorGUI.LabelField(rcHeaderLabel, "Select MonoBehaviour event for Lua.");
 
+        // Draw clear list button.
         EditorGUI.BeginDisabledGroup(nMethodCount <= 0);
         if (GUI.Button(rcFooterBtnMinus, m_cIconToolbarMinus, m_cGsPreButton))
         {
@@ -119,47 +170,67 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
         EditorGUI.EndDisabledGroup();
 
         // Draw method list.
-        Rect rcElementBg = new Rect(rcBoxBackground.x, rcBoxBackground.y + m_fSingleLineGap, rcBoxBackground.width - m_fElementLROffsetEx, fElementSingleLineHeight);
-        Rect rcElementLabel = new Rect(rcBoxBackground.x + m_fElementLROffset, rcBoxBackground.y + m_fSingleLineGap, rcBoxBackground.width - m_fElementLROffset, fElementSingleLineHeight);
-        DrawGUIStyle(m_cGsElementBackground2, rcElementBg, false, false, false, false);
+        Rect rcElementBg = new Rect(rcBoxBackground.x + m_fElementLROffsetEx2, rcBoxBackground.y + m_fSingleLineGap, rcBoxBackground.width - m_fElementLROffsetEx - m_fElementLROffsetEx2, fElementSingleLineHeight);
+        Rect rcElementLabel = new Rect(rcBoxBackground.x + m_fElementLROffset, rcBoxBackground.y + m_fSingleLineGap + 1.0f, rcBoxBackground.width - m_fElementLROffset, fElementSingleLineHeight);
+
+        // Draw method bg list box.
+        Color clrBgLb = GUI.backgroundColor;
+        GUI.backgroundColor = Color.cyan;
+        GUI.Box(rcElementBg, "");
+        GUI.backgroundColor = clrBgLb;
+
+        // Set the "Awake" field.
         EditorGUI.LabelField(rcElementLabel, "Awake (Built-in)");
 
+        // Draw the method list.
         for (int i = 0; i < nMethodCount; i++)
         {
+            // Re-calc the rect of the element.
+            rcElementBg.y = rcElementBg.yMax;
+            rcElementLabel.y = rcElementLabel.yMax;
+
+            // Draw the element bg box.
             Color clrBg = GUI.backgroundColor;
             GUI.backgroundColor = Color.black;
             GUI.Box(rcElementBg, "");
             GUI.backgroundColor = clrBg;
 
-            rcElementBg.y = rcElementBg.yMax;
-            rcElementLabel.y = rcElementLabel.yMax;
-
+            // Draw the element name and the remove button.
             EditorGUI.LabelField(rcElementLabel, Enum.GetName(typeof(YwLuaMonoBehaviourParams.EMonoMethod), cMethodList.GetArrayElementAtIndex(i).enumValueIndex));
-            GUI.Button(new Rect(rcElementBg.xMax - m_fElementRemoveBtnLROffset, rcElementBg.y + m_fSingleLineGap, m_fElementRemoveBtnSize, m_fElementRemoveBtnSize), m_cIconToolbarMinus, m_cGsInvisibleRemoveButton);
+            if (GUI.Button(new Rect(rcElementBg.xMax - m_fElementRemoveBtnLROffset, rcElementBg.y + m_fSingleLineGap, m_fElementRemoveBtnSize, m_fElementRemoveBtnSize), m_cIconToolbarMinus, m_cGsInvisibleRemoveButton))
+            {
+                nToBeRemovedMethod = i;
+            }
         }
 
+        // Draw the add new method menu.
         if (GUI.Button(rcFooterBtnAdd, m_cIconToolbarPlusMore, m_cGsPreButton))
         {
             ShowMethodEventMenu(cMethodList);
         }
 
+        // Remove the element selected.
         if (nToBeRemovedMethod > -1)
         {
-
+            cMethodList.DeleteArrayElementAtIndex(nToBeRemovedMethod);
         }
 
+        // Remove all the elements.
         if (bRemoveAllMethod)
         {
             cMethodList.ClearArray();
         }
 
+        // End edit.
         EditorGUI.EndProperty();
 
         return rcMethodArea;
     }
 
+    // Draw the parameters gui.
     protected Rect OnParametersGUI(Rect rcPosition, Rect rcLastRect, SerializedProperty cProperty, GUIContent cLabel)
     {
+        // Get game object list and count.
         SerializedProperty cGameObjList = cProperty.FindPropertyRelative("m_aParameters");
         bool bListIsEmpty = cGameObjList.arraySize <= 0;
         int nGameObjCount = bListIsEmpty ? 1 : cGameObjList.arraySize;
@@ -167,26 +238,30 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
         bool bRemoveAllGameObj = false;
         float fElementSingleLineHeight = m_fSingleLineHeight + m_fSingleLineGap;
 
+        // Get background header and box area.
         Rect rcHeader = new Rect(rcPosition.x, rcLastRect.yMax + m_fSingleLineGap * 2, rcPosition.width, m_fSingleLineHeight);
         Rect rcBoxBackground = new Rect(rcPosition.x, rcHeader.yMax, rcPosition.width, m_fSingleLineGap + fElementSingleLineHeight * nGameObjCount + m_fSingleLineGap);
 
+        // Get footer background.
         float fFooterBgROffset = rcPosition.xMax - m_fFooterROffset - m_fFooterBtnROffset * 1;
         Rect rcFooterBackground = new Rect(fFooterBgROffset, rcBoxBackground.yMax, rcBoxBackground.xMax - fFooterBgROffset, m_fSingleLineHeight);
         Rect rcFooterBtnAdd = new Rect(fFooterBgROffset + m_fFooterROffsetEx, rcFooterBackground.y - m_fFooterROffsetEx, m_fFooterBtnWidth, m_fFooterBtnHeight);
         Rect rcFooterBtnMinus = new Rect(rcHeader.xMax - m_fFooterROffsetEx - m_fFooterBtnROffset, rcHeader.y, m_fFooterBtnWidth, m_fFooterBtnHeight);
         Rect rcMethodArea = new Rect(rcHeader.x, rcHeader.y, rcHeader.width, rcFooterBackground.yMax - rcHeader.y);
 
-        // Draw method gui style.
+        // Draw background gui style.
         DrawGUIStyle(m_cGsHeaderBackground, rcHeader, false, false, false, false);
         DrawGUIStyle(m_cGsBoxBackground, rcBoxBackground, false, false, false, false);
         DrawGUIStyle(m_cGsFooterBackground, rcFooterBackground, false, false, false, false);
 
+        // Begin to edit property.
         EditorGUI.BeginProperty(rcMethodArea, cLabel, cProperty);
 
         // Draw header string.
         Rect rcHeaderLabel = new Rect(rcHeader.x + m_fElementLROffset, rcHeader.y, rcHeader.width - m_fElementLROffset * 2, rcHeader.height);
         EditorGUI.LabelField(rcHeaderLabel, "Select GameObjects for Lua.");
 
+        // Draw clear list button.
         EditorGUI.BeginDisabledGroup(bListIsEmpty);
         if (GUI.Button(rcFooterBtnMinus, m_cIconToolbarMinus, m_cGsPreButton))
         {
@@ -195,60 +270,77 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
 
         EditorGUI.EndDisabledGroup();
 
-        // Draw method list.
-        Rect rcElementBg = new Rect(rcBoxBackground.x, rcBoxBackground.y + m_fSingleLineGap, rcBoxBackground.width - m_fElementLROffsetEx, fElementSingleLineHeight);
-        Rect rcElementLabel = new Rect(rcBoxBackground.x + m_fElementLROffset, rcBoxBackground.y + m_fSingleLineGap, rcBoxBackground.width - m_fElementLROffset, fElementSingleLineHeight);
+        // Draw game object list.
+        Rect rcElementBg = new Rect(rcBoxBackground.x + m_fElementLROffsetEx2, rcBoxBackground.y + m_fSingleLineGap, rcBoxBackground.width - m_fElementLROffsetEx - m_fElementLROffsetEx2, fElementSingleLineHeight);
+        Rect rcElementLabel = new Rect(rcBoxBackground.x + m_fElementLROffset, rcBoxBackground.y + m_fSingleLineGap + 1.0f, rcBoxBackground.width - m_fElementLROffset, fElementSingleLineHeight);
 
+        // Leave at least one element space.
         if (bListIsEmpty)
         {
             EditorGUI.LabelField(rcElementLabel, "List is empty!");
         }
         else
         {
+            // Draw all the field list.
             for (int i = 0; i < nGameObjCount; i++)
             {
+                // Draw the element bg box.
                 Color clrBg = GUI.backgroundColor;
                 GUI.backgroundColor = Color.black;
                 GUI.Box(rcElementBg, "");
                 GUI.backgroundColor = clrBg;
 
+                // Re-calc the rect of the element.
                 Rect rcElementObjField = rcElementLabel;
                 rcElementObjField.width -= m_fFooterBtnWidth * 2;
                 rcElementObjField.height = m_fSingleLineHeight;
 
-                EditorGUI.ObjectField(rcElementObjField, new GUIContent("GameObject " + i), cGameObjList.GetArrayElementAtIndex(i).objectReferenceValue, typeof(GameObject), true);
+                EditorGUI.BeginChangeCheck();
+                UnityEngine.Object cSelObj = EditorGUI.ObjectField(rcElementObjField, new GUIContent("GameObject " + i), cGameObjList.GetArrayElementAtIndex(i).objectReferenceValue, typeof(GameObject), true);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    cGameObjList.GetArrayElementAtIndex(i).objectReferenceValue = cSelObj;
+                }
+
+                // Draw the remove button.
                 if (GUI.Button(new Rect(rcElementBg.xMax - m_fElementRemoveBtnLROffset, rcElementBg.y + m_fSingleLineGap, m_fElementRemoveBtnSize, m_fElementRemoveBtnSize), m_cIconToolbarMinus, m_cGsInvisibleRemoveButton))
                 {
                     nToBeRemovedGameObj = i;
                 }
 
+                // Re-calc the rect of the element bg.
                 rcElementBg.y = rcElementBg.yMax;
                 rcElementLabel.y = rcElementLabel.yMax;
             }
         }
 
+        // Draw the add new game object menu.
         if (GUI.Button(rcFooterBtnAdd, m_cIconToolbarPlus, m_cGsPreButton))
         {
             int nInsertPos = bListIsEmpty ? 0 : nGameObjCount;
             cGameObjList.InsertArrayElementAtIndex(nInsertPos);
-            cGameObjList.GetArrayElementAtIndex(nInsertPos).objectReferenceValue = null;
+            cGameObjList.GetArrayElementAtIndex(nInsertPos).objectReferenceValue = bListIsEmpty ? null : cGameObjList.GetArrayElementAtIndex(nInsertPos - 1).objectReferenceValue;
         }
 
+        // Remove the element selected.
         if (nToBeRemovedGameObj > -1)
         {
             cGameObjList.DeleteArrayElementAtIndex(nToBeRemovedGameObj);
         }
 
+        // Remove all the elements.
         if (bRemoveAllGameObj)
         {
             cGameObjList.ClearArray();
         }
 
+        // End edit.
         EditorGUI.EndProperty();
 
         return rcMethodArea;
     }
 
+    // Show the available mono behaviour method list menu.
     protected void ShowMethodEventMenu(SerializedProperty cMethodList)
     {
         // Now create the menu, add items and show it.
@@ -259,7 +351,7 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
             bool bActive = true;
             int nEventIndex = (int)aMethodEnum.GetValue(i);
 
-            // Check if we already have a Entry for the current eventType, if so, disable it
+            // Check if we already have a Entry for the current eventType, if so, disable it.
             for (int j = 0; j < cMethodList.arraySize; j++)
             {
                 SerializedProperty cEvent = cMethodList.GetArrayElementAtIndex(j);
@@ -284,8 +376,10 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
         Event.current.Use();
     }
 
+    // The mono behaviour method list menu click callback.
     protected void MethodEventMenuCallback(object cEventParam)
     {
+        // Get the listener and the event enum.
         MethodMenuEventParam cEventInfo = (MethodMenuEventParam)cEventParam;
         int nEventSize = cEventInfo.m_cListener.arraySize;
         int nInsertPos = nEventSize;
@@ -297,11 +391,14 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
             }
         }
 
+        // Add a new method to the list.
         cEventInfo.m_cListener.InsertArrayElementAtIndex(nInsertPos);
         cEventInfo.m_cListener.GetArrayElementAtIndex(nInsertPos).enumValueIndex = cEventInfo.m_nEventIdx;
         cEventInfo.m_cListener.serializedObject.ApplyModifiedProperties();
     }
 
+    // Draw gui style.
+    // bIsActive and bIsOn both true give the selected style, plus bHasKeyboardFocus true give the bule bg that shows the focused selected style.
     protected void DrawGUIStyle(GUIStyle cStyle, Rect rcSize, bool bIsHover, bool bIsActive, bool bIsOn, bool bHasKeyboardFocus)
     {
         if (EventType.Repaint != Event.current.type)
@@ -312,6 +409,7 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
         cStyle.Draw(rcSize, bIsHover, bIsActive, bIsOn, bHasKeyboardFocus);
     }
 
+    // If has the keyboard control.
     protected bool HasKeyboardControl()
     {
         if (-1 == m_nControlID)
