@@ -6,6 +6,18 @@ using System;
 [CustomPropertyDrawer(typeof(YwLuaMonoBehaviourParams))]
 public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
 {
+    protected struct MethodMenuEventParam
+    {
+        public readonly SerializedProperty m_cListener;
+        public readonly int m_nEventIdx;
+
+        public MethodMenuEventParam(SerializedProperty cListener, int nEventIdx)
+        {
+            m_cListener = cListener;
+            m_nEventIdx = nEventIdx;
+        }
+    }
+
     protected static readonly GUIContent m_cIconToolbarPlus = EditorGUIUtility.IconContent("Toolbar Plus", "Add to list.");
     protected static readonly GUIContent m_cIconToolbarPlusMore = EditorGUIUtility.IconContent("Toolbar Plus More", "Choose to add to list.");
     protected static readonly GUIContent m_cIconToolbarMinus = EditorGUIUtility.IconContent("Toolbar Minus", "Remove selection from list.");
@@ -74,6 +86,8 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
     {
         SerializedProperty cMethodList = cProperty.FindPropertyRelative("m_cMonoMethods");
         int nMethodCount = cMethodList.arraySize;
+        int nToBeRemovedMethod = -1;
+        bool bRemoveAllMethod = false;
         float fElementSingleLineHeight = m_fSingleLineHeight + m_fSingleLineGap;
 
         Rect rcHeader = new Rect(rcPosition.x, rcLastRect.yMax + m_fSingleLineGap * 2, rcPosition.width, m_fSingleLineHeight);
@@ -96,7 +110,13 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
         Rect rcHeaderLabel = new Rect(rcHeader.x + m_fElementLROffset, rcHeader.y, rcHeader.width - m_fElementLROffset * 2, rcHeader.height);
         EditorGUI.LabelField(rcHeaderLabel, "Select MonoBehaviour event for Lua.");
 
-        GUI.Button(rcFooterBtnMinus, m_cIconToolbarMinus, m_cGsPreButton);
+        EditorGUI.BeginDisabledGroup(nMethodCount <= 0);
+        if (GUI.Button(rcFooterBtnMinus, m_cIconToolbarMinus, m_cGsPreButton))
+        {
+            bRemoveAllMethod = true;
+        }
+
+        EditorGUI.EndDisabledGroup();
 
         // Draw method list.
         Rect rcElementBg = new Rect(rcBoxBackground.x, rcBoxBackground.y + m_fSingleLineGap, rcBoxBackground.width - m_fElementLROffsetEx, fElementSingleLineHeight);
@@ -118,7 +138,20 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
             GUI.Button(new Rect(rcElementBg.xMax - m_fElementRemoveBtnLROffset, rcElementBg.y + m_fSingleLineGap, m_fElementRemoveBtnSize, m_fElementRemoveBtnSize), m_cIconToolbarMinus, m_cGsInvisibleRemoveButton);
         }
 
-        GUI.Button(rcFooterBtnAdd, m_cIconToolbarPlusMore, m_cGsPreButton);
+        if (GUI.Button(rcFooterBtnAdd, m_cIconToolbarPlusMore, m_cGsPreButton))
+        {
+            ShowMethodEventMenu(cMethodList);
+        }
+
+        if (nToBeRemovedMethod > -1)
+        {
+
+        }
+
+        if (bRemoveAllMethod)
+        {
+            cMethodList.ClearArray();
+        }
 
         EditorGUI.EndProperty();
 
@@ -130,6 +163,8 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
         SerializedProperty cGameObjList = cProperty.FindPropertyRelative("m_aParameters");
         bool bListIsEmpty = cGameObjList.arraySize <= 0;
         int nGameObjCount = bListIsEmpty ? 1 : cGameObjList.arraySize;
+        int nToBeRemovedGameObj = -1;
+        bool bRemoveAllGameObj = false;
         float fElementSingleLineHeight = m_fSingleLineHeight + m_fSingleLineGap;
 
         Rect rcHeader = new Rect(rcPosition.x, rcLastRect.yMax + m_fSingleLineGap * 2, rcPosition.width, m_fSingleLineHeight);
@@ -152,7 +187,13 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
         Rect rcHeaderLabel = new Rect(rcHeader.x + m_fElementLROffset, rcHeader.y, rcHeader.width - m_fElementLROffset * 2, rcHeader.height);
         EditorGUI.LabelField(rcHeaderLabel, "Select GameObjects for Lua.");
 
-        GUI.Button(rcFooterBtnMinus, m_cIconToolbarMinus, m_cGsPreButton);
+        EditorGUI.BeginDisabledGroup(bListIsEmpty);
+        if (GUI.Button(rcFooterBtnMinus, m_cIconToolbarMinus, m_cGsPreButton))
+        {
+            bRemoveAllGameObj = true;
+        }
+
+        EditorGUI.EndDisabledGroup();
 
         // Draw method list.
         Rect rcElementBg = new Rect(rcBoxBackground.x, rcBoxBackground.y + m_fSingleLineGap, rcBoxBackground.width - m_fElementLROffsetEx, fElementSingleLineHeight);
@@ -176,18 +217,89 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
                 rcElementObjField.height = m_fSingleLineHeight;
 
                 EditorGUI.ObjectField(rcElementObjField, new GUIContent("GameObject " + i), cGameObjList.GetArrayElementAtIndex(i).objectReferenceValue, typeof(GameObject), true);
-                GUI.Button(new Rect(rcElementBg.xMax - m_fElementRemoveBtnLROffset, rcElementBg.y + m_fSingleLineGap, m_fElementRemoveBtnSize, m_fElementRemoveBtnSize), m_cIconToolbarMinus, m_cGsInvisibleRemoveButton);
+                if (GUI.Button(new Rect(rcElementBg.xMax - m_fElementRemoveBtnLROffset, rcElementBg.y + m_fSingleLineGap, m_fElementRemoveBtnSize, m_fElementRemoveBtnSize), m_cIconToolbarMinus, m_cGsInvisibleRemoveButton))
+                {
+                    nToBeRemovedGameObj = i;
+                }
 
                 rcElementBg.y = rcElementBg.yMax;
                 rcElementLabel.y = rcElementLabel.yMax;
             }
         }
 
-        GUI.Button(rcFooterBtnAdd, m_cIconToolbarPlus, m_cGsPreButton);
+        if (GUI.Button(rcFooterBtnAdd, m_cIconToolbarPlus, m_cGsPreButton))
+        {
+            int nInsertPos = bListIsEmpty ? 0 : nGameObjCount;
+            cGameObjList.InsertArrayElementAtIndex(nInsertPos);
+            cGameObjList.GetArrayElementAtIndex(nInsertPos).objectReferenceValue = null;
+        }
+
+        if (nToBeRemovedGameObj > -1)
+        {
+            cGameObjList.DeleteArrayElementAtIndex(nToBeRemovedGameObj);
+        }
+
+        if (bRemoveAllGameObj)
+        {
+            cGameObjList.ClearArray();
+        }
 
         EditorGUI.EndProperty();
 
         return rcMethodArea;
+    }
+
+    protected void ShowMethodEventMenu(SerializedProperty cMethodList)
+    {
+        // Now create the menu, add items and show it.
+        GenericMenu cMenu = new GenericMenu();
+        Array aMethodEnum = Enum.GetValues(typeof(YwLuaMonoBehaviourParams.EMonoMethod));
+        for (int i = 0; i < aMethodEnum.Length; i++)
+        {
+            bool bActive = true;
+            int nEventIndex = (int)aMethodEnum.GetValue(i);
+
+            // Check if we already have a Entry for the current eventType, if so, disable it
+            for (int j = 0; j < cMethodList.arraySize; j++)
+            {
+                SerializedProperty cEvent = cMethodList.GetArrayElementAtIndex(j);
+                if (cEvent.enumValueIndex == nEventIndex)
+                {
+                    bActive = false;
+                    break;
+                }
+            }
+
+            if (bActive)
+            {
+                cMenu.AddItem(new GUIContent(aMethodEnum.GetValue(i).ToString()), false, MethodEventMenuCallback, new MethodMenuEventParam(cMethodList, nEventIndex));
+            }
+            else
+            {
+                cMenu.AddDisabledItem(new GUIContent(aMethodEnum.GetValue(i).ToString()));
+            }
+        }
+
+        cMenu.ShowAsContext();
+        Event.current.Use();
+    }
+
+    protected void MethodEventMenuCallback(object cEventParam)
+    {
+        MethodMenuEventParam cEventInfo = (MethodMenuEventParam)cEventParam;
+        int nEventSize = cEventInfo.m_cListener.arraySize;
+        int nInsertPos = nEventSize;
+        for (int i = nEventSize - 1; i >= 0; i--)
+        {
+            if (cEventInfo.m_nEventIdx < cEventInfo.m_cListener.GetArrayElementAtIndex(i).enumValueIndex)
+            {
+                nInsertPos = i;
+            }
+        }
+
+        cEventInfo.m_cListener.InsertArrayElementAtIndex(nInsertPos);
+        cEventInfo.m_cListener.GetArrayElementAtIndex(nInsertPos).enumValueIndex = cEventInfo.m_nEventIdx;
+        cEventInfo.m_cListener.serializedObject.ApplyModifiedProperties();
     }
 
     protected void DrawGUIStyle(GUIStyle cStyle, Rect rcSize, bool bIsHover, bool bIsActive, bool bIsOn, bool bHasKeyboardFocus)
