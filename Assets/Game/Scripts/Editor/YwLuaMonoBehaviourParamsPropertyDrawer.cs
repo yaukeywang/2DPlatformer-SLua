@@ -80,17 +80,19 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
      */
     public override float GetPropertyHeight(SerializedProperty cProperty, GUIContent cLabel)
     {
+        bool bClassNameEmpty = string.IsNullOrEmpty(cProperty.FindPropertyRelative("m_strLuaClassName").stringValue);
         int nMethodsSize = cProperty.FindPropertyRelative("m_cMonoMethods").arraySize;
         int nGameObjSize = cProperty.FindPropertyRelative("m_aParameters").arraySize;
         nGameObjSize = (nGameObjSize > 0) ? nGameObjSize : 1;
         return m_fSingleLineHeight +    // Class name label.
+            (bClassNameEmpty ? (m_fSingleLineGap + m_fSingleLineHeight * 2) : 0.0f) +                                   // The help box height.
             m_fSingleLineGap * 2 +      // Line gap.
             m_fSingleLineHeight +       // Method block header.
-            m_fSingleLineGap + (m_fSingleLineHeight + m_fSingleLineGapEx) * (nMethodsSize + 1) + m_fSingleLineGap +    // Method block list.
+            m_fSingleLineGap + (m_fSingleLineHeight + m_fSingleLineGapEx) * (nMethodsSize + 1) + m_fSingleLineGap +     // Method block list.
             m_fSingleLineHeight +       // Method block footer.
             m_fSingleLineGap * 2 +      // Line gap.
             m_fSingleLineHeight +       // GameObject Parameters block header.
-            m_fSingleLineGap + (m_fSingleLineHeight + m_fSingleLineGapEx) * nGameObjSize + m_fSingleLineGap +         // GameObject Parameters block list.
+            m_fSingleLineGap + (m_fSingleLineHeight + m_fSingleLineGapEx) * nGameObjSize + m_fSingleLineGap +           // GameObject Parameters block list.
             m_fSingleLineHeight;        // GameObject Parameters block footer.
     }
 
@@ -118,12 +120,26 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
         rcClassName.width -= 2.0f;
         rcClassName.height = m_fSingleLineHeight;
 
+        // Get the whole area.
+        Rect rcWholeArea = rcClassName;
+
         // Draw property field.
         EditorGUI.BeginProperty(rcClassName, cLabel, cProperty);
         EditorGUI.PropertyField(rcClassName, cProperty.FindPropertyRelative("m_strLuaClassName"), m_cLabelClassName);
         EditorGUI.EndProperty();
 
-        return rcClassName;
+        // Check class name invalidation.
+        if (string.IsNullOrEmpty(cProperty.FindPropertyRelative("m_strLuaClassName").stringValue))
+        {
+            // Show help box.
+            Rect rcHelpBox = new Rect(rcClassName.x, rcClassName.yMax + m_fSingleLineGap, rcClassName.width, m_fSingleLineHeight * 2);
+            EditorGUI.HelpBox(rcHelpBox, "You should specify a class name for Lua!", MessageType.Error);
+
+            // Re-calc the whole area.
+            rcWholeArea.yMax = rcHelpBox.yMax;
+        }
+
+        return rcWholeArea;
     }
 
     // Draw the mono behaviour method event gui.
@@ -147,7 +163,7 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
         Rect rcFooterBtnMinus = new Rect(rcHeader.xMax - m_fFooterROffsetEx - m_fFooterBtnROffset, rcHeader.y, m_fFooterBtnWidth, m_fFooterBtnHeight);
 
         // Get the whole area.
-        Rect rcMethodArea = new Rect(rcHeader.x, rcHeader.y, rcHeader.width, rcFooterBackground.yMax - rcHeader.y);
+        Rect rcWholeArea = new Rect(rcHeader.x, rcHeader.y, rcHeader.width, rcFooterBackground.yMax - rcHeader.y);
 
         // Draw background gui style.
         DrawGUIStyle(m_cGsHeaderBackground, rcHeader, false, false, false, false);
@@ -155,7 +171,7 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
         DrawGUIStyle(m_cGsFooterBackground, rcFooterBackground, false, false, false, false);
 
         // Begin to edit property.
-        EditorGUI.BeginProperty(rcMethodArea, cLabel, cProperty);
+        EditorGUI.BeginProperty(rcWholeArea, cLabel, cProperty);
 
         // Draw header string.
         Rect rcHeaderLabel = new Rect(rcHeader.x + m_fElementLROffset, rcHeader.y, rcHeader.width - m_fElementLROffset * 2, rcHeader.height);
@@ -225,7 +241,7 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
         // End edit.
         EditorGUI.EndProperty();
 
-        return rcMethodArea;
+        return rcWholeArea;
     }
 
     // Draw the parameters gui.
@@ -248,7 +264,7 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
         Rect rcFooterBackground = new Rect(fFooterBgROffset, rcBoxBackground.yMax, rcBoxBackground.xMax - fFooterBgROffset, m_fSingleLineHeight);
         Rect rcFooterBtnAdd = new Rect(fFooterBgROffset + m_fFooterROffsetEx, rcFooterBackground.y - m_fFooterROffsetEx, m_fFooterBtnWidth, m_fFooterBtnHeight);
         Rect rcFooterBtnMinus = new Rect(rcHeader.xMax - m_fFooterROffsetEx - m_fFooterBtnROffset, rcHeader.y, m_fFooterBtnWidth, m_fFooterBtnHeight);
-        Rect rcMethodArea = new Rect(rcHeader.x, rcHeader.y, rcHeader.width, rcFooterBackground.yMax - rcHeader.y);
+        Rect rcWholeArea = new Rect(rcHeader.x, rcHeader.y, rcHeader.width, rcFooterBackground.yMax - rcHeader.y);
 
         // Draw background gui style.
         DrawGUIStyle(m_cGsHeaderBackground, rcHeader, false, false, false, false);
@@ -256,7 +272,7 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
         DrawGUIStyle(m_cGsFooterBackground, rcFooterBackground, false, false, false, false);
 
         // Begin to edit property.
-        EditorGUI.BeginProperty(rcMethodArea, cLabel, cProperty);
+        EditorGUI.BeginProperty(rcWholeArea, cLabel, cProperty);
 
         // Draw header string.
         Rect rcHeaderLabel = new Rect(rcHeader.x + m_fElementLROffset, rcHeader.y, rcHeader.width - m_fElementLROffset * 2, rcHeader.height);
@@ -338,7 +354,7 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
         // End edit.
         EditorGUI.EndProperty();
 
-        return rcMethodArea;
+        return rcWholeArea;
     }
 
     // Show the available mono behaviour method list menu.
