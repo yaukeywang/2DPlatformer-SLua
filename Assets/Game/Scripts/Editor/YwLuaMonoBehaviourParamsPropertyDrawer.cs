@@ -54,6 +54,7 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
     // The constant value for gui area.
     protected static readonly float m_fSingleLineHeight = EditorGUIUtility.singleLineHeight;
     protected static readonly float m_fSingleLineGap = 3.0f;
+    protected static readonly float m_fSingleLineGapEx = 4.0f;
     protected static readonly float m_fFooterROffset = 8.0f;
     protected static readonly float m_fFooterROffsetEx = 4.0f;
     protected static readonly float m_fFooterBtnROffset = 25.0f;
@@ -85,11 +86,11 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
         return m_fSingleLineHeight +    // Class name label.
             m_fSingleLineGap * 2 +      // Line gap.
             m_fSingleLineHeight +       // Method block header.
-            m_fSingleLineGap + (m_fSingleLineHeight + m_fSingleLineGap) * (nMethodsSize + 1) + m_fSingleLineGap +    // Method block list.
+            m_fSingleLineGap + (m_fSingleLineHeight + m_fSingleLineGapEx) * (nMethodsSize + 1) + m_fSingleLineGap +    // Method block list.
             m_fSingleLineHeight +       // Method block footer.
             m_fSingleLineGap * 2 +      // Line gap.
             m_fSingleLineHeight +       // GameObject Parameters block header.
-            m_fSingleLineGap + (m_fSingleLineHeight + m_fSingleLineGap) * nGameObjSize + m_fSingleLineGap +         // GameObject Parameters block list.
+            m_fSingleLineGap + (m_fSingleLineHeight + m_fSingleLineGapEx) * nGameObjSize + m_fSingleLineGap +         // GameObject Parameters block list.
             m_fSingleLineHeight;        // GameObject Parameters block footer.
     }
 
@@ -133,7 +134,7 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
         int nMethodCount = cMethodList.arraySize;
         int nToBeRemovedMethod = -1;
         bool bRemoveAllMethod = false;
-        float fElementSingleLineHeight = m_fSingleLineHeight + m_fSingleLineGap;
+        float fElementSingleLineHeight = m_fSingleLineHeight + m_fSingleLineGapEx;
 
         // Get background header and box area.
         Rect rcHeader = new Rect(rcPosition.x, rcLastRect.yMax + m_fSingleLineGap * 2, rcPosition.width, m_fSingleLineHeight);
@@ -171,7 +172,7 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
 
         // Draw method list.
         Rect rcElementBg = new Rect(rcBoxBackground.x + m_fElementLROffsetEx2, rcBoxBackground.y + m_fSingleLineGap, rcBoxBackground.width - m_fElementLROffsetEx - m_fElementLROffsetEx2, fElementSingleLineHeight);
-        Rect rcElementLabel = new Rect(rcBoxBackground.x + m_fElementLROffset, rcBoxBackground.y + m_fSingleLineGap + 1.0f, rcBoxBackground.width - m_fElementLROffset, fElementSingleLineHeight);
+        Rect rcElementLabel = new Rect(rcBoxBackground.x + m_fElementLROffset, rcBoxBackground.y + m_fSingleLineGap + (m_fSingleLineGapEx / 2), rcBoxBackground.width - m_fElementLROffset, fElementSingleLineHeight);
 
         // Draw method bg list box.
         Color clrBgLb = GUI.backgroundColor;
@@ -236,7 +237,7 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
         int nGameObjCount = bListIsEmpty ? 1 : cGameObjList.arraySize;
         int nToBeRemovedGameObj = -1;
         bool bRemoveAllGameObj = false;
-        float fElementSingleLineHeight = m_fSingleLineHeight + m_fSingleLineGap;
+        float fElementSingleLineHeight = m_fSingleLineHeight + m_fSingleLineGapEx;
 
         // Get background header and box area.
         Rect rcHeader = new Rect(rcPosition.x, rcLastRect.yMax + m_fSingleLineGap * 2, rcPosition.width, m_fSingleLineHeight);
@@ -272,7 +273,7 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
 
         // Draw game object list.
         Rect rcElementBg = new Rect(rcBoxBackground.x + m_fElementLROffsetEx2, rcBoxBackground.y + m_fSingleLineGap, rcBoxBackground.width - m_fElementLROffsetEx - m_fElementLROffsetEx2, fElementSingleLineHeight);
-        Rect rcElementLabel = new Rect(rcBoxBackground.x + m_fElementLROffset, rcBoxBackground.y + m_fSingleLineGap + 1.0f, rcBoxBackground.width - m_fElementLROffset, fElementSingleLineHeight);
+        Rect rcElementLabel = new Rect(rcBoxBackground.x + m_fElementLROffset, rcBoxBackground.y + m_fSingleLineGap + (m_fSingleLineGapEx / 2), rcBoxBackground.width - m_fElementLROffset, fElementSingleLineHeight);
 
         // Leave at least one element space.
         if (bListIsEmpty)
