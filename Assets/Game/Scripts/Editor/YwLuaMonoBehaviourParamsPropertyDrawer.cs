@@ -348,6 +348,7 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
         // Remove the element selected.
         if (nToBeRemovedGameObj > -1)
         {
+            cGameObjList.GetArrayElementAtIndex(nToBeRemovedGameObj).objectReferenceValue = null;
             cGameObjList.DeleteArrayElementAtIndex(nToBeRemovedGameObj);
         }
 
