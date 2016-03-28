@@ -262,7 +262,7 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
         float fElementSingleLineHeight = m_fSingleLineHeight + m_fSingleLineGapEx;
 
         // Get background header and box area.
-        Rect rcHeader = new Rect(rcPosition.x, rcLastRect.yMax + m_fSingleLineGap * 2, rcPosition.width, m_fSingleLineHeight);
+        Rect rcHeader = new Rect(rcPosition.x, rcLastRect.yMax + m_fSingleLineGap * 1, rcPosition.width, m_fSingleLineHeight);
         Rect rcBoxBackground = new Rect(rcPosition.x, rcHeader.yMax, rcPosition.width, m_fSingleLineGap + fElementSingleLineHeight * nGameObjCount + m_fSingleLineGap);
 
         // Get footer background.
