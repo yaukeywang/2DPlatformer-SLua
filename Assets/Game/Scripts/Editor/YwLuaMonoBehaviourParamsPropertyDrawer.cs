@@ -282,7 +282,7 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
 
         // Draw header string.
         Rect rcHeaderLabel = new Rect(rcHeader.x + m_fElementLROffset, rcHeader.y, rcHeader.width - m_fElementLROffset * 2, rcHeader.height);
-        EditorGUI.LabelField(rcHeaderLabel, "Select GameObjects for Lua.");
+        EditorGUI.LabelField(rcHeaderLabel, "Select GameObjects as parameters for Lua.");
 
         // Draw clear list button.
         EditorGUI.BeginDisabledGroup(bListIsEmpty);

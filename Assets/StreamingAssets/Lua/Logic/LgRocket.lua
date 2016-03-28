@@ -60,7 +60,7 @@ function LgRocket:OnTriggerEnter2D(cOtherCollider2D)
         -- ... find the Bomb script and call the Explode function.
         local aYwMonoBeh = cOtherCollider2D.gameObject:GetComponents(YwLuaMonoBehaviour)
         for i = 1, #aYwMonoBeh do
-            if "LgBomb" == aYwMonoBeh[i].m_className then
+            if "LgBomb" == aYwMonoBeh[i]:GetLuaClassName() then
                 aYwMonoBeh[i]:GetLuaTable():Explode()
                 break
             end
