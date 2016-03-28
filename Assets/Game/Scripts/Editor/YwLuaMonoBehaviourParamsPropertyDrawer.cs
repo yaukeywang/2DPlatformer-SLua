@@ -96,7 +96,7 @@ public class YwLuaMonoBehaviourParamsPropertyDrawer : PropertyDrawer
             m_fSingleLineHeight +       // Method block header.
             m_fSingleLineGap + (m_fSingleLineHeight + m_fSingleLineGapEx) * (nMethodsSize + 1) + m_fSingleLineGap +     // Method block list.
             m_fSingleLineHeight +       // Method block footer.
-            m_fSingleLineGap * 2 +      // Line gap.
+            m_fSingleLineGap * 1 +      // Line gap.
             m_fSingleLineHeight +       // GameObject Parameters block header.
             m_fSingleLineGap + (m_fSingleLineHeight + m_fSingleLineGapEx) * nGameObjSize + m_fSingleLineGap +           // GameObject Parameters block list.
             m_fSingleLineHeight;        // GameObject Parameters block footer.
