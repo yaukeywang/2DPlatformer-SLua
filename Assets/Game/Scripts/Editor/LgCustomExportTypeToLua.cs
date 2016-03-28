@@ -1,7 +1,7 @@
 ﻿/**
  * The custom export lua type class, this is editor class.
  *
- * @filename  CustomExportTypeToLua.cs
+ * @filename  LgCustomExportTypeToLua.cs
  * @copyright Copyright (c) 2015 Yaukey/yaukeywang/WangYaoqi (yaukeywang@gmail.com) all rights reserved.
  * @license   The MIT License (MIT)
  * @author    Yaukey
@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using SLua;
 
 // The custom export lua type class.
-public class CustomExportTypeToLua : ICustomExportPost
+public class LgCustomExportTypeToLua : ICustomExportPost
 {
     /**
      * Get custom assembly to generate extension method.
