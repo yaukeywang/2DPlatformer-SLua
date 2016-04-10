@@ -79,8 +79,18 @@ public class YwLuaMonoBehaviour : YwLuaMonoBehaviourBase
             return;
         }
 
+        // Get lua class name.
+        string strLuaClassName = m_luaParameters.m_strLuaClassName;
+
+        // If no class name is specified, use name of game object instead.
+        if (string.IsNullOrEmpty(strLuaClassName))
+        {
+            strLuaClassName = gameObject.name;
+            Debug.LogWarning("You do not set lua class name, use GameObject's name \'" + gameObject.name + "\' instead!");
+        }
+
         // Directly create a lua class instance to associate with this monobehavior.
-        if (string.IsNullOrEmpty(m_luaParameters.m_strLuaClassName) || !CreateClassInstance(m_luaParameters.m_strLuaClassName))
+        if (string.IsNullOrEmpty(strLuaClassName) || !CreateClassInstance(strLuaClassName))
         {
             return;
         }
